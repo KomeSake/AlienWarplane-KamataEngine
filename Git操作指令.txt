@@ -7,7 +7,9 @@
 远程库操作
 拉取库：git pull (origin 分支名)
 推送库：git push (origin 分支名)
-推送可以加上 -u 来固定在指定的分支上
+首次push可以加上 -u 来设置和远程库的分支有关联
+这样就不需要输入origin(库名)main(分支名)这么麻烦了
+或者通过git branch -u origin/main来手动关联
 
 分支相关
 查看分支：git branch
