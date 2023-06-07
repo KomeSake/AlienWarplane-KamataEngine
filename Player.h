@@ -8,4 +8,5 @@ public:
 	Player();
 	void Move(char keys[]);
 	void Attack(char keys[]);
+	void CaptureEnemy();
 };

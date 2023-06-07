@@ -16,7 +16,9 @@ protected:
 
 	int Timers(int milli, int index);
 
+
 public:
+	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
 	void FrameAnimation(float x, float y, int sprite);
 	float GetPosX();
 	float GetPosY();

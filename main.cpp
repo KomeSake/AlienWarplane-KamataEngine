@@ -44,6 +44,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		BgObj.BgMove();
 		PlayerObj.Move(keys);
 		PlayerObj.Attack(keys);
+		PlayerObj.CaptureEnemy();
 		BulletManager::BulletUpdata();
 		EnemyManager::EnemyUpdata();
 		LevelObj.LevelDirector();

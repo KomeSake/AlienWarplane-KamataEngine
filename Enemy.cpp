@@ -16,6 +16,7 @@ void Enemy::Initial(float x, float y)
 	_speed = 5;
 
 	_type = 0;
+	_isLive = true;
 
 	_moveDirection = Down;
 }
@@ -27,28 +28,36 @@ void Enemy::Fire()
 
 void Enemy::Move()
 {
-	FrameAnimation(_posX, _posY, LoadRes::_spEnemy);
-	_posY += _speed;
-	if (_posY > 1000) {
-		Dead();
+	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
+	if (_isLive) {
+		FrameAnimation(_posX, _posY, LoadRes::_spEnemy);
+		_posY += _speed;
 	}
-}
-
-void Enemy::Dead()
-{
-	EnemyManager::ReleaseEnemy(this);
+	else if (_isLive == false) {
+		FrameAnimation(_posX, _posY, LoadRes::_explode);
+		if (Timers(700, 2)) {
+			EnemyManager::ReleaseEnemy(this);
+		}
+	}
+	if (_posY > 1000) {
+		_isLive = false;
+		EnemyManager::ReleaseEnemy(this);
+	}
 }
 
 void Enemy::DamageCheck()
 {
 	float enemyW = 64, enemyH = 64;
 	float bulletW = 32, bulletH = 32;
-	for (Bullet* element : BulletManager::_bulletUpdateVector) {
-		float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
-		float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
-		float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
-		if (distance < enemyW / 2 + bulletW / 2) {
-			Dead();
+	if (_isLive) {
+		for (Bullet* element : BulletManager::_bulletUpdateVector) {
+			float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
+			float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
+			float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
+			if (distance < enemyW / 2 + bulletW / 2) {
+				_isLive = false;
+				BulletManager::ReleaseBullet(element);
+			}
 		}
 	}
 }
@@ -80,8 +89,8 @@ std::queue<Enemy*> EnemyManager::_enemyIdiePool_normal;
 void EnemyManager::EnemyUpdata()
 {
 	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
-		element->Move();
 		element->DamageCheck();
+		element->Move();
 	}
 }
 
@@ -107,12 +116,12 @@ Enemy* EnemyManager::AcquireEnemy(int enemyType, float bornX, float bornY)
 void EnemyManager::ReleaseEnemy(Enemy* enemy)
 {
 	auto it = std::find(EnemyManager::_enemyUpdateVector.begin(), EnemyManager::_enemyUpdateVector.end(), enemy);
-	switch (enemy->GetType()) {
-	case 0:
-		if (it != EnemyManager::_enemyUpdateVector.end()) {
+	if (it != EnemyManager::_enemyUpdateVector.end()) {
+		switch (enemy->GetType()) {
+		case 0:
 			EnemyManager::_enemyUpdateVector.erase(it);
+			EnemyManager::_enemyIdiePool_normal.push(enemy);
+			break;
 		}
-		EnemyManager::_enemyIdiePool_normal.push(enemy);
-		break;
 	}
 }

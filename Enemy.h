@@ -11,14 +11,14 @@ public:
 	void Initial(float x, float y);
 	void Fire();//一开始调用这个方法
 	void Move();
-	void Dead();
 	void DamageCheck();
 	float GetPosX();
 	float GetPosY();
 	int GetType();
 protected:
 	//0：普通，1：护盾，2：激光
-	int _type = 0;
+	int _type;
+	bool _isLive;
 	enum Direction {
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;
