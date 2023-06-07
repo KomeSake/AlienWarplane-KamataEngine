@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <queue>
 #include "Plane.h"
+#include "Bullet.h"
 class Enemy :
 	public Plane
 {
@@ -11,6 +12,7 @@ public:
 	void Fire();//一开始调用这个方法
 	void Move();
 	void Dead();
+	void DamageCheck();
 	float GetPosX();
 	float GetPosY();
 	int GetType();
@@ -20,7 +22,7 @@ protected:
 	enum Direction {
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;
-	Direction MoveAI();
+	Direction MoveAI();//这个还在想，要不要通过写一个AI来控制敌人的飞行轨道，现在就是直接飞有点太无聊了
 };
 
 // 需要设计的功能
@@ -34,7 +36,7 @@ protected:
 class EnemyManager
 {
 public:
-	static std::vector<Enemy*> _bulletUpdateVector;
+	static std::vector<Enemy*> _enemyUpdateVector;
 	static void EnemyUpdata();
 
 	static std::queue<Enemy*> _enemyIdiePool_normal;

@@ -10,7 +10,7 @@ void Bullet::Initial()
 	_posX = 450;
 	_posY = 780;
 
-	_damage = 2;
+	_damage = 1;
 	_speed = 15;
 
 	_type = 0;

@@ -12,7 +12,7 @@ void Enemy::Initial(float x, float y)
 	_high = 64;
 	_width = 64;
 
-	_hp = 3;
+	_hp = 1;
 	_speed = 5;
 
 	_type = 0;
@@ -22,11 +22,12 @@ void Enemy::Initial(float x, float y)
 
 void Enemy::Fire()
 {
-	EnemyManager::_bulletUpdateVector.push_back(this);
+	EnemyManager::_enemyUpdateVector.push_back(this);
 }
 
 void Enemy::Move()
 {
+	FrameAnimation(_posX, _posY, LoadRes::_spEnemy);
 	_posY += _speed;
 	if (_posY > 1000) {
 		Dead();
@@ -36,6 +37,20 @@ void Enemy::Move()
 void Enemy::Dead()
 {
 	EnemyManager::ReleaseEnemy(this);
+}
+
+void Enemy::DamageCheck()
+{
+	float enemyW = 64, enemyH = 64;
+	float bulletW = 32, bulletH = 32;
+	for (Bullet* element : BulletManager::_bulletUpdateVector) {
+		float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
+		float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
+		float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
+		if (distance < enemyW / 2 + bulletW / 2) {
+			Dead();
+		}
+	}
 }
 
 
@@ -60,13 +75,13 @@ Enemy::Direction Enemy::MoveAI()
 	return _moveDirection;
 }
 
-std::vector<Enemy*> EnemyManager::_bulletUpdateVector;
+std::vector<Enemy*> EnemyManager::_enemyUpdateVector;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_normal;
 void EnemyManager::EnemyUpdata()
 {
-	for (Enemy* element : EnemyManager::_bulletUpdateVector) {
+	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
 		element->Move();
-		element->FrameAnimation(element->GetPosX(), element->GetPosY(), LoadRes::_spEnemy);
+		element->DamageCheck();
 	}
 }
 
@@ -91,11 +106,11 @@ Enemy* EnemyManager::AcquireEnemy(int enemyType, float bornX, float bornY)
 
 void EnemyManager::ReleaseEnemy(Enemy* enemy)
 {
-	auto it = std::find(EnemyManager::_bulletUpdateVector.begin(), EnemyManager::_bulletUpdateVector.end(), enemy);
+	auto it = std::find(EnemyManager::_enemyUpdateVector.begin(), EnemyManager::_enemyUpdateVector.end(), enemy);
 	switch (enemy->GetType()) {
 	case 0:
-		if (it != EnemyManager::_bulletUpdateVector.end()) {
-			EnemyManager::_bulletUpdateVector.erase(it);
+		if (it != EnemyManager::_enemyUpdateVector.end()) {
+			EnemyManager::_enemyUpdateVector.erase(it);
 		}
 		EnemyManager::_enemyIdiePool_normal.push(enemy);
 		break;

@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Level.h"
+#include "BackGround.h"
 
 #include <Windows.h>
 #include <string>
@@ -24,6 +25,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player PlayerObj;
 	Level LevelObj;
 
+	BackGround BgObj;
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -38,6 +41,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 
+		BgObj.BgMove();
 		PlayerObj.Move(keys);
 		PlayerObj.Attack(keys);
 		BulletManager::BulletUpdata();
