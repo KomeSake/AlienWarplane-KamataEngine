@@ -1,9 +1,5 @@
 ﻿#include "Plane.h"
 
-
-clock_t start[5] = { 0 };
-clock_t end[5] = { 0 };
-bool isStart[5] = { 0 };
 int Plane::Timers(int milli, int index)
 {
 	if (!isStart[index]) {

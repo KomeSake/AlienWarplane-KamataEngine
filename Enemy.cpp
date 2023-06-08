@@ -34,7 +34,7 @@ void Enemy::Move()
 	}
 	else if (_isLive == false) {
 		FrameAnimation(_posX, _posY, LoadRes::_explode);
-		if (Timers(700, 2)) {
+		if (Timers(700, 0)) {
 			EnemyManager::ReleaseEnemy(this);
 		}
 	}
@@ -44,12 +44,13 @@ void Enemy::Move()
 	}
 }
 
+
 void Enemy::Attack()
 {
 	if (_isLive) {
 		if (Timers(300, 1)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemy);
-			bullet->Fire(_posX + 15, _posY - 15);
+			bullet->Fire(_posX + 15, _posY);
 		}
 	}
 }
@@ -102,8 +103,8 @@ void EnemyManager::EnemyUpdata()
 {
 	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
 		element->DamageCheck();
-		element->Move();
 		element->Attack();
+		element->Move();
 	}
 }
 

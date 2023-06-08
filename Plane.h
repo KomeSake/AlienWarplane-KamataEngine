@@ -23,5 +23,13 @@ public:
 	void FrameAnimation(float x, float y, int sprite);
 	float GetPosX();
 	float GetPosY();
+
+private:
+	//不要再随随便便弄全局变量了！全局变量只有一个！
+	//想要通过这种对象方法来制作游戏，那就必须要要写类的尘成员变量！
+	//以下是用于计时器的变量
+	clock_t start[5] = { 0 };
+	clock_t end[5] = { 0 };
+	bool isStart[5] = { 0 };
 };
 
