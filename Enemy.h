@@ -13,13 +13,17 @@ public:
 	void Move();
 	void Attack();
 	void DamageCheck();
+	//绘画的x，y坐标
+	void CaptureFire(float x, float y);
 	float GetPosX();
 	float GetPosY();
 	int GetType();
+	bool GetIsLive();
 protected:
 	//0：普通，1：护盾，2：激光
-	int _type;
-	bool _isLive;
+	int _type = 0;
+	bool _isLive = 0;
+	int _attackTime = 0;
 	enum Direction {
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;

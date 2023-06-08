@@ -110,11 +110,19 @@ void Player::CaptureEnemy()
 				//碰撞后发生的效果
 				_isCapture = true;
 				EnemyManager::ReleaseEnemy(element);
-				//Enemy* enemy = new Enemy(_tentaclePosX, _tentaclePosY);
+				_enemyCaptured = new Enemy(_tentaclePosX, _tentaclePosY);
 			}
 		}
 		//触手夹子的帧动画
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100);
+	}
+	else if (_isCapture) {
+		if (_enemyCaptured->GetIsLive() == false) {
+			_isCapture = false;
+			delete(_enemyCaptured);
+		}
+		_enemyCaptured->CaptureFire(_tentaclePosX, _tentaclePosY);
+		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 	}
 	else {
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);

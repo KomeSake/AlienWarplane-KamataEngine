@@ -13,4 +13,6 @@ private:
 	int _attackTime = 0;
 	float _tentaclePosX = 0, _tentaclePosY = 0;
 	bool _isCapture = false;
+
+	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
 };

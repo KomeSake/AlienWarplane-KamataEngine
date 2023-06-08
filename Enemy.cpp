@@ -16,8 +16,10 @@ void Enemy::Initial(float x, float y)
 
 	_type = 0;
 	_isLive = true;
+	_attackTime = 300;
 
 	_moveDirection = Down;
+
 }
 
 void Enemy::Fire()
@@ -33,7 +35,7 @@ void Enemy::Move()
 		_posY += _speed;
 	}
 	else if (_isLive == false) {
-		FrameAnimation(_posX, _posY, LoadRes::_explode);
+		FrameAnimation(_posX, _posY, LoadRes::_spExplode);
 		if (Timers(700, 1)) {
 			EnemyManager::ReleaseEnemy(this);
 		}
@@ -44,11 +46,10 @@ void Enemy::Move()
 	}
 }
 
-
 void Enemy::Attack()
 {
 	if (_isLive) {
-		if (Timers(300, 2)) {
+		if (Timers(_attackTime, 2)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemy);
 			bullet->Fire(_posX + 16, _posY);
 		}
@@ -75,6 +76,33 @@ void Enemy::DamageCheck()
 	}
 }
 
+void Enemy::CaptureFire(float x, float y)
+{
+	//碰撞检测部分
+	float enemyW = 64, enemyH = 64;
+	float bulletW = 32, bulletH = 32;
+	//好像这个延迟开始碰撞检测还是有问题，有时候又按时消失，有时候又不是
+	if (Timers(200, 4)) {
+		for (Bullet* element : BulletManager::_bulletUpdateEnemyVector) {
+			float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
+			float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
+			float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
+			if (distance < enemyW / 2 + bulletW / 2) {
+				_isLive = false;
+			}
+		}
+	}
+	if (_isLive == true) {
+		//子弹发射部分
+		if (Timers(_attackTime, 3)) {
+			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
+			bullet->Fire(x - 32 / 2, y - 64 - 10);
+		}
+		//绘图部分(到时候按照类型做个switch即可)
+		Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy, 1, 1, 3.14159f, WHITE);
+	}
+}
+
 
 float Enemy::GetPosX()
 {
@@ -89,6 +117,11 @@ float Enemy::GetPosY()
 int Enemy::GetType()
 {
 	return _type;
+}
+
+bool Enemy::GetIsLive()
+{
+	return _isLive;
 }
 
 Enemy::Direction Enemy::MoveAI()

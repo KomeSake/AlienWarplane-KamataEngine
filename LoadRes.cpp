@@ -6,7 +6,7 @@ int LoadRes::_spPlayerTentaclesOne;
 int LoadRes::_spPlayerTentaclesTwo;
 int LoadRes::_spEnemy;
 int LoadRes::_spEnemyBullet;
-int LoadRes::_explode;
+int LoadRes::_spExplode;
 int LoadRes::_spBg;
 int LoadRes::_spAniPlayerTentaclesTwo[4];
 
@@ -16,7 +16,7 @@ void LoadRes::LoadResNovice()
 	_spbullet = Novice::LoadTexture("./Resources/Textures/Bullet.png");
 	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
 	_spEnemyBullet = Novice::LoadTexture("./Resources/Textures/Enemy_Bullet.png");
-	_explode = Novice::LoadTexture("./Resources/Textures/Explode.png");
+	_spExplode = Novice::LoadTexture("./Resources/Textures/Explode.png");
 	_spBg = Novice::LoadTexture("./Resources/Textures/BG.png");
 	_spPlayerTentaclesOne = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesOne.png");
 	_spPlayerTentaclesTwo = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesTwo.png");
