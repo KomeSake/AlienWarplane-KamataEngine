@@ -2,14 +2,17 @@
 
 Player::Player()
 {
-	_posX = 450.f / 2;
-	_posY = 780 - _high;
 	_width = 64;
 	_high = 64;
+	_posX = 450.f / 2;
+	_posY = 780 - _high;
 
 	_hp = 10;
 	_speed = 5;
 	_attackTime = 300;
+
+	_tentaclePosX = _posX + 100;
+	_tentaclePosY = _posY;
 }
 
 void Player::Move(char keys[])
@@ -60,25 +63,23 @@ void Player::Move(char keys[])
 
 void Player::Attack(char keys[])
 {
-	if (keys[DIK_SPACE] || keys[DIK_J]) {
+	if (keys[DIK_SPACE] || keys[DIK_J] || Novice::IsPressMouse(0)) {
 		if (Timers(_attackTime, 0)) {
-			Bullet* bullet = BulletManager::AcquireBullet(0);
+			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
 			bullet->Fire(_posX + 15, _posY + 15);
 		}
 	}
 }
 
-float posX = 0, posY = 0;
 void Player::CaptureEnemy()
 {
 	int mouseX = 0, mouseY = 0;
-	if (Novice::IsPressMouse(1)) {
-		Novice::GetMousePosition(&mouseX, &mouseY);
-		MoveToTarget(posX, posY, (float)mouseX, (float)mouseY, 5);
-	}
-	Novice::DrawLine((int)_posX + 32, (int)_posY + 32, (int)posX, (int)posY, RED);
-	Novice::DrawLine((int)_posX + 35, (int)_posY + 35, (int)posX + 2, (int)posY + 2, BLUE);
-	Novice::DrawLine((int)_posX + 30, (int)_posY + 30, (int)posX - 2, (int)posY - 2, GREEN);
-
-	Novice::DrawSprite((int)posX - 32, (int)posY - 32, LoadRes::_spPlayerTentacles02, 1, 1, 0, WHITE);
+	Novice::GetMousePosition(&mouseX, &mouseY);
+	MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, 5);
+	//画3条连线来充当和触手的链接
+	Novice::DrawLine((int)_posX + 32, (int)_posY + 32, (int)_tentaclePosX, (int)_tentaclePosY, RED);
+	Novice::DrawLine((int)_posX + 35, (int)_posY + 35, (int)_tentaclePosX + 2, (int)_tentaclePosY + 2, BLUE);
+	Novice::DrawLine((int)_posX + 30, (int)_posY + 30, (int)_tentaclePosX - 2, (int)_tentaclePosY - 2, GREEN);
+	//触手头部绘图
+	Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles02, 1, 1, 0, WHITE);
 }

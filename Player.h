@@ -4,6 +4,7 @@ class Player :
 	public Plane
 {
 	int _attackTime;
+	float _tentaclePosX, _tentaclePosY;
 public:
 	Player();
 	void Move(char keys[]);

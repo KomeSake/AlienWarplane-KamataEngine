@@ -11,6 +11,7 @@ public:
 	void Initial(float x, float y);
 	void Fire();//一开始调用这个方法
 	void Move();
+	void Attack();
 	void DamageCheck();
 	float GetPosX();
 	float GetPosY();

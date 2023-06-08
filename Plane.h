@@ -6,13 +6,14 @@
 class Plane
 {
 protected:
-	float _posX;
-	float _posY;
-	float _width;
-	float _high;
+	//不要忘了初始化呀！就算是头文件初始化也没问题的！
+	float _posX = 0;
+	float _posY = 0;
+	float _width = 0;
+	float _high = 0;
 
-	int _hp;
-	float _speed;
+	int _hp = 0;
+	float _speed = 0;
 
 	int Timers(int milli, int index);
 
