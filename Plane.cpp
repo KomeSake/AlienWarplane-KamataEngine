@@ -78,8 +78,30 @@ void Plane::FrameAnimation(float x, float y, int sprite, unsigned int color)
 	Novice::DrawSprite((int)x, (int)y, sprite, 1, 1, 0, color);
 }
 
-//感觉好像有问题，如果播放多个帧动画会出问题。
-void Plane::FrameAnimation(float x, float y, int sprite[], int frameTime)
+//感觉好像有问题，如果播放多个帧动画会出问题。（暂时未发现问题）
+void Plane::FrameAnimation(float x, float y, int sprite[], int arrSum, int frameTime)
+{
+	if (Timers(frameTime, 0)) {
+		_frameIndex++;
+		if (_frameIndex > arrSum - 1 || _frameIndex < 0) {
+			_frameIndex = 0;
+		}
+	}
+	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex], 1, 1, 0, WHITE);
+}
+
+void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime)
+{
+	if (Timers(frameTime, 0)) {
+		_frameIndex++;
+		if (_frameIndex > sprite.size() - 1 || _frameIndex < 0) {
+			_frameIndex = 0;
+		}
+	}
+	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex], 1, 1, 0, WHITE);
+}
+
+void Plane::FrameAnimation(float x, float y, int sprite[], float scaleX, float scaleY, int frameTime)
 {
 	if (Timers(frameTime, 0)) {
 		_frameIndex++;
@@ -87,7 +109,7 @@ void Plane::FrameAnimation(float x, float y, int sprite[], int frameTime)
 			_frameIndex = 0;
 		}
 	}
-	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex], 1, 1, 0, WHITE);
+	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex], scaleX, scaleY, 0, WHITE);
 }
 
 float Plane::GetPosX()
@@ -98,6 +120,19 @@ float Plane::GetPosY()
 {
 	return _posY;
 }
+
+void Plane::SetHp(int type, int num)
+{
+	switch (type) {
+	case 0:
+		_hp = num;
+		break;
+	case 1:
+		_hp = _hp * num;
+		break;
+	}
+}
+
 
 unsigned int Plane::GetColor()
 {

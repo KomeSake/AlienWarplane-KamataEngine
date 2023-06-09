@@ -26,6 +26,8 @@ void Enemy::Initial(float x, float y)
 	_getHurtSpeedX = 10, _getHurtSpeedY = _speed;
 	_getHurtTime = 100;
 	_aniMode_getHurt = 0;
+
+	_frameIndex = 0;
 }
 
 void Enemy::Fire()
@@ -37,13 +39,20 @@ void Enemy::Move()
 {
 	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
 	if (_isLive) {
+		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, 100);
 		FrameAnimation(_posX, _posY, LoadRes::_spEnemy, _color);
 		_posY += _speed;
 		GetHurtAni(_posX, _posY, -_getHurtSpeedY, RED);
 	}
 	else if (_isLive == false) {
-		FrameAnimation(_posX, _posY, LoadRes::_spExplode, WHITE);
-		if (Timers(700, 1)) {
+		if (!Timers(200, 5)) {
+			FrameAnimation(_posX, _posY, LoadRes::_spEnemy, RED);
+		}
+		if (!Timers(50 * 9, 1)) {
+			//FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 9, 50);
+			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode2, 50);
+		}
+		else {
 			EnemyManager::ReleaseEnemy(this);
 		}
 	}
