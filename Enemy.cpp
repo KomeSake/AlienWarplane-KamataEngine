@@ -11,15 +11,21 @@ void Enemy::Initial(float x, float y)
 	_higth = 64;
 	_width = 64;
 
-	_hp = 1;
+	_hp = 3;
 	_speed = 5;
+	_color = WHITE;
 
 	_type = 0;
 	_isLive = true;
-	_attackTime = 300;
+	_attackTime = 500;
 
 	_moveDirection = Down;
 
+	_isGetHurtAniStart = false;
+	_getHurtPosX = 0, _getHurtPosY = 0;
+	_getHurtSpeedX = 10, _getHurtSpeedY = _speed;
+	_getHurtTime = 100;
+	_aniMode_getHurt = 0;
 }
 
 void Enemy::Fire()
@@ -31,11 +37,12 @@ void Enemy::Move()
 {
 	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
 	if (_isLive) {
-		FrameAnimation(_posX, _posY, LoadRes::_spEnemy);
+		FrameAnimation(_posX, _posY, LoadRes::_spEnemy, _color);
 		_posY += _speed;
+		GetHurtAni(_posX, _posY, -_getHurtSpeedY, RED);
 	}
 	else if (_isLive == false) {
-		FrameAnimation(_posX, _posY, LoadRes::_spExplode);
+		FrameAnimation(_posX, _posY, LoadRes::_spExplode, WHITE);
 		if (Timers(700, 1)) {
 			EnemyManager::ReleaseEnemy(this);
 		}
@@ -58,17 +65,18 @@ void Enemy::Attack()
 
 void Enemy::DamageCheck()
 {
-	if (_isLive || _posY > 30) {
+	if (_isLive && _posY > 30) {
 		for (Bullet* element : BulletManager::_bulletUpdateVector) {
 			float enemyCenterX = _posX + _width / 2, enemyCenterY = _posY + _higth / 2;
 			float bulletCenterX = element->GetPosX() + element->GetWidth(), bulletCenterY = element->GetPosY() + element->GetHigth();
 			float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
 			if (distance < _width / 2 + element->GetWidth() / 2) {
-				_isLive = false;
 				BulletManager::ReleaseBullet(element);
-				//这里有个问题，子弹碰到敌机确实是会消失而不是消灭敌机并且穿过去
-				//但是因为敌机还在播放死亡动画，导致子弹碰到死亡动画已经会被消除
-				//可能还是要制作一个死亡动画的类才可以，但是现在不仔细看看不出来所以先不管了
+				_hp = _hp - element->GetDamage();
+				_aniMode_getHurt = 1;
+				if (_hp <= 0) {
+					_isLive = false;
+				}
 			}
 		}
 	}
@@ -84,7 +92,12 @@ void Enemy::CaptureFire(float x, float y)
 			float bulletCeneterX = element->GetPosX() + element->GetWidth() / 2, bulletCeneterY = element->GetPosY() + element->GetHigth() / 2;
 			float distacne = sqrtf(powf(enemyCenterX - bulletCeneterX, 2) + powf(enemyCenterY - bulletCeneterY, 2));
 			if (distacne < _width / 2 + element->GetWidth() / 2) {
-				_isLive = false;
+				BulletManager::ReleaseBullet(element);
+				_hp = _hp - element->GetDamage();
+				_aniMode_getHurt = 1;
+				if (_hp <= 0) {
+					_isLive = false;
+				}
 			}
 		}
 	}
@@ -95,19 +108,9 @@ void Enemy::CaptureFire(float x, float y)
 			bullet->Fire(x - 32 / 2, y - 64 - 10);
 		}
 		//绘图部分(到时候按照类型做个switch即可)
-		Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy, 1, 1, 3.14159f, WHITE);
+		GetHurtAni(x, y, 0, RED);
+		Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy, 1, 1, 3.14159f, _color);
 	}
-}
-
-
-float Enemy::GetPosX()
-{
-	return _posX;
-}
-
-float Enemy::GetPosY()
-{
-	return _posY;
 }
 
 int Enemy::GetType()

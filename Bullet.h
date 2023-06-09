@@ -35,6 +35,7 @@ public:
 	float GetWidth();
 	float GetHigth();
 	int GetType();
+	int GetDamage();
 	void SetType(int type);
 };
 

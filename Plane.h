@@ -15,13 +15,25 @@ protected:
 	int _hp = 0;
 	float _speed = 0;
 
+	unsigned int _color = WHITE;
+
 	int Timers(int milli, int index);
 	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
+
+	//受伤抖动动画(坐标x，坐标y，移动Y距离，变化颜色);函数需放在对象移动方法中，通过播放的int来控制
+	void GetHurtAni(float& x, float& y, float dirY, unsigned int color);
+	bool _isGetHurtAniStart = false;						//初次进入函数判断
+	float _getHurtPosX = 0, _getHurtPosY = 0;				//用以记录原始位置
+	float _getHurtSpeedX = 0, _getHurtSpeedY = 0;			//每帧抖动速度
+	int _getHurtTime = 0;									//动画播放时长
+	int _aniMode_getHurt = 0;								//0：不播放，1：播放开始，2：播放中
+
 public:
-	void FrameAnimation(float x, float y, int sprite);
+	void FrameAnimation(float x, float y, int sprite, unsigned int color);
 	void FrameAnimation(float x, float y, int sprite[], int frameTime);
 	float GetPosX();
 	float GetPosY();
+	unsigned int GetColor();
 
 private:
 	//不要再随随便便弄全局变量了！全局变量只有一个！

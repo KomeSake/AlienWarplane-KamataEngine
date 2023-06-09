@@ -40,13 +40,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-
 		BgObj.BgMove();
+
+		PlayerObj.DamageCheck();
 		PlayerObj.Move(keys);
 		PlayerObj.Attack(keys);
 		PlayerObj.CaptureEnemy();
+
 		BulletManager::BulletUpdata();
 		EnemyManager::EnemyUpdata();
+
 		LevelObj.LevelDirector();
 
 
@@ -58,7 +61,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer);
+		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
 
 
 

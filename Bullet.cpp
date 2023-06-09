@@ -29,7 +29,7 @@ void Bullet::Initial(BulletType type)
 	case enemy:
 		_type = type;
 		_sprite = LoadRes::_spEnemyBullet;
-		_speed = -_speed;
+		_speed = -_speed + 5;
 		break;
 	}
 }
@@ -96,6 +96,11 @@ float Bullet::GetHigth()
 int Bullet::GetType()
 {
 	return _type;
+}
+
+int Bullet::GetDamage()
+{
+	return _damage;
 }
 
 void Bullet::SetType(int type)
