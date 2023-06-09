@@ -8,7 +8,7 @@ void Enemy::Initial(float x, float y)
 {
 	_posX = x;
 	_posY = y;
-	_high = 64;
+	_higth = 64;
 	_width = 64;
 
 	_hp = 1;
@@ -58,14 +58,12 @@ void Enemy::Attack()
 
 void Enemy::DamageCheck()
 {
-	float enemyW = 64, enemyH = 64;
-	float bulletW = 32, bulletH = 32;
 	if (_isLive || _posY > 30) {
 		for (Bullet* element : BulletManager::_bulletUpdateVector) {
-			float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
-			float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
+			float enemyCenterX = _posX + _width / 2, enemyCenterY = _posY + _higth / 2;
+			float bulletCenterX = element->GetPosX() + element->GetWidth(), bulletCenterY = element->GetPosY() + element->GetHigth();
 			float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
-			if (distance < enemyW / 2 + bulletW / 2) {
+			if (distance < _width / 2 + element->GetWidth() / 2) {
 				_isLive = false;
 				BulletManager::ReleaseBullet(element);
 				//这里有个问题，子弹碰到敌机确实是会消失而不是消灭敌机并且穿过去
@@ -78,16 +76,14 @@ void Enemy::DamageCheck()
 
 void Enemy::CaptureFire(float x, float y)
 {
-	//碰撞检测部分
-	float enemyW = 64, enemyH = 64;
-	float bulletW = 32, bulletH = 32;
-	//好像这个延迟开始碰撞检测还是有问题，有时候又按时消失，有时候又不是
-	if (Timers(200, 4)) {
-		for (Bullet* element : BulletManager::_bulletUpdateEnemyVector) {
-			float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
-			float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
-			float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
-			if (distance < enemyW / 2 + bulletW / 2) {
+	//碰撞检测部分(输入的触手坐标是从中心开始的，不要忘记了)
+	if (Timers(100, 4)) {
+		for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
+			//敌人坐标要特殊处理，因为输入的触手坐标是从中心开始
+			float enemyCenterX = x, enemyCenterY = y - _higth;
+			float bulletCeneterX = element->GetPosX() + element->GetWidth() / 2, bulletCeneterY = element->GetPosY() + element->GetHigth() / 2;
+			float distacne = sqrtf(powf(enemyCenterX - bulletCeneterX, 2) + powf(enemyCenterY - bulletCeneterY, 2));
+			if (distacne < _width / 2 + element->GetWidth() / 2) {
 				_isLive = false;
 			}
 		}

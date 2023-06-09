@@ -11,6 +11,8 @@ void Bullet::Initial(BulletType type)
 	//标准初始化部分
 	_posX = 450;
 	_posY = 780;
+	_width = 32;
+	_higth = 32;
 
 	_damage = 1;
 	_speed = 15;
@@ -60,7 +62,7 @@ void Bullet::Fire(float x, float y)
 		BulletManager::_bulletUpdateVector.push_back(this);
 		break;
 	case enemy:
-		BulletManager::_bulletUpdateEnemyVector.push_back(this);
+		BulletManager::_bulletUpdateVector_enemy.push_back(this);
 		break;
 	}
 }
@@ -79,6 +81,16 @@ float Bullet::GetPosX()
 float Bullet::GetPosY()
 {
 	return _posY;
+}
+
+float Bullet::GetWidth()
+{
+	return _width;
+}
+
+float Bullet::GetHigth()
+{
+	return _higth;
 }
 
 int Bullet::GetType()
@@ -131,7 +143,7 @@ void Bullet::SetType(int type)
 
 
 std::vector<Bullet*> BulletManager::_bulletUpdateVector;
-std::vector<Bullet*> BulletManager::_bulletUpdateEnemyVector;
+std::vector<Bullet*> BulletManager::_bulletUpdateVector_enemy;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_player;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_enemy;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_laser;
@@ -140,7 +152,7 @@ void BulletManager::BulletUpdata()
 	for (Bullet* element : BulletManager::_bulletUpdateVector) {
 		element->Move();
 	}
-	for (Bullet* element : BulletManager::_bulletUpdateEnemyVector) {
+	for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
 		element->Move();
 	}
 }
@@ -158,8 +170,8 @@ Bullet* BulletManager::AcquireBullet(Bullet::BulletType type)
 			_bulletIdiePool_player.pop();
 			bullet->Initial(type);
 			return bullet;
-			break;
 		}
+		break;
 	case Bullet::enemy:
 		if (_bulletIdiePool_enemy.empty()) {
 			Bullet* bullet = new Bullet(type);
@@ -170,8 +182,8 @@ Bullet* BulletManager::AcquireBullet(Bullet::BulletType type)
 			_bulletIdiePool_enemy.pop();
 			bullet->Initial(type);
 			return bullet;
-			break;
 		}
+		break;
 	}
 	return nullptr;
 }
@@ -190,9 +202,9 @@ void BulletManager::ReleaseBullet(Bullet* bullet)
 		_bulletIdiePool_player.push(bullet);
 		break; }
 	case Bullet::enemy: {
-		auto it = std::find(_bulletUpdateEnemyVector.begin(), _bulletUpdateEnemyVector.end(), bullet);
-		if (it != _bulletUpdateEnemyVector.end()) {
-			_bulletUpdateEnemyVector.erase(it);
+		auto it = std::find(_bulletUpdateVector_enemy.begin(), _bulletUpdateVector_enemy.end(), bullet);
+		if (it != _bulletUpdateVector_enemy.end()) {
+			_bulletUpdateVector_enemy.erase(it);
 		}
 		_bulletIdiePool_enemy.push(bullet);
 		break; }

@@ -9,8 +9,10 @@ public:
 	void Move(char keys[]);
 	void Attack(char keys[]);
 	void CaptureEnemy();
+	void DamageCheck();
 private:
 	int _attackTime = 0;
+	//触手的两点坐标是从中心开始！
 	float _tentaclePosX = 0, _tentaclePosY = 0;
 	bool _isCapture = false;
 

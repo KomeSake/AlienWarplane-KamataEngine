@@ -10,7 +10,7 @@ protected:
 	float _posX = 0;
 	float _posY = 0;
 	float _width = 0;
-	float _high = 0;
+	float _higth = 0;
 
 	int _hp = 0;
 	float _speed = 0;

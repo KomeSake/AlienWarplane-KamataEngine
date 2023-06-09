@@ -3,9 +3,9 @@
 Player::Player()
 {
 	_width = 64;
-	_high = 64;
+	_higth = 64;
 	_posX = 450.f / 2;
-	_posY = 780 - _high;
+	_posY = 780 - _higth;
 
 	_hp = 10;
 	_speed = 5;
@@ -58,8 +58,8 @@ void Player::Move(char keys[])
 	if (_posY <= 0) {
 		_posY = 0;
 	}
-	if (_posY >= 780.f - _high) {
-		_posY = 780.f - _high;
+	if (_posY >= 780.f - _higth) {
+		_posY = 780.f - _higth;
 	}
 }
 
@@ -127,4 +127,24 @@ void Player::CaptureEnemy()
 	else {
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 	}
+}
+
+void Player::DamageCheck()
+{
+	//float enemyW = 64, enemyH = 64;
+	//float bulletW = 32, bulletH = 32;
+	//if (_isLive || _posY > 30) {
+	//	for (Bullet* element : BulletManager::_bulletUpdateVector) {
+	//		float enemyCenterX = _posX + enemyW / 2, enemyCenterY = _posY + enemyH / 2;
+	//		float bulletCenterX = element->GetPosX() + bulletW, bulletCenterY = element->GetPosY() + bulletH;
+	//		float distance = sqrtf(powf(bulletCenterX - enemyCenterX, 2) + powf(bulletCenterY - enemyCenterY, 2));
+	//		if (distance < enemyW / 2 + bulletW / 2) {
+	//			_isLive = false;
+	//			BulletManager::ReleaseBullet(element);
+	//			//这里有个问题，子弹碰到敌机确实是会消失而不是消灭敌机并且穿过去
+	//			//但是因为敌机还在播放死亡动画，导致子弹碰到死亡动画已经会被消除
+	//			//可能还是要制作一个死亡动画的类才可以，但是现在不仔细看看不出来所以先不管了
+	//		}
+	//	}
+	//}
 }

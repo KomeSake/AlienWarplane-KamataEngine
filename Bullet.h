@@ -8,6 +8,8 @@ class Bullet
 protected:
 	float _posX;
 	float _posY;
+	float _width;
+	float _higth;
 
 	int _damage;
 	float _speed;
@@ -30,6 +32,8 @@ public:
 	int GetSprite();
 	float GetPosX();
 	float GetPosY();
+	float GetWidth();
+	float GetHigth();
 	int GetType();
 	void SetType(int type);
 };
@@ -51,7 +55,7 @@ class BulletManager
 {
 public:
 	static std::vector<Bullet*> _bulletUpdateVector;			//我方子弹容器
-	static std::vector<Bullet*> _bulletUpdateEnemyVector;		//敌方子弹容器
+	static std::vector<Bullet*> _bulletUpdateVector_enemy;		//敌方子弹容器
 
 	//在主循环中进行调用，用以不断遍历里面的东西达到更新效果
 	static void BulletUpdata();
