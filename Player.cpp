@@ -28,45 +28,39 @@ Player::Player()
 
 void Player::Move(char keys[])
 {
+	float spriteScaleX = 1, spriteScaleY = 1;
 	//移动部分
 	if (keys[DIK_W] && keys[DIK_A]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		spriteScaleY = 2;
 		_posX -= _speed * 0.7f;
 		_posY -= _speed * 0.7f;
 	}
 	else if (keys[DIK_W] && keys[DIK_D]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		spriteScaleY = 2;
 		_posX += _speed * 0.7f;
 		_posY -= _speed * 0.7f;
 	}
 	else if (keys[DIK_S] && keys[DIK_A]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX -= _speed * 0.7f;
 		_posY += _speed * 0.7f;
 	}
 	else if (keys[DIK_S] && keys[DIK_D]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX += _speed * 0.7f;
 		_posY += _speed * 0.7f;
 	}
 	else if (keys[DIK_W]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		spriteScaleY = 2;
 		_posY -= _speed;
 	}
 	else if (keys[DIK_S]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 0.7f, 100);
+		spriteScaleY = 0.7f;
 		_posY += _speed;
 	}
 	else if (keys[DIK_A]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX -= _speed;
 	}
 	else if (keys[DIK_D]) {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX += _speed;
-	}
-	else {
-		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 	}
 	//画面内限制部分
 	if (_posX <= 0) {
@@ -84,6 +78,7 @@ void Player::Move(char keys[])
 
 	//动画效果部分
 	GetHurtAni(_posX, _posY, _getHurtSpeedY * 3, RED);
+	FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, spriteScaleX, spriteScaleY, 100);
 }
 
 void Player::Attack(char keys[])
