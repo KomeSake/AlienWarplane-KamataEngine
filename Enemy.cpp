@@ -26,8 +26,6 @@ void Enemy::Initial(float x, float y)
 	_getHurtSpeedX = 10, _getHurtSpeedY = _speed;
 	_getHurtTime = 100;
 	_aniMode_getHurt = 0;
-
-	_frameIndex = 0;
 }
 
 void Enemy::Fire()
@@ -48,9 +46,8 @@ void Enemy::Move()
 		if (!Timers(200, 5)) {
 			FrameAnimation(_posX, _posY, LoadRes::_spEnemy, RED);
 		}
-		if (!Timers(50 * 9, 1)) {
-			//FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 9, 50);
-			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode2, 50);
+		if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 1)) {
+			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50);
 		}
 		else {
 			EnemyManager::ReleaseEnemy(this);
@@ -114,7 +111,7 @@ void Enemy::CaptureFire(float x, float y)
 		//子弹发射部分
 		if (Timers(_attackTime, 3)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
-			bullet->Fire(x - 32 / 2, y - 64 - 10);
+			bullet->Fire(x - 32.f / 2, y - 64 - 10);
 		}
 		//绘图部分(到时候按照类型做个switch即可)
 		GetHurtAni(x, y, 0, RED);

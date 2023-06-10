@@ -7,11 +7,10 @@ int LoadRes::_spPlayerTentaclesTwo = 0;
 int LoadRes::_spEnemy = 0;
 int LoadRes::_spEnemyBullet = 0;
 int LoadRes::_spBg = 0;
-int LoadRes::_spAniExplode[9] = { 0 };
-std::map<int, int> LoadRes::_spAniExplode2;
-int LoadRes::_spAniPlayerTentaclesTwo[4] = { 0 };
-int LoadRes::_spAniPlayerFire[6] = { 0 };
-int LoadRes::_spAniEnemyFire[6] = { 0 };
+std::map<int, int> LoadRes::_spAniExplode;
+std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
+std::map<int, int> LoadRes::_spAniPlayerFire;
+std::map<int, int> LoadRes::_spAniEnemyFire;
 
 void LoadRes::LoadResNovice()
 {
@@ -32,16 +31,6 @@ void LoadRes::LoadResNovice()
 	_spAniExplode[6] = Novice::LoadTexture("./Resources/Textures/Animation/Explode7.png");
 	_spAniExplode[7] = Novice::LoadTexture("./Resources/Textures/Animation/Explode8.png");
 	_spAniExplode[8] = Novice::LoadTexture("./Resources/Textures/Animation/Explode9.png");
-
-	_spAniExplode2[0] = Novice::LoadTexture("./Resources/Textures/Animation/Explode1.png");
-	_spAniExplode2[1] = Novice::LoadTexture("./Resources/Textures/Animation/Explode2.png");
-	_spAniExplode2[2] = Novice::LoadTexture("./Resources/Textures/Animation/Explode3.png");
-	_spAniExplode2[3] = Novice::LoadTexture("./Resources/Textures/Animation/Explode4.png");
-	_spAniExplode2[4] = Novice::LoadTexture("./Resources/Textures/Animation/Explode5.png");
-	_spAniExplode2[5] = Novice::LoadTexture("./Resources/Textures/Animation/Explode6.png");
-	_spAniExplode2[6] = Novice::LoadTexture("./Resources/Textures/Animation/Explode7.png");
-	_spAniExplode2[7] = Novice::LoadTexture("./Resources/Textures/Animation/Explode8.png");
-	_spAniExplode2[8] = Novice::LoadTexture("./Resources/Textures/Animation/Explode9.png");
 
 	_spAniPlayerTentaclesTwo[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo1.png");
 	_spAniPlayerTentaclesTwo[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo2.png");

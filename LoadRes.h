@@ -9,11 +9,10 @@ public:
 	static int _spEnemy, _spEnemyBullet;
 	static int _spBg;
 
-	static int _spAniExplode[9];
-	static std::map<int, int> _spAniExplode2;
-	static int _spAniPlayerTentaclesTwo[4];
-	static int _spAniPlayerFire[6];
-	static int _spAniEnemyFire[6];
+	static std::map<int, int> _spAniExplode;
+	static std::map<int, int> _spAniPlayerTentaclesTwo;
+	static std::map<int, int> _spAniPlayerFire;
+	static std::map<int, int> _spAniEnemyFire;
 
 	static void LoadResNovice();
 };

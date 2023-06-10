@@ -30,43 +30,43 @@ void Player::Move(char keys[])
 {
 	//移动部分
 	if (keys[DIK_W] && keys[DIK_A]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
 		_posX -= _speed * 0.7f;
 		_posY -= _speed * 0.7f;
 	}
 	else if (keys[DIK_W] && keys[DIK_D]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
 		_posX += _speed * 0.7f;
 		_posY -= _speed * 0.7f;
 	}
 	else if (keys[DIK_S] && keys[DIK_A]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX -= _speed * 0.7f;
 		_posY += _speed * 0.7f;
 	}
 	else if (keys[DIK_S] && keys[DIK_D]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX += _speed * 0.7f;
 		_posY += _speed * 0.7f;
 	}
 	else if (keys[DIK_W]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 2, 100);
 		_posY -= _speed;
 	}
 	else if (keys[DIK_S]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 0.7f, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 0.7f, 100);
 		_posY += _speed;
 	}
 	else if (keys[DIK_A]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX -= _speed;
 	}
 	else if (keys[DIK_D]) {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 		_posX += _speed;
 	}
 	else {
-		//FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
+		FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, 1, 1, 100);
 	}
 	//画面内限制部分
 	if (_posX <= 0) {
@@ -138,7 +138,7 @@ void Player::CaptureEnemy()
 			}
 		}
 		//触手夹子的帧动画
-		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 4, 100);
+		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100);
 	}
 	else if (_isCapture) {
 		if (_enemyCaptured->GetIsLive() == false) {
