@@ -152,11 +152,14 @@ void Player::CaptureEnemy()
 void Player::DamageCheck()
 {
 	for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
-		float enemyCenterX = _posX + _width / 2, enemyCenterY = _posY + _higth;
+		float playerCenterX = _posX + _width / 2, playerCenterY = _posY + _higth / 2;
 		float bulletCeneterX = element->GetPosX() + element->GetWidth() / 2, bulletCeneterY = element->GetPosY() + element->GetHigth() / 2;
-		float distacne = sqrtf(powf(enemyCenterX - bulletCeneterX, 2) + powf(enemyCenterY - bulletCeneterY, 2));
+		float distacne = sqrtf(powf(playerCenterX - bulletCeneterX, 2) + powf(playerCenterY - bulletCeneterY, 2));
 		if (distacne < _width / 2 + element->GetWidth() / 2) {
+			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
+			_hp -= element->GetDamage();
+			//血没了这里需要做一个爆炸的动画效果，和传出一条信息
 		}
 	}
 }

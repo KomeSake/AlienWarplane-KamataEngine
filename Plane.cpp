@@ -40,7 +40,7 @@ void Plane::GetHurtAni(float& x, float& y, float travelY, unsigned int color)
 		_aniMode_getHurt = 2;
 		_getHurtPosX = x, _getHurtPosY = y;
 	}
-	else if (_aniMode_getHurt == 2) {
+	if (_aniMode_getHurt == 2) {
 		x += _getHurtSpeedX;
 		if (x >= _getHurtPosX + 5) {
 			_getHurtSpeedX = -_getHurtSpeedX;
