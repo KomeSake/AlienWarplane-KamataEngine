@@ -18,6 +18,7 @@ protected:
 
 	unsigned int _color = WHITE;
 
+	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、1,2:帧动画、
 	int Timers(int milli, int index);
 	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
 
@@ -31,22 +32,23 @@ protected:
 
 public:
 	void FrameAnimation(float x, float y, int sprite, unsigned int color);
-	//当前这套帧动画播放代码还有问题，不是必定从0帧开始播放的。(因为各种问题会影响到_farmeIndex这个变量)
-	void FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime);
-	void FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime);
+	//当前这套帧动画播放代码还有问题，不是必定从0帧开始播放的。(所以不重复的动画会出现问题)
+	void FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index);
+	void FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index);
 	float GetPosX();
 	float GetPosY();
-	void SetHp(int type, int num);//0：直接设置数值，1：倍率式设置数值
+	//0：直接设置数值，1：倍率式设置数值
+	void SetHp(int type, int num);
 	unsigned int GetColor();
 
 private:
 	//给帧动画用的
-	int _frameIndex = 0;
+	int _frameIndex[5] = { 0 };
 	//不要再随随便便弄全局变量了！全局变量只有一个！
 	//想要通过这种对象方法来制作游戏，那就必须要要写类的成员变量！
-	//以下是用于计时器的变量,0号位是用来给帧动画用的
-	clock_t _timeStart[11] = { 0 };
-	clock_t _timeEnd[11] = { 0 };
-	bool _isTimeOpen[11] = { 0 };
+	//以下是用于计时器的变量,0~10号位是用来给Plan类用的
+	clock_t _timeStart[21] = { 0 };
+	clock_t _timeEnd[21] = { 0 };
+	bool _isTimeOpen[21] = { 0 };
 };
 

@@ -10,6 +10,7 @@ public:
 	void Attack(char keys[]);
 	void CaptureEnemy();
 	void DamageCheck();
+	void CapturedValueAdd(int num);
 private:
 	int _attackTime = 0;
 	//触手的两点坐标是从中心开始！
@@ -17,4 +18,5 @@ private:
 	bool _isCapture = false;
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
+	int _capturedValue = 0;
 };

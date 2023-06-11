@@ -29,7 +29,7 @@ void Bullet::Initial(BulletType type)
 	case enemy:
 		_type = type;
 		_sprite = LoadRes::_spEnemyBullet;
-		_speed = -_speed + 5;
+		_speed = -_speed + 7;
 		break;
 	}
 }

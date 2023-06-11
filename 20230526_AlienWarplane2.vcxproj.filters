@@ -56,7 +56,7 @@
     <ClCompile Include="Screen.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
+    <ClCompile Include="GameUI.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,6 +136,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Screen.h" />
-    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="GameUI.h" />
   </ItemGroup>
 </Project>

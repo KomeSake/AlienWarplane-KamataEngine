@@ -6,22 +6,31 @@ int LoadRes::_spPlayerTentaclesOne = 0;
 int LoadRes::_spPlayerTentaclesTwo = 0;
 int LoadRes::_spEnemy = 0;
 int LoadRes::_spEnemyBullet = 0;
-int LoadRes::_spBg = 0;
+
 std::map<int, int> LoadRes::_spAniExplode;
 std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
 std::map<int, int> LoadRes::_spAniPlayerFire;
 std::map<int, int> LoadRes::_spAniEnemyFire;
 
+int LoadRes::_spUIBg = 0;
+int LoadRes::_spUICaptureVessel_01 = 0;
+int LoadRes::_spUICaptureVessel_02 = 0;
+int LoadRes::_spUICaptureVessel_03 = 0;
+int LoadRes::_spUICaptureVessel_04 = 0;
+int LoadRes::_spUICaptureVessel_05 = 0;
+int LoadRes::_spUIHpVessel_01 = 0;
+
 void LoadRes::LoadResNovice()
 {
+	//Sprite贴图
 	_spPlayer = Novice::LoadTexture("./Resources/Textures/Player0-0.png");
 	_spbullet = Novice::LoadTexture("./Resources/Textures/Bullet.png");
 	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
 	_spEnemyBullet = Novice::LoadTexture("./Resources/Textures/Enemy_Bullet.png");
-	_spBg = Novice::LoadTexture("./Resources/Textures/BG.png");
 	_spPlayerTentaclesOne = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesOne.png");
 	_spPlayerTentaclesTwo = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesTwo.png");
 
+	//动画
 	_spAniExplode[0] = Novice::LoadTexture("./Resources/Textures/Animation/Explode1.png");
 	_spAniExplode[1] = Novice::LoadTexture("./Resources/Textures/Animation/Explode2.png");
 	_spAniExplode[2] = Novice::LoadTexture("./Resources/Textures/Animation/Explode3.png");
@@ -50,4 +59,13 @@ void LoadRes::LoadResNovice()
 	_spAniEnemyFire[3] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire4.png");
 	_spAniEnemyFire[4] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire5.png");
 	_spAniEnemyFire[5] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire6.png");
+
+	//UI
+	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");
+	_spUICaptureVessel_01 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_01.png");
+	_spUICaptureVessel_02 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_02.png");
+	_spUICaptureVessel_03 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_03.png");
+	_spUICaptureVessel_04 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_04.png");
+	_spUICaptureVessel_05 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
+	_spUIHpVessel_01 = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_01.png");
 }

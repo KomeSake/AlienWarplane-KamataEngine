@@ -18,6 +18,7 @@ Player::Player()
 	_tentaclePosY = _posY;
 
 	_isCapture = false;
+	_capturedValue = 0;
 
 	_isGetHurtAniStart = false;
 	_getHurtPosX = 0, _getHurtPosY = 0;
@@ -78,13 +79,13 @@ void Player::Move(char keys[])
 
 	//动画效果部分
 	GetHurtAni(_posX, _posY, _getHurtSpeedY * 3, RED);
-	FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, spriteScaleX, spriteScaleY, 100);
+	FrameAnimation(_posX + _width / 4, _posY + _width + 5, LoadRes::_spAniPlayerFire, spriteScaleX, spriteScaleY, 100, 0);
 }
 
 void Player::Attack(char keys[])
 {
 	if (keys[DIK_SPACE] || keys[DIK_J] || Novice::IsPressMouse(0)) {
-		if (Timers(_attackTime, 1)) {
+		if (Timers(_attackTime, 11)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
 			bullet->Fire(_posX + 15, _posY + 15);
 		}
@@ -133,7 +134,7 @@ void Player::CaptureEnemy()
 			}
 		}
 		//触手夹子的帧动画
-		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100);
+		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100, 1);
 	}
 	else if (_isCapture) {
 		if (_enemyCaptured->GetIsLive() == false) {
@@ -159,3 +160,11 @@ void Player::DamageCheck()
 		}
 	}
 }
+
+void Player::CapturedValueAdd(int num)
+{
+	_capturedValue += num;
+	Novice::ConsolePrintf("add\n");
+}
+
+

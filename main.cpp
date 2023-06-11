@@ -1,10 +1,10 @@
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"
-#include "Bullet.h"
 #include "Enemy.h"
+#include "Bullet.h"
 #include "Level.h"
-#include "BackGround.h"
+#include "Screen.h"
 
 #include <Windows.h>
 #include <string>
@@ -21,11 +21,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
+	//自己的变量
 	LoadRes::LoadResNovice();
 	Player PlayerObj;
 	Level LevelObj;
 
-	BackGround BgObj;
+	Screen ScreenObj;
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -41,7 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		BgObj.BgMove();
+		ScreenObj.ScreenGameDown();
 
 		PlayerObj.DamageCheck();
 		PlayerObj.Move(keys);
@@ -63,7 +64,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
-
+		ScreenObj.ScreenGameUp();
 
 
 		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";

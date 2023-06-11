@@ -37,17 +37,17 @@ void Enemy::Move()
 {
 	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
 	if (_isLive) {
-		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, 100);
+		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, 100, 0);
 		FrameAnimation(_posX, _posY, LoadRes::_spEnemy, _color);
 		_posY += _speed;
 		GetHurtAni(_posX, _posY, -_getHurtSpeedY, RED);
 	}
 	else if (_isLive == false) {
-		if (!Timers(200, 5)) {
+		if (!Timers(200, 12)) {
 			FrameAnimation(_posX, _posY, LoadRes::_spEnemy, RED);
 		}
-		if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 1)) {
-			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50);
+		if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 7)) {
+			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
 		}
 		else {
 			EnemyManager::ReleaseEnemy(this);
@@ -62,7 +62,7 @@ void Enemy::Move()
 void Enemy::Attack()
 {
 	if (_isLive) {
-		if (Timers(_attackTime, 2)) {
+		if (Timers(_attackTime, 13)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemy);
 			bullet->Fire(_posX + 16, _posY);
 		}
@@ -90,8 +90,9 @@ void Enemy::DamageCheck()
 
 void Enemy::CaptureFire(float x, float y)
 {
+	_color = 0xcfc0eaFF;//被捕获的敌人加一层紫色
 	//碰撞检测部分(输入的触手坐标是从中心开始的，不要忘记了)
-	if (Timers(100, 4)) {
+	if (Timers(100, 14)) {
 		for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
 			//敌人坐标要特殊处理，因为输入的触手坐标是从中心开始
 			float enemyCenterX = x, enemyCenterY = y - _higth;
@@ -101,6 +102,7 @@ void Enemy::CaptureFire(float x, float y)
 				BulletManager::ReleaseBullet(element);
 				_hp = _hp - element->GetDamage();
 				_aniMode_getHurt = 1;
+				_color = RED;
 				if (_hp <= 0) {
 					_isLive = false;
 				}
@@ -109,7 +111,7 @@ void Enemy::CaptureFire(float x, float y)
 	}
 	if (_isLive == true) {
 		//子弹发射部分
-		if (Timers(_attackTime, 3)) {
+		if (Timers(_attackTime, 15)) {
 			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
 			bullet->Fire(x - 32.f / 2, y - 64 - 10);
 		}
