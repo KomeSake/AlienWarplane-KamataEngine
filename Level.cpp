@@ -17,7 +17,7 @@ Level::Level()
 
 void Level::LevelDirector()
 {
-	rand_enemyTime = rand() % 1501 + 500;
+	rand_enemyTime = rand() % 2001 + 1000;
 	rand_enemyPosX = (float)(rand() % (450 - 64));
 	while (rand_enemyPosX > beforeEnemyPosX - 10 && rand_enemyPosX < beforeEnemyPosX + 64 + 10) {
 		rand_enemyPosX = (float)(rand() % (450 - 64));

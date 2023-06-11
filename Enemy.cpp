@@ -12,12 +12,15 @@ void Enemy::Initial(float x, float y)
 	_width = 64;
 
 	_hp = 3;
-	_speed = 5;
+	_speed = 3;
 	_color = WHITE;
 
 	_type = 0;
 	_isLive = true;
-	_attackTime = 500;
+	_attackTime_normal1 = 2000;
+	_attackTime_normal2 = 150;
+	_normalCount = 0;
+	_normalSum = 3;
 
 	_moveDirection = Down;
 
@@ -64,9 +67,17 @@ void Enemy::Move()
 void Enemy::Attack()
 {
 	if (_isLive) {
-		if (Timers(_attackTime, 13)) {
-			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemy);
-			bullet->Fire(_posX + 16, _posY);
+		if (!Timers(_attackTime_normal1, 17)) {
+			if (_normalCount < _normalSum) {
+				if (Timers(_attackTime_normal2, 13)) {
+					_normalCount++;
+					Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemy);
+					bullet->Fire(_posX + 16, _posY);
+				}
+			}
+		}
+		else {
+			_normalCount = 0;
 		}
 	}
 }
@@ -113,9 +124,17 @@ void Enemy::CaptureFire(float x, float y)
 	}
 	if (_isLive == true) {
 		//子弹发射部分
-		if (Timers(_attackTime, 15)) {
-			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
-			bullet->Fire(x - 32.f / 2, y - 64 - 10);
+		if (!Timers(_attackTime_normal1, 17)) {
+			if (_normalCount < _normalSum) {
+				if (Timers(_attackTime_normal2, 13)) {
+					_normalCount++;
+					Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
+					bullet->Fire(x - 32.f / 2, y - 64 - 10);
+				}
+			}
+		}
+		else {
+			_normalCount = 0;
 		}
 		//绘图部分(到时候按照类型做个switch即可)
 		GetHurtAni(x, y, 0, RED);

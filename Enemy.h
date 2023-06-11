@@ -22,7 +22,11 @@ protected:
 	//0：普通，1：护盾，2：激光
 	int _type = 0;
 	bool _isLive = true;
-	int _attackTime = 0;
+
+	int _attackTime_normal1 = 0;
+	int _attackTime_normal2 = 0;
+	int _normalSum = 0, _normalCount = 0;
+
 	enum Direction {
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;

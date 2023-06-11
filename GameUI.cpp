@@ -79,40 +79,38 @@ void UI_HpVessel::UIStart(Player obj)
 	unsigned int hpBoxColor4 = hpBoxColor_OFF;
 	unsigned int hpBoxColor5 = hpBoxColor_OFF;
 	unsigned int hpBoxColor6 = hpBoxColor_OFF;
-	switch (obj.GetHp()) {
-	case 1:
-		hpBoxColor1 = hpBoxColor_ON;
-		break;
-	case 2:
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		break;
-	case 3:
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		break;
-	case 4:
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		hpBoxColor4 = hpBoxColor_ON;
-		break;
-	case 5:
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		hpBoxColor4 = hpBoxColor_ON;
-		hpBoxColor5 = hpBoxColor_ON;
-		break;
-	case 6:
+	if (obj.GetHp() >= 11) {
 		hpBoxColor1 = hpBoxColor_ON;
 		hpBoxColor2 = hpBoxColor_ON;
 		hpBoxColor3 = hpBoxColor_ON;
 		hpBoxColor4 = hpBoxColor_ON;
 		hpBoxColor5 = hpBoxColor_ON;
 		hpBoxColor6 = hpBoxColor_ON;
-		break;
+	}
+	else if (obj.GetHp() >= 9) {
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		hpBoxColor4 = hpBoxColor_ON;
+		hpBoxColor5 = hpBoxColor_ON;
+	}
+	else if (obj.GetHp() >= 7) {
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		hpBoxColor4 = hpBoxColor_ON;
+	}
+	else if (obj.GetHp() >= 5) {
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+	}
+	else if (obj.GetHp() >= 3) {
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+	}
+	else if (obj.GetHp() >= 1) {
+		hpBoxColor1 = hpBoxColor_ON;
 	}
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 6, hpBoxW, hpBoxH, 0, hpBoxColor1, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 5, hpBoxW, hpBoxH, 0, hpBoxColor2, kFillModeSolid);

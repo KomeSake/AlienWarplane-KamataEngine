@@ -48,8 +48,8 @@ private:
 	//不要再随随便便弄全局变量了！全局变量只有一个！
 	//想要通过这种对象方法来制作游戏，那就必须要要写类的成员变量！
 	//以下是用于计时器的变量,0~10号位是用来给Plan类用的
-	clock_t _timeStart[21] = { 0 };
-	clock_t _timeEnd[21] = { 0 };
-	bool _isTimeOpen[21] = { 0 };
+	clock_t _timeStart[31] = { 0 };
+	clock_t _timeEnd[31] = { 0 };
+	bool _isTimeOpen[31] = { 0 };
 };
 

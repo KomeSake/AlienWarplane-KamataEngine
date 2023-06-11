@@ -7,7 +7,7 @@ Player::Player()
 	_posX = 450.f / 2;
 	_posY = 780 - _higth;
 
-	_hp = 6;
+	_hp = 12;
 	_speed = 5;
 	_color = WHITE;
 	_attackTime = 300;
@@ -139,6 +139,7 @@ void Player::CaptureEnemy()
 			if (distance < tentacleW / 2 + enemyW / 2) {
 				//碰撞后发生的效果
 				_isCapture = true;
+				_hp++;
 				EnemyManager::ReleaseEnemy(element);
 				_enemyCaptured = new Enemy(_tentaclePosX, _tentaclePosY);
 				_enemyCaptured->SetHp(1, 2);//加强一下被抓的敌人吧，不然实在太脆了
@@ -149,15 +150,21 @@ void Player::CaptureEnemy()
 	}
 	//触手已经夹住敌人
 	else if (_isCapture && !_isCaptureCD) {
-		if (_enemyCaptured->GetIsLive() == false) {
-			_isCapture = false;
-			_isCaptureCD = true;
-			delete(_enemyCaptured);
-		}
 		_enemyCaptured->CaptureFire(_tentaclePosX, _tentaclePosY);
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
+		if (_enemyCaptured->GetIsLive() == false) {
+			//被抓住的敌人死亡后先播放爆炸动画，然后在更新判定条件
+			if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 16)) {
+				FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 64, LoadRes::_spAniExplode, 50, 2);
+			}
+			else {
+				_isCapture = false;
+				_isCaptureCD = true;
+				delete(_enemyCaptured);
+			}
+		}
 	}
-	//触手爆炸，CD阶段(飞机的爆炸效果还么添加，暂时没想到放在哪里比较好)
+	//触手爆炸，CD阶段
 	else if (_isCaptureCD) {
 		if (Timers(_captureCDTime, 12) && _capturedValue == 4) {
 			_isCaptureCD = false;
