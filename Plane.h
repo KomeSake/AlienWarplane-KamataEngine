@@ -39,6 +39,7 @@ public:
 	float GetPosY();
 	//0：直接设置数值，1：倍率式设置数值
 	void SetHp(int type, int num);
+	int GetHp();
 	unsigned int GetColor();
 
 private:

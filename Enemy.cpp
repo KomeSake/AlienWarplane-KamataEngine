@@ -26,6 +26,8 @@ void Enemy::Initial(float x, float y)
 	_getHurtSpeedX = 10, _getHurtSpeedY = _speed;
 	_getHurtTime = 100;
 	_aniMode_getHurt = 0;
+
+	_isMessageOver_isLive = false;
 }
 
 void Enemy::Fire()

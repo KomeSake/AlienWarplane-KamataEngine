@@ -116,6 +116,11 @@ void Plane::SetHp(int type, int num)
 	}
 }
 
+int Plane::GetHp()
+{
+	return _hp;
+}
+
 unsigned int Plane::GetColor()
 {
 	return _color;

@@ -17,6 +17,7 @@ public:
 	void CaptureFire(float x, float y);
 	int GetType();
 	bool GetIsLive();
+	bool _isMessageOver_isLive = false;
 protected:
 	//0：普通，1：护盾，2：激光
 	int _type = 0;

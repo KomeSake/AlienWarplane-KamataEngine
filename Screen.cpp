@@ -12,8 +12,12 @@ void Screen::ScreenGameDown()
 	Game_BGObj->BgMove();
 }
 
-void Screen::ScreenGameUp()
+void Screen::ScreenGameUp(Player obj)
 {
-	Game_CaptureVesselObj->FrameAnimation(Game_CaptureVesselObj->_posX, Game_CaptureVesselObj->_posY, LoadRes::_spUICaptureVessel_01, Game_CaptureVesselObj->_color);
-	Game_HpVesselObj->FrameAnimation(Game_HpVesselObj->_posX, Game_HpVesselObj->_posY, LoadRes::_spUIHpVessel_01, Game_HpVesselObj->_color);
+	//捕获能量UI
+	Game_CaptureVesselObj->UIStart(obj);
+
+
+	//生命值UI
+	Game_HpVesselObj->UIStart(obj);
 }

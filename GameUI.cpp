@@ -35,6 +35,25 @@ UI_CaptureVessel::UI_CaptureVessel()
 	_color = WHITE;
 }
 
+void UI_CaptureVessel::UIStart(Player obj)
+{
+	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_01, _color);
+	switch (obj.GetCapturedValue()) {
+	case 1:
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_02, _color);
+		break;
+	case 2:
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_03, _color);
+		break;
+	case 3:
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_04, _color);
+		break;
+	case 4:
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_05, _color);
+		break;
+	}
+}
+
 UI_HpVessel::UI_HpVessel()
 {
 	_width = 165;
@@ -43,4 +62,61 @@ UI_HpVessel::UI_HpVessel()
 	_posY = 780 - _higth;
 	_speed = 0;
 	_color = WHITE;
+}
+
+void UI_HpVessel::UIStart(Player obj)
+{
+	FrameAnimation(_posX, _posY, LoadRes::_spUIHpVessel_01, _color);
+
+	int hpBoxW = 62, hpBoxH = 12;
+	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY - 2;
+	int hpBoxGapY = hpBoxH + 3;
+	unsigned int hpBoxColor_ON = 0xd01716FF, hpBoxColor_OFF = 0x661111FF;
+	unsigned int hpBoxColor1 = hpBoxColor_OFF;
+	unsigned int hpBoxColor2 = hpBoxColor_OFF;
+	unsigned int hpBoxColor3 = hpBoxColor_OFF;
+	unsigned int hpBoxColor4 = hpBoxColor_OFF;
+	unsigned int hpBoxColor5 = hpBoxColor_OFF;
+	unsigned int hpBoxColor6 = hpBoxColor_OFF;
+	switch (obj.GetHp()) {
+	case 1:
+		hpBoxColor1 = hpBoxColor_ON;
+		break;
+	case 2:
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		break;
+	case 3:
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		break;
+	case 4:
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		hpBoxColor4 = hpBoxColor_ON;
+		break;
+	case 5:
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		hpBoxColor4 = hpBoxColor_ON;
+		hpBoxColor5 = hpBoxColor_ON;
+		break;
+	case 6:
+		hpBoxColor1 = hpBoxColor_ON;
+		hpBoxColor2 = hpBoxColor_ON;
+		hpBoxColor3 = hpBoxColor_ON;
+		hpBoxColor4 = hpBoxColor_ON;
+		hpBoxColor5 = hpBoxColor_ON;
+		hpBoxColor6 = hpBoxColor_ON;
+		break;
+	}
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 6, hpBoxW, hpBoxH, 0, hpBoxColor1, kFillModeSolid);
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 5, hpBoxW, hpBoxH, 0, hpBoxColor2, kFillModeSolid);
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 4, hpBoxW, hpBoxH, 0, hpBoxColor3, kFillModeSolid);
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 3, hpBoxW, hpBoxH, 0, hpBoxColor4, kFillModeSolid);
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 2, hpBoxW, hpBoxH, 0, hpBoxColor5, kFillModeSolid);
+	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 1, hpBoxW, hpBoxH, 0, hpBoxColor6, kFillModeSolid);
 }

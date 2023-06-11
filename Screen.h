@@ -10,7 +10,7 @@ class Screen
 public:
 	Screen();
 	void ScreenGameDown();
-	void ScreenGameUp();
+	void ScreenGameUp(Player obj);
 private:
 	UI_BackGround* Game_BGObj;
 	UI_CaptureVessel* Game_CaptureVesselObj;

@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Level.h"
 #include "Screen.h"
+#include "DataMessage.h"
 
 #include <Windows.h>
 #include <string>
@@ -27,6 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Level LevelObj;
 
 	Screen ScreenObj;
+	DataMessage DataMessageObj(PlayerObj);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -53,7 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		EnemyManager::EnemyUpdata();
 
 		LevelObj.LevelDirector();
-
+		DataMessageObj.MessageCheck();
 
 		///
 		/// ↑更新処理ここまで
@@ -64,7 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
-		ScreenObj.ScreenGameUp();
+		ScreenObj.ScreenGameUp(PlayerObj);
 
 
 		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";

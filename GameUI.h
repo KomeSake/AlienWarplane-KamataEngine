@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Novice.h>
 #include "LoadRes.h"
+#include "Player.h"
 
 class GameUI
 {
@@ -26,6 +27,7 @@ class UI_CaptureVessel
 {
 public:
 	UI_CaptureVessel();
+	void UIStart(Player obj);
 };
 
 class UI_HpVessel
@@ -33,4 +35,5 @@ class UI_HpVessel
 {
 public:
 	UI_HpVessel();
+	void UIStart(Player obj);
 };

@@ -7,7 +7,7 @@ Player::Player()
 	_posX = 450.f / 2;
 	_posY = 780 - _higth;
 
-	_hp = 10;
+	_hp = 6;
 	_speed = 5;
 	_color = WHITE;
 	_attackTime = 300;
@@ -161,10 +161,16 @@ void Player::DamageCheck()
 	}
 }
 
-void Player::CapturedValueAdd(int num)
+int Player::GetCapturedValue()
 {
-	_capturedValue += num;
-	Novice::ConsolePrintf("add\n");
+	return _capturedValue;
+}
+
+void Player::CapturedValueAdd()
+{
+	if (_capturedValue < 4) {
+		_capturedValue++;
+	}
 }
 
 
