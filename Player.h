@@ -17,7 +17,9 @@ private:
 	//触手的两点坐标是从中心开始！
 	float _tentaclePosX = 0, _tentaclePosY = 0;
 	bool _isCapture = false;
+	bool _isCaptureCD = false;
+	int _captureCDTime = 0;
+	int _capturedValue = 0;
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
-	int _capturedValue = 0;
 };

@@ -1,3 +1,4 @@
+#pragma warning(disable: 28251)//无视了主函数WinMain出现的警告
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"

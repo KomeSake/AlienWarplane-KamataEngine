@@ -13,12 +13,8 @@ std::map<int, int> LoadRes::_spAniPlayerFire;
 std::map<int, int> LoadRes::_spAniEnemyFire;
 
 int LoadRes::_spUIBg = 0;
-int LoadRes::_spUICaptureVessel_01 = 0;
-int LoadRes::_spUICaptureVessel_02 = 0;
-int LoadRes::_spUICaptureVessel_03 = 0;
-int LoadRes::_spUICaptureVessel_04 = 0;
-int LoadRes::_spUICaptureVessel_05 = 0;
-int LoadRes::_spUIHpVessel_01 = 0;
+std::map<int, int> LoadRes::_spUICaptureVessel;
+std::map<int, int> LoadRes::_spUIHpVessel;
 
 void LoadRes::LoadResNovice()
 {
@@ -62,10 +58,11 @@ void LoadRes::LoadResNovice()
 
 	//UI
 	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");
-	_spUICaptureVessel_01 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_01.png");
-	_spUICaptureVessel_02 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_02.png");
-	_spUICaptureVessel_03 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_03.png");
-	_spUICaptureVessel_04 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_04.png");
-	_spUICaptureVessel_05 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
-	_spUIHpVessel_01 = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_01.png");
+	_spUICaptureVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_00.png");
+	_spUICaptureVessel[1] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_01.png");
+	_spUICaptureVessel[2] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_02.png");
+	_spUICaptureVessel[3] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_03.png");
+	_spUICaptureVessel[4] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_04.png");
+	_spUICaptureVessel[5] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
+	_spUIHpVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_00.png");
 }

@@ -37,21 +37,22 @@ UI_CaptureVessel::UI_CaptureVessel()
 
 void UI_CaptureVessel::UIStart(Player obj)
 {
-	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_01, _color);
+	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[0], _color);
 	switch (obj.GetCapturedValue()) {
 	case 1:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_02, _color);
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[1], _color);
 		break;
 	case 2:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_03, _color);
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[2], _color);
 		break;
 	case 3:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_04, _color);
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[3], _color);
 		break;
 	case 4:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel_05, _color);
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[4], _color);
 		break;
 	}
+	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[5], _color);
 }
 
 UI_HpVessel::UI_HpVessel()
@@ -66,7 +67,7 @@ UI_HpVessel::UI_HpVessel()
 
 void UI_HpVessel::UIStart(Player obj)
 {
-	FrameAnimation(_posX, _posY, LoadRes::_spUIHpVessel_01, _color);
+	FrameAnimation(_posX, _posY, LoadRes::_spUIHpVessel[0], _color);
 
 	int hpBoxW = 62, hpBoxH = 12;
 	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY - 2;

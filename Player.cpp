@@ -18,6 +18,8 @@ Player::Player()
 	_tentaclePosY = _posY;
 
 	_isCapture = false;
+	_isCaptureCD = false;
+	_captureCDTime = 5000;
 	_capturedValue = 0;
 
 	_isGetHurtAniStart = false;
@@ -94,6 +96,7 @@ void Player::Attack(char keys[])
 
 void Player::CaptureEnemy()
 {
+	//触手移动部分
 	//鼠标坐标和触手坐标计算
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
@@ -109,15 +112,23 @@ void Player::CaptureEnemy()
 	else if (mouseY < 0) {
 		mouseY = 0;
 	}
-	MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, 5);
+	switch (_isCaptureCD) {
+	case false:
+		MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, 5);
+		break;
+	case true:
+		MoveToTarget(_tentaclePosX, _tentaclePosY, _posX + _width / 2, _posY + _higth / 2, 5);
+		break;
+	}
 
-	//画3条连线来充当和触手的链接
+	//画3条连线来充当和触手的链接(有空改成长方体试一试)
 	Novice::DrawLine((int)_posX + 32, (int)_posY + 32, (int)_tentaclePosX, (int)_tentaclePosY, RED);
 	Novice::DrawLine((int)_posX + 35, (int)_posY + 35, (int)_tentaclePosX + 2, (int)_tentaclePosY + 2, BLUE);
 	Novice::DrawLine((int)_posX + 30, (int)_posY + 30, (int)_tentaclePosX - 2, (int)_tentaclePosY - 2, GREEN);
 
-	//触手头部绘图
-	if (Novice::IsPressMouse(1) && _isCapture == false) {
+	//触手的机制判断与绘图部分
+	//触手可以抓人
+	if (Novice::IsPressMouse(1) && !_isCapture && !_isCaptureCD) {
 		//碰撞判断
 		float tentacleW = 64, tentacleH = 64;
 		float enemyW = 64, enemyH = 64;
@@ -136,14 +147,26 @@ void Player::CaptureEnemy()
 		//触手夹子的帧动画
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100, 1);
 	}
-	else if (_isCapture) {
+	//触手已经夹住敌人
+	else if (_isCapture && !_isCaptureCD) {
 		if (_enemyCaptured->GetIsLive() == false) {
 			_isCapture = false;
+			_isCaptureCD = true;
 			delete(_enemyCaptured);
 		}
 		_enemyCaptured->CaptureFire(_tentaclePosX, _tentaclePosY);
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 	}
+	//触手爆炸，CD阶段(飞机的爆炸效果还么添加，暂时没想到放在哪里比较好)
+	else if (_isCaptureCD) {
+		if (Timers(_captureCDTime, 12) && _capturedValue == 4) {
+			_isCaptureCD = false;
+			_isCapture = false;
+			_capturedValue = 0;
+		}
+		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, 0x464646FF);
+	}
+	//触手正常情况绘图
 	else {
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 	}
@@ -159,7 +182,7 @@ void Player::DamageCheck()
 			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
 			_hp -= element->GetDamage();
-			//血没了这里需要做一个爆炸的动画效果，和传出一条信息
+			//血没了这里需要做一个爆炸的动画效果，和传出一条死亡信息
 		}
 	}
 }
