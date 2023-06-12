@@ -51,6 +51,12 @@ void Bullet::Initial(BulletType type)
 		_width = 32, _higth = 32;
 		_speed = -4;
 		break;
+	case laserCapture:
+		_type = type;
+		_sprite = LoadRes::_spBullet_enemy2Capture;
+		_width = 32, _higth = 32;
+		_speed = 4;
+		break;
 	}
 }
 
@@ -89,6 +95,9 @@ void Bullet::Fire(float x, float y)
 		break;
 	case laser:
 		BulletManager::_bulletUpdateVector_enemy.push_back(this);
+		break;
+	case laserCapture:
+		BulletManager::_bulletUpdateVector.push_back(this);
 		break;
 	}
 }
@@ -141,6 +150,7 @@ std::queue<Bullet*> BulletManager::_bulletIdiePool_player;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_enemy;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_enemyCapture;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_laser;
+std::queue<Bullet*> BulletManager::_bulletIdiePool_laserCapture;
 void BulletManager::BulletUpdata()
 {
 	for (Bullet* element : BulletManager::_bulletUpdateVector) {
@@ -202,6 +212,18 @@ Bullet* BulletManager::AcquireBullet(Bullet::BulletType type)
 			return bullet;
 		}
 		break;
+	case Bullet::laserCapture:
+		if (_bulletIdiePool_laserCapture.empty()) {
+			Bullet* bullet = new Bullet(type);
+			return bullet;
+		}
+		else {
+			Bullet* bullet = _bulletIdiePool_laserCapture.front();
+			_bulletIdiePool_laserCapture.pop();
+			bullet->Initial(type);
+			return bullet;
+		}
+		break;
 	}
 	return nullptr;
 }
@@ -239,6 +261,13 @@ void BulletManager::ReleaseBullet(Bullet* bullet)
 			_bulletUpdateVector_enemy.erase(it);
 		}
 		_bulletIdiePool_laser.push(bullet);
+		break; }
+	case Bullet::laserCapture: {
+		auto it = std::find(_bulletUpdateVector.begin(), _bulletUpdateVector.end(), bullet);
+		if (it != _bulletUpdateVector.end()) {
+			_bulletUpdateVector.erase(it);
+		}
+		_bulletIdiePool_laserCapture.push(bullet);
 		break; }
 	}
 }

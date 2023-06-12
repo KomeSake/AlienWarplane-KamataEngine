@@ -9,14 +9,16 @@
 //4.1、一般都是在Level类里面调用，这是主管关卡的类
 //5、最后对对象调用Fire方法(这是决定敌人开始攻击的关键方法！)
 //5.1、注意被抓的敌人是调用CapturedFire方法
+//6、最后就是修改CaptureFire方法，添加相对应的敌人绘图，发射对应的子弹
 
 
-Enemy::Enemy(float x, float y, EnemyType type)
+
+Enemy::Enemy(float x, float y, int type)
 {
 	Initial(x, y, type);
 }
 
-void Enemy::Initial(float x, float y, EnemyType type)
+void Enemy::Initial(float x, float y, int type)
 {
 	_posX = x;
 	_posY = y;
@@ -92,26 +94,35 @@ void Enemy::Move()
 	}
 }
 
-void Enemy::Attack()
+void Enemy::Attack(float x, float y, bool isCapture)
 {
 	if (_isLive) {
 		if (!Timers(_attackTime_normal1, 17)) {
 			if (_normalCount < _normalSum) {
 				if (Timers(_attackTime_normal2, 13)) {
 					_normalCount++;
-					Bullet* bullet;
-					switch (_type) {
-					case normal:
-						bullet = BulletManager::AcquireBullet(Bullet::enemy);
-						break;
-					case laser:
-						bullet = BulletManager::AcquireBullet(Bullet::laser);
-						break;
-					default:
-						bullet = BulletManager::AcquireBullet(Bullet::enemy);
-						break;
+					Bullet* bullet = nullptr;
+					if (!isCapture) {
+						switch (_type) {
+						case normal:
+							bullet = BulletManager::AcquireBullet(Bullet::enemy);
+							break;
+						case laser:
+							bullet = BulletManager::AcquireBullet(Bullet::laser);
+							break;
+						}
 					}
-					bullet->Fire(_posX + 16, _posY);
+					else {
+						switch (_type) {
+						case normal:
+							bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
+							break;
+						case laser:
+							bullet = BulletManager::AcquireBullet(Bullet::laserCapture);
+							break;
+						}
+					}
+					bullet->Fire(x, y);
 				}
 			}
 		}
@@ -164,21 +175,29 @@ void Enemy::CaptureFire(float x, float y)
 	}
 	if (_isLive == true) {
 		//子弹发射部分
-		if (!Timers(_attackTime_normal1, 17)) {
-			if (_normalCount < _normalSum) {
-				if (Timers(_attackTime_normal2, 13)) {
-					_normalCount++;
-					Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
-					bullet->Fire(x - 32.f / 2, y - 64 - 10);
-				}
-			}
-		}
-		else {
-			_normalCount = 0;
-		}
+		Attack(x - 32.f / 2, y - 64 - 10, true);
+		//if (!Timers(_attackTime_normal1, 17)) {
+		//	if (_normalCount < _normalSum) {
+		//		if (Timers(_attackTime_normal2, 13)) {
+		//			_normalCount++;
+		//			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
+		//			bullet->Fire(x - 32.f / 2, y - 64 - 10);
+		//		}
+		//	}
+		//}
+		//else {
+		//	_normalCount = 0;
+		//}
 		//绘图部分(到时候按照类型做个switch即可)
 		GetHurtAni(x, y, 0, RED);
-		Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy, 1, 1, 3.14159f, _color);
+		switch (_type) {
+		case normal:
+			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy, 1, 1, 3.14159f, _color);
+			break;
+		case laser:
+			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy2, 1, 1, 3.14159f, _color);
+			break;
+		}
 	}
 }
 
@@ -205,7 +224,7 @@ void EnemyManager::EnemyUpdata()
 {
 	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
 		element->DamageCheck();
-		element->Attack();
+		element->Attack(element->GetPosX() + 16, element->GetPosY(), false);
 		element->Move();
 	}
 }

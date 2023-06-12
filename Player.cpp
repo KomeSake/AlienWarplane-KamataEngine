@@ -141,7 +141,7 @@ void Player::CaptureEnemy()
 				_isCapture = true;
 				_hp++;
 				EnemyManager::ReleaseEnemy(element);
-				_enemyCaptured = new Enemy(_tentaclePosX, _tentaclePosY, Enemy::normal);
+				_enemyCaptured = new Enemy(_tentaclePosX, _tentaclePosY, element->GetType());
 				_enemyCaptured->SetHp(1, 2);//加强一下被抓的敌人吧，不然实在太脆了
 			}
 		}

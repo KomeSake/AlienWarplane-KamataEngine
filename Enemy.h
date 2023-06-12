@@ -13,11 +13,11 @@ public:
 	}enemyType;
 
 	//敌人初始化里面，我还少写了一个要根据不同的类型做一些特殊的初始化操作
-	Enemy(float x, float y, EnemyType type);
-	void Initial(float x, float y, EnemyType type);
+	Enemy(float x, float y, int type);
+	void Initial(float x, float y, int type);
 	void Fire();//一开始调用这个方法
 	void Move();
-	void Attack();
+	void Attack(float x, float y, bool isCapture);
 	void DamageCheck();
 	//绘画的x，y坐标
 	void CaptureFire(float x, float y);

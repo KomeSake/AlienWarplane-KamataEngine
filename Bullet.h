@@ -25,6 +25,7 @@ public:
 		enemy,
 		enemyCapture,
 		laser,
+		laserCapture,
 	}bulletType;
 
 	Bullet(BulletType type);
@@ -55,6 +56,7 @@ public:
 	static std::queue<Bullet*> _bulletIdiePool_enemy;
 	static std::queue<Bullet*> _bulletIdiePool_enemyCapture;
 	static std::queue<Bullet*> _bulletIdiePool_laser;
+	static std::queue<Bullet*> _bulletIdiePool_laserCapture;
 
 
 	static Bullet* AcquireBullet(Bullet::BulletType type);
