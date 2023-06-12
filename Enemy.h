@@ -2,13 +2,19 @@
 #include <queue>
 #include "Plane.h"
 #include "Bullet.h"
+
 class Enemy :
 	public Plane
 {
 public:
+	static enum EnemyType {
+		normal,
+		laser
+	}enemyType;
+
 	//敌人初始化里面，我还少写了一个要根据不同的类型做一些特殊的初始化操作
-	Enemy(float x, float y);
-	void Initial(float x, float y);
+	Enemy(float x, float y, EnemyType type);
+	void Initial(float x, float y, EnemyType type);
 	void Fire();//一开始调用这个方法
 	void Move();
 	void Attack();
@@ -19,7 +25,6 @@ public:
 	bool GetIsLive();
 	bool _isMessageOver_isLive = false;
 protected:
-	//0：普通，1：护盾，2：激光
 	int _type = 0;
 	bool _isLive = true;
 
@@ -48,7 +53,8 @@ public:
 	static void EnemyUpdata();
 
 	static std::queue<Enemy*> _enemyIdiePool_normal;
+	static std::queue<Enemy*> _enemyIdiePool_laser;
 
-	static Enemy* AcquireEnemy(int enemyType, float bornX, float bornY);
+	static Enemy* AcquireEnemy(float bornX, float bornY, Enemy::EnemyType type);
 	static void ReleaseEnemy(Enemy* enemy);
 };

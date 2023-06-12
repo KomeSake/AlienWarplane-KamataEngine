@@ -15,7 +15,7 @@ protected:
 
 	int _hp = 0;
 	float _speed = 0;
-
+	int _sprite = 0;
 	unsigned int _color = WHITE;
 
 	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、1,2:帧动画、

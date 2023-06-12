@@ -6,8 +6,9 @@ class LoadRes
 {
 public:
 	//Sprite贴图
-	static int _spPlayer, _spbullet, _spPlayerTentaclesOne, _spPlayerTentaclesTwo;
-	static int _spEnemy, _spEnemyBullet;
+	static int _spPlayer, _spPlayerTentaclesOne, _spPlayerTentaclesTwo;
+	static int _spEnemy, _spEnemy2;
+	static int _spBullet_player, _spBullet_enemy, _spBullet_enemyCapture, _spBullet_enemy2, _spBullet_enemy2Capture;
 
 	//动画
 	static std::map<int, int> _spAniExplode;
@@ -20,5 +21,6 @@ public:
 	static std::map<int, int> _spUICaptureVessel;
 	static std::map<int, int> _spUIHpVessel;
 
+	//在主方法中调用(进行实现的材质载入)
 	static void LoadResNovice();
 };

@@ -1,5 +1,14 @@
 ﻿#include "Bullet.h"
-//Bullet::BulletType bulletType;
+
+//-----新建一种子弹种类顺序-----
+//0、往头文件中的枚举添加类型
+//1、初始化方法中进行具体数值修改(贴图也别忘了)
+//2、新添加一个闲置子弹池子
+//3、在提取子弹和回收子弹方法中添加对应的类型代码
+//4、Fire方法中增加对应的代码
+//5、需要的地方直接根据BulletManager类的静态方法，提取子弹方法，并输入对应类型即可(对应类型枚举在Bullet类)
+//6、最后对对象调用Fire方法(这是决定子弹发射的关键方法！)
+
 
 Bullet::Bullet(BulletType type)
 {
@@ -11,25 +20,36 @@ void Bullet::Initial(BulletType type)
 	//标准初始化部分
 	_posX = 450;
 	_posY = 780;
-	_width = 32;
-	_higth = 32;
+	_width = 12;	//虽然子弹的图都是32x32，但是这个大小会控制子弹的伤害范围判定
+	_higth = 24;
 
 	_damage = 1;
-	_speed = 15;
+	_speed = 15;	//让敌人子弹速度为负数即可子弹从上往下
 
 	_type = 0;
-	_sprite = LoadRes::_spbullet;
+	_sprite = LoadRes::_spBullet_player;
 	_isFire = false;
 	//针对类型进行特殊初始化
 	switch (type) {
 	case player:
 		_type = type;
-		_sprite = LoadRes::_spbullet;
+		_sprite = LoadRes::_spBullet_player;
 		break;
 	case enemy:
 		_type = type;
-		_sprite = LoadRes::_spEnemyBullet;
-		_speed = -_speed + 7;
+		_sprite = LoadRes::_spBullet_enemy;
+		_speed = -7;
+		break;
+	case enemyCapture:
+		_type = type;
+		_sprite = LoadRes::_spBullet_enemyCapture;
+		_speed = 7;
+		break;
+	case laser:
+		_type = type;
+		_sprite = LoadRes::_spBullet_enemy2;
+		_width = 32, _higth = 32;
+		_speed = -4;
 		break;
 	}
 }
@@ -62,6 +82,12 @@ void Bullet::Fire(float x, float y)
 		BulletManager::_bulletUpdateVector.push_back(this);
 		break;
 	case enemy:
+		BulletManager::_bulletUpdateVector_enemy.push_back(this);
+		break;
+	case enemyCapture:
+		BulletManager::_bulletUpdateVector.push_back(this);
+		break;
+	case laser:
 		BulletManager::_bulletUpdateVector_enemy.push_back(this);
 		break;
 	}
@@ -108,49 +134,12 @@ void Bullet::SetType(int type)
 	_type = type;
 }
 
-//BulletPool::BulletPool(int initialSum)
-//{
-//	for (int i = 0; i < initialSum; i++) {
-//		Bullet* bullet = new Bullet;
-//		pool.push(bullet);
-//	}
-//}
-//
-//BulletPool::~BulletPool()
-//{
-//	while (!pool.empty()) {
-//		Bullet* bullet = pool.front();
-//		pool.pop();
-//		delete bullet;
-//	}
-//}
-
-//Bullet* BulletPool::AcquireBullet()
-//{
-//	if (pool.empty()) {
-//		Bullet* bullet = new Bullet();
-//		//Novice::ConsolePrintf("Bullet Born!\n");
-//		return bullet;
-//	}
-//	else {
-//		Bullet* bullet = pool.front();
-//		pool.pop();
-//		//Novice::ConsolePrintf("Bullet Get!\n");
-//		return bullet;
-//	}
-//}
-
-//void BulletPool::ReleaseBullet(Bullet* bullet)
-//{
-//	pool.push(bullet);
-//}
-
-
 
 std::vector<Bullet*> BulletManager::_bulletUpdateVector;
 std::vector<Bullet*> BulletManager::_bulletUpdateVector_enemy;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_player;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_enemy;
+std::queue<Bullet*> BulletManager::_bulletIdiePool_enemyCapture;
 std::queue<Bullet*> BulletManager::_bulletIdiePool_laser;
 void BulletManager::BulletUpdata()
 {
@@ -189,6 +178,30 @@ Bullet* BulletManager::AcquireBullet(Bullet::BulletType type)
 			return bullet;
 		}
 		break;
+	case Bullet::enemyCapture:
+		if (_bulletIdiePool_enemyCapture.empty()) {
+			Bullet* bullet = new Bullet(type);
+			return bullet;
+		}
+		else {
+			Bullet* bullet = _bulletIdiePool_enemyCapture.front();
+			_bulletIdiePool_enemyCapture.pop();
+			bullet->Initial(type);
+			return bullet;
+		}
+		break;
+	case Bullet::laser:
+		if (_bulletIdiePool_laser.empty()) {
+			Bullet* bullet = new Bullet(type);
+			return bullet;
+		}
+		else {
+			Bullet* bullet = _bulletIdiePool_laser.front();
+			_bulletIdiePool_laser.pop();
+			bullet->Initial(type);
+			return bullet;
+		}
+		break;
 	}
 	return nullptr;
 }
@@ -212,6 +225,20 @@ void BulletManager::ReleaseBullet(Bullet* bullet)
 			_bulletUpdateVector_enemy.erase(it);
 		}
 		_bulletIdiePool_enemy.push(bullet);
+		break; }
+	case Bullet::enemyCapture: {
+		auto it = std::find(_bulletUpdateVector.begin(), _bulletUpdateVector.end(), bullet);
+		if (it != _bulletUpdateVector.end()) {
+			_bulletUpdateVector.erase(it);
+		}
+		_bulletIdiePool_enemyCapture.push(bullet);
+		break; }
+	case Bullet::laser: {
+		auto it = std::find(_bulletUpdateVector_enemy.begin(), _bulletUpdateVector_enemy.end(), bullet);
+		if (it != _bulletUpdateVector_enemy.end()) {
+			_bulletUpdateVector_enemy.erase(it);
+		}
+		_bulletIdiePool_laser.push(bullet);
 		break; }
 	}
 }

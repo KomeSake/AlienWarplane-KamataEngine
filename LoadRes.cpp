@@ -1,11 +1,15 @@
 ﻿#include "LoadRes.h"
 
 int LoadRes::_spPlayer = 0;
-int LoadRes::_spbullet = 0;
 int LoadRes::_spPlayerTentaclesOne = 0;
 int LoadRes::_spPlayerTentaclesTwo = 0;
 int LoadRes::_spEnemy = 0;
-int LoadRes::_spEnemyBullet = 0;
+int LoadRes::_spEnemy2 = 0;
+int LoadRes::_spBullet_player = 0;
+int LoadRes::_spBullet_enemy = 0;
+int LoadRes::_spBullet_enemy2 = 0;
+int LoadRes::_spBullet_enemyCapture = 0;
+int LoadRes::_spBullet_enemy2Capture = 0;
 
 std::map<int, int> LoadRes::_spAniExplode;
 std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
@@ -20,11 +24,17 @@ void LoadRes::LoadResNovice()
 {
 	//Sprite贴图
 	_spPlayer = Novice::LoadTexture("./Resources/Textures/Player0-0.png");
-	_spbullet = Novice::LoadTexture("./Resources/Textures/Bullet.png");
-	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
-	_spEnemyBullet = Novice::LoadTexture("./Resources/Textures/Enemy_Bullet.png");
 	_spPlayerTentaclesOne = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesOne.png");
 	_spPlayerTentaclesTwo = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesTwo.png");
+
+	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
+	_spEnemy2 = Novice::LoadTexture("./Resources/Textures/Enemy2.png");
+
+	_spBullet_player = Novice::LoadTexture("./Resources/Textures/Bullet.png");
+	_spBullet_enemy = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy.png");
+	_spBullet_enemyCapture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy(Captured).png");
+	_spBullet_enemy2 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2.png");
+	_spBullet_enemy2Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2(Captured).png");
 
 	//动画
 	_spAniExplode[0] = Novice::LoadTexture("./Resources/Textures/Animation/Explode1.png");

@@ -25,7 +25,7 @@ void Level::LevelDirector()
 	timeEnd = clock();
 	if (timeEnd - timeStart > rand_enemyTime) {
 		timeStart = timeEnd;
-		Enemy* enemy = EnemyManager::AcquireEnemy(0, rand_enemyPosX, -300);
+		Enemy* enemy = EnemyManager::AcquireEnemy(rand_enemyPosX, -300, Enemy::laser);
 		enemy->Fire();
 	}
 }
