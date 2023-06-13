@@ -15,6 +15,7 @@ public:
 	static std::map<int, int> _spAniPlayerTentaclesTwo;
 	static std::map<int, int> _spAniPlayerFire;
 	static std::map<int, int> _spAniEnemyFire;
+	static std::map<int, int> _spAniPlayerHpPlus;
 
 	//UI
 	static int _spUIBg;

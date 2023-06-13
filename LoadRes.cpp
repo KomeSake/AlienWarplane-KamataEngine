@@ -15,6 +15,7 @@ std::map<int, int> LoadRes::_spAniExplode;
 std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
 std::map<int, int> LoadRes::_spAniPlayerFire;
 std::map<int, int> LoadRes::_spAniEnemyFire;
+std::map<int, int> LoadRes::_spAniPlayerHpPlus;
 
 int LoadRes::_spUIBg = 0;
 std::map<int, int> LoadRes::_spUICaptureVessel;
@@ -65,6 +66,16 @@ void LoadRes::LoadResNovice()
 	_spAniEnemyFire[3] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire4.png");
 	_spAniEnemyFire[4] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire5.png");
 	_spAniEnemyFire[5] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire6.png");
+
+	_spAniPlayerHpPlus[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus1.png");
+	_spAniPlayerHpPlus[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus2.png");
+	_spAniPlayerHpPlus[2] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus3.png");
+	_spAniPlayerHpPlus[3] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus4.png");
+	_spAniPlayerHpPlus[4] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus5.png");
+	_spAniPlayerHpPlus[5] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus6.png");
+	_spAniPlayerHpPlus[6] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus7.png");
+	_spAniPlayerHpPlus[7] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus8.png");
+	_spAniPlayerHpPlus[8] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus9.png");
 
 	//UI
 	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");

@@ -32,15 +32,17 @@ protected:
 
 public:
 	void FrameAnimation(float x, float y, int sprite, unsigned int color);
-	//当前这套帧动画播放代码还有问题，不是必定从0帧开始播放的。(所以不重复的动画会出现问题)
+	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下
 	void FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index);
 	void FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index);
 	float GetPosX();
 	float GetPosY();
 	//0：直接设置数值，1：倍率式设置数值
-	void SetHp(int type, int num);
+	void SetHp(int type, float num);
 	int GetHp();
 	unsigned int GetColor();
+	//输入当前使用的播放序号，需要改的帧数值
+	void SetFrameIndex(int index, int num);
 
 private:
 	//给帧动画用的

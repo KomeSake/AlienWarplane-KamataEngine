@@ -33,6 +33,9 @@ UI_CaptureVessel::UI_CaptureVessel()
 	_posY = 780 - _higth;
 	_speed = 0;
 	_color = WHITE;
+
+	_cdMove = 0;
+	_cdSpeed = 0;
 }
 
 void UI_CaptureVessel::UIStart(Player obj)
@@ -52,7 +55,26 @@ void UI_CaptureVessel::UIStart(Player obj)
 		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[4], _color);
 		break;
 	}
-	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[5], _color);
+	//CD标记部分
+	if (obj.GetIsCaptureCD()) {
+		if (obj.GetCapturedValue() >= 4) {
+			//_cdSpeed = _width / obj.GetCaptureCDTime() / 1000 * 60;
+			_cdSpeed = 0.25f;
+			_cdMove += _cdSpeed;
+			Novice::DrawQuad(
+				(int)_posX, (int)_posY,
+				(int)_posX + (int)_cdMove, (int)_posY,
+				(int)_posX, (int)_posY + (int)_higth,
+				(int)_posX + (int)_cdMove, (int)_posY + (int)_higth,
+				0, 0,
+				(int)_cdMove, (int)_higth,
+				LoadRes::_spUICaptureVessel[5],
+				WHITE);
+		}
+	}
+	else {
+		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[5], _color);
+	}
 }
 
 UI_HpVessel::UI_HpVessel()

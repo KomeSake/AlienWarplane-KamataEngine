@@ -104,14 +104,14 @@ float Plane::GetPosY()
 	return _posY;
 }
 
-void Plane::SetHp(int type, int num)
+void Plane::SetHp(int type, float num)
 {
 	switch (type) {
 	case 0:
-		_hp = num;
+		_hp = (int)num;
 		break;
 	case 1:
-		_hp = _hp * num;
+		_hp = (int)(_hp * num);
 		break;
 	}
 }
@@ -124,6 +124,11 @@ int Plane::GetHp()
 unsigned int Plane::GetColor()
 {
 	return _color;
+}
+
+void Plane::SetFrameIndex(int index, int num)
+{
+	_frameIndex[index] = num;
 }
 
 

@@ -85,6 +85,7 @@ void Enemy::Move()
 			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
 		}
 		else {
+			SetFrameIndex(1, 0);
 			EnemyManager::ReleaseEnemy(this);
 		}
 	}
@@ -151,10 +152,10 @@ void Enemy::DamageCheck()
 	}
 }
 
-//专门为了别抓敌人做的攻击方法，有些东西我直接都整合到这个方法里面了
+//专门为了被抓敌人做的攻击方法，有些东西我直接都整合到这个方法里面了
 void Enemy::CaptureFire(float x, float y)
 {
-	_color = 0xcfc0eaFF;//被捕获的敌人加一层紫色
+	_color = 0x7300ffFF;//被捕获的敌人加一层紫色
 	//碰撞检测部分(输入的触手坐标是从中心开始的，不要忘记了)
 	if (Timers(100, 14)) {
 		for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
@@ -176,18 +177,6 @@ void Enemy::CaptureFire(float x, float y)
 	if (_isLive == true) {
 		//子弹发射部分
 		Attack(x - 32.f / 2, y - 64 - 10, true);
-		//if (!Timers(_attackTime_normal1, 17)) {
-		//	if (_normalCount < _normalSum) {
-		//		if (Timers(_attackTime_normal2, 13)) {
-		//			_normalCount++;
-		//			Bullet* bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
-		//			bullet->Fire(x - 32.f / 2, y - 64 - 10);
-		//		}
-		//	}
-		//}
-		//else {
-		//	_normalCount = 0;
-		//}
 		//绘图部分(到时候按照类型做个switch即可)
 		GetHurtAni(x, y, 0, RED);
 		switch (_type) {

@@ -21,6 +21,8 @@ Player::Player()
 	_isCaptureCD = false;
 	_captureCDTime = 5000;
 	_capturedValue = 0;
+	_captureSpeed = 10;
+	_isPlayerHpPlus = false;
 
 	_isGetHurtAniStart = false;
 	_getHurtPosX = 0, _getHurtPosY = 0;
@@ -94,6 +96,8 @@ void Player::Attack(char keys[])
 	}
 }
 
+//触手制造CD时间的UI显示
+//以及一个可以提前捏爆抓住敌机的机制
 void Player::CaptureEnemy()
 {
 	//触手移动部分
@@ -114,10 +118,10 @@ void Player::CaptureEnemy()
 	}
 	switch (_isCaptureCD) {
 	case false:
-		MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, 5);
+		MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, _captureSpeed);
 		break;
 	case true:
-		MoveToTarget(_tentaclePosX, _tentaclePosY, _posX + _width / 2, _posY + _higth / 2, 5);
+		MoveToTarget(_tentaclePosX, _tentaclePosY, _posX + _width / 2, _posY + _higth / 2, _captureSpeed / 2);
 		break;
 	}
 
@@ -140,9 +144,19 @@ void Player::CaptureEnemy()
 				//碰撞后发生的效果
 				_isCapture = true;
 				_hp++;
+				_isPlayerHpPlus = true;
 				EnemyManager::ReleaseEnemy(element);
 				_enemyCaptured = new Enemy(_tentaclePosX, _tentaclePosY, element->GetType());
-				_enemyCaptured->SetHp(1, 2);//加强一下被抓的敌人吧，不然实在太脆了
+				//根据抓住敌人类型做一些变化
+				switch (element->GetType()) {
+				case Enemy::normal:
+					_enemyCaptured->SetHp(1, 2);
+					_captureSpeed = 5;
+					break;
+				case Enemy::laser:
+					_enemyCaptured->SetHp(1, 1.5f);
+					_captureSpeed = 2;
+				}
 			}
 		}
 		//触手夹子的帧动画
@@ -154,22 +168,26 @@ void Player::CaptureEnemy()
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 		if (_enemyCaptured->GetIsLive() == false) {
 			//被抓住的敌人死亡后先播放爆炸动画，然后在更新判定条件
-			if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 16)) {
+			if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 12)) {
 				FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 64, LoadRes::_spAniExplode, 50, 2);
 			}
 			else {
+				SetFrameIndex(2, 0);
 				_isCapture = false;
 				_isCaptureCD = true;
+				_captureSpeed = 10;
 				delete(_enemyCaptured);
 			}
 		}
 	}
 	//触手爆炸，CD阶段
 	else if (_isCaptureCD) {
-		if (Timers(_captureCDTime, 12) && _capturedValue == 4) {
-			_isCaptureCD = false;
-			_isCapture = false;
-			_capturedValue = 0;
+		if (_capturedValue >= 4) {
+			if (Timers(_captureCDTime, 13)) {
+				_isCaptureCD = false;
+				_isCapture = false;
+				_capturedValue = 0;
+			}
 		}
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, 0x464646FF);
 	}
@@ -194,6 +212,21 @@ void Player::DamageCheck()
 	}
 }
 
+void Player::AniPlayerUP()
+{
+	//玩家抓到敌人加血特效
+	int frameTime = 100;
+	if (_isPlayerHpPlus) {
+		if (!Timers((int)LoadRes::_spAniPlayerHpPlus.size() * frameTime, 14)) {
+			FrameAnimation(_posX, _posY + 7, LoadRes::_spAniPlayerHpPlus, frameTime, 4);
+		}
+		else {
+			SetFrameIndex(4, 0);
+			_isPlayerHpPlus = false;
+		}
+	}
+}
+
 int Player::GetCapturedValue()
 {
 	return _capturedValue;
@@ -206,4 +239,17 @@ void Player::CapturedValueAdd()
 	}
 }
 
+bool Player::GetIsCapture()
+{
+	return _isCapture;
+}
 
+bool Player::GetIsCaptureCD()
+{
+	return _isCaptureCD;
+}
+
+int Player::GetCaptureCDTime()
+{
+	return _captureCDTime;
+}

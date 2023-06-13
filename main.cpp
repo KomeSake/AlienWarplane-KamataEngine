@@ -67,6 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
+		PlayerObj.AniPlayerUP();
 		ScreenObj.ScreenGameUp(PlayerObj);
 
 
