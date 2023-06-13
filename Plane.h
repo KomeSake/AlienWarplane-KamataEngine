@@ -18,8 +18,9 @@ protected:
 	int _sprite = 0;
 	unsigned int _color = WHITE;
 
-	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、1,2:帧动画、
+	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、
 	int Timers(int milli, int index);
+	int FrameTimers(int milli, int index);
 	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
 
 	//受伤抖动动画(坐标x，坐标y，移动Y距离，变化颜色);函数需放在对象移动方法中，通过播放的int来控制
@@ -46,7 +47,10 @@ public:
 
 private:
 	//给帧动画用的
-	int _frameIndex[5] = { 0 };
+	int _frameIndex[11] = { 0 };
+	clock_t _frame_timeStart[31] = { 0 };
+	clock_t _frame_timeEnd[31] = { 0 };
+	bool _frame_isTimeOpen[31] = { 0 };
 	//不要再随随便便弄全局变量了！全局变量只有一个！
 	//想要通过这种对象方法来制作游戏，那就必须要要写类的成员变量！
 	//以下是用于计时器的变量,0~10号位是用来给Plan类用的

@@ -5,7 +5,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Level.h"
-#include "Screen.h"
+#include "Scene.h"
 #include "DataMessage.h"
 
 #include <Windows.h>
@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player PlayerObj;
 	Level LevelObj;
 
-	Screen ScreenObj;
+	Scene ScreenObj;
 	DataMessage DataMessageObj(PlayerObj);
 
 
@@ -69,6 +69,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
 		PlayerObj.AniPlayerUP();
 		ScreenObj.ScreenGameUp(PlayerObj);
+		ScreenObj.SceneStart();
 
 
 		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";

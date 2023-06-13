@@ -16,11 +16,13 @@ public:
 	static std::map<int, int> _spAniPlayerFire;
 	static std::map<int, int> _spAniEnemyFire;
 	static std::map<int, int> _spAniPlayerHpPlus;
+	static std::map<int, int> _spAniPlayerHpPlus2;
 
 	//UI
 	static int _spUIBg;
 	static std::map<int, int> _spUICaptureVessel;
 	static std::map<int, int> _spUIHpVessel;
+	static std::map<int, int> _spUIStartScene;
 
 	//在主方法中调用(进行实现的材质载入)
 	static void LoadResNovice();

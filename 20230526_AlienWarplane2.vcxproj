@@ -115,7 +115,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -152,7 +152,7 @@
     <ClInclude Include="LoadRes.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

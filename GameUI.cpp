@@ -38,7 +38,7 @@ UI_CaptureVessel::UI_CaptureVessel()
 	_cdSpeed = 0;
 }
 
-void UI_CaptureVessel::UIStart(Player obj)
+void UI_CaptureVessel::UIOpen(Player obj)
 {
 	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[0], _color);
 	switch (obj.GetCapturedValue()) {
@@ -58,8 +58,7 @@ void UI_CaptureVessel::UIStart(Player obj)
 	//CD标记部分
 	if (obj.GetIsCaptureCD()) {
 		if (obj.GetCapturedValue() >= 4) {
-			//_cdSpeed = _width / obj.GetCaptureCDTime() / 1000 * 60;
-			_cdSpeed = 0.25f;
+			_cdSpeed = _width / ((float)(obj.GetCaptureCDTime()) / 1000 * 60) * 0.7f;
 			_cdMove += _cdSpeed;
 			Novice::DrawQuad(
 				(int)_posX, (int)_posY,
@@ -73,6 +72,7 @@ void UI_CaptureVessel::UIStart(Player obj)
 		}
 	}
 	else {
+		_cdMove = 0;
 		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[5], _color);
 	}
 }
@@ -87,7 +87,7 @@ UI_HpVessel::UI_HpVessel()
 	_color = WHITE;
 }
 
-void UI_HpVessel::UIStart(Player obj)
+void UI_HpVessel::UIOpen(Player obj)
 {
 	FrameAnimation(_posX, _posY, LoadRes::_spUIHpVessel[0], _color);
 
@@ -140,4 +140,31 @@ void UI_HpVessel::UIStart(Player obj)
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 3, hpBoxW, hpBoxH, 0, hpBoxColor4, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 2, hpBoxW, hpBoxH, 0, hpBoxColor5, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 1, hpBoxW, hpBoxH, 0, hpBoxColor6, kFillModeSolid);
+}
+
+UI_StartScene::UI_StartScene()
+{
+	_posX = 0, _posY = 0;
+	_width = 450, _higth = 780;
+	_color = WHITE;
+
+	_titlePosX = 0, _titlePosY = 50;
+	_buttonW = 210, _buttonH = 73;
+	_buttonPosX_Start = 450.f / 2 - _buttonW / 2, _buttonPosY_Start = 450;
+	_buttonPosX_Help = 450.f / 2 - _buttonW / 2, _buttonPosY_Help = 600;
+	_buttonTextW_Start = 127;
+	_buttonTextW_Help = 105;
+}
+
+void UI_StartScene::UIOpen()
+{
+	FrameAnimation(0, 0, LoadRes::_spUIStartScene[0], WHITE);
+	FrameAnimation(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
+	FrameAnimation(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene[2], WHITE);
+	FrameAnimation(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene[2], WHITE);
+
+	//这里写鼠标点击的判断条件
+
+	FrameAnimation(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
+	FrameAnimation(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
 }

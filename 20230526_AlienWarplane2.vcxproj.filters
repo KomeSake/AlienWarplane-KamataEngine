@@ -53,7 +53,7 @@
     <ClCompile Include="Level.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Screen.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="GameUI.cpp">
@@ -138,7 +138,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="DataMessage.h" />
   </ItemGroup>

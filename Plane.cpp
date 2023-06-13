@@ -14,6 +14,20 @@ int Plane::Timers(int milli, int index)
 	return 0;
 }
 
+int Plane::FrameTimers(int milli, int index)
+{
+	if (!_frame_isTimeOpen[index]) {
+		_frame_timeStart[index] = clock();
+		_frame_isTimeOpen[index] = true;
+	}
+	_frame_timeEnd[index] = clock();
+	if (_frame_timeEnd[index] - _frame_timeStart[index] > milli) {
+		_frame_isTimeOpen[index] = false;
+		return 1;
+	}
+	return 0;
+}
+
 void Plane::MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed)
 {
 	float distanceX = targetX - objX;
@@ -75,7 +89,7 @@ void Plane::FrameAnimation(float x, float y, int sprite, unsigned int color)
 
 void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index)
 {
-	if (Timers(frameTime, 1)) {
+	if (FrameTimers(frameTime, index)) {
 		_frameIndex[index]++;
 	}
 	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {
@@ -86,7 +100,7 @@ void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, int fram
 
 void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index)
 {
-	if (Timers(frameTime, 2)) {
+	if (FrameTimers(frameTime, index)) {
 		_frameIndex[index]++;
 	}
 	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {

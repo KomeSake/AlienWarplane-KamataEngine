@@ -8,7 +8,7 @@ Player::Player()
 	_posY = 780 - _higth;
 
 	_hp = 12;
-	_speed = 5;
+	_speed = 4;
 	_color = WHITE;
 	_attackTime = 300;
 
@@ -96,8 +96,7 @@ void Player::Attack(char keys[])
 	}
 }
 
-//触手制造CD时间的UI显示
-//以及一个可以提前捏爆抓住敌机的机制
+//一个可以提前捏爆抓住敌机的机制
 void Player::CaptureEnemy()
 {
 	//触手移动部分
@@ -214,13 +213,15 @@ void Player::DamageCheck()
 
 void Player::AniPlayerUP()
 {
-	//玩家抓到敌人加血特效
+	//玩家抓到敌人回血特效
 	int frameTime = 100;
 	if (_isPlayerHpPlus) {
 		if (!Timers((int)LoadRes::_spAniPlayerHpPlus.size() * frameTime, 14)) {
-			FrameAnimation(_posX, _posY + 7, LoadRes::_spAniPlayerHpPlus, frameTime, 4);
+			FrameAnimation(_posX, _posY + 7, LoadRes::_spAniPlayerHpPlus, frameTime, 3);
+			FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32 + 5, LoadRes::_spAniPlayerHpPlus2, frameTime, 4);
 		}
 		else {
+			SetFrameIndex(3, 0);
 			SetFrameIndex(4, 0);
 			_isPlayerHpPlus = false;
 		}
