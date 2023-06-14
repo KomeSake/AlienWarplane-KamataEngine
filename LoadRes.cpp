@@ -1,5 +1,7 @@
 ﻿#include "LoadRes.h"
 
+LoadRes::SpriteList LoadRes::_spriteList;
+
 int LoadRes::_spPlayer = 0;
 int LoadRes::_spPlayerTentaclesOne = 0;
 int LoadRes::_spPlayerTentaclesTwo = 0;
@@ -16,7 +18,8 @@ std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
 std::map<int, int> LoadRes::_spAniPlayerFire;
 std::map<int, int> LoadRes::_spAniEnemyFire;
 std::map<int, int> LoadRes::_spAniPlayerHpPlus;
-std::map<int, int> LoadRes::_spAniPlayerHpPlus2;
+
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode_new;
 
 int LoadRes::_spUIBg = 0;
 std::map<int, int> LoadRes::_spUICaptureVessel;
@@ -81,7 +84,13 @@ void LoadRes::LoadResNovice()
 	_spAniPlayerHpPlus[7] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus8.png");
 	_spAniPlayerHpPlus[8] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus9.png");
 
-	_spAniPlayerHpPlus2 = _spAniPlayerHpPlus;
+	//注意Width要填的是整个图集的长度(所以如果是横条图，x 就应该是 i * h )
+	for (int i = 0; i < 10; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Explode.png");
+		int w = 640, h = 64;
+		int x = i * h, y = 0;
+		_spAniExplode_new[i] = { sprite,x,y,w,h };
+	}
 
 	//UI
 	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");

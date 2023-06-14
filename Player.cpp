@@ -218,7 +218,7 @@ void Player::AniPlayerUP()
 	if (_isPlayerHpPlus) {
 		if (!Timers((int)LoadRes::_spAniPlayerHpPlus.size() * frameTime, 14)) {
 			FrameAnimation(_posX, _posY + 7, LoadRes::_spAniPlayerHpPlus, frameTime, 3);
-			FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32 + 5, LoadRes::_spAniPlayerHpPlus2, frameTime, 4);
+			FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32 + 5, LoadRes::_spAniPlayerHpPlus, frameTime, 4);
 		}
 		else {
 			SetFrameIndex(3, 0);

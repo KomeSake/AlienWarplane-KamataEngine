@@ -81,8 +81,9 @@ void Enemy::Move()
 		if (!Timers(200, 12)) {
 			FrameAnimation(_posX, _posY, _sprite, RED);
 		}
-		if (!Timers((int)(LoadRes::_spAniExplode.size() + 2) * 50, 16)) {
-			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
+		if (!Timers((int)(LoadRes::_spAniExplode_new.size() + 3) * 50, 16)) {
+			//FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
+			FrameAnimation_New(_posX, _posY, LoadRes::_spAniExplode_new, 50, 1);
 		}
 		else {
 			SetFrameIndex(1, 0);

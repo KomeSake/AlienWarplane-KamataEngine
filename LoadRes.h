@@ -5,6 +5,16 @@
 class LoadRes
 {
 public:
+	//图集结构体
+	static struct SpriteList
+	{
+		int sprite = 0;
+		int x = 0;
+		int y = 0;
+		int w = 0;
+		int h = 0;
+	}_spriteList;
+
 	//Sprite贴图
 	static int _spPlayer, _spPlayerTentaclesOne, _spPlayerTentaclesTwo;
 	static int _spEnemy, _spEnemy2;
@@ -16,7 +26,8 @@ public:
 	static std::map<int, int> _spAniPlayerFire;
 	static std::map<int, int> _spAniEnemyFire;
 	static std::map<int, int> _spAniPlayerHpPlus;
-	static std::map<int, int> _spAniPlayerHpPlus2;
+
+	static std::map<int, SpriteList> _spAniExplode_new;
 
 	//UI
 	static int _spUIBg;
