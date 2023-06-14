@@ -22,6 +22,7 @@ int LoadRes::_spUIBg = 0;
 std::map<int, int> LoadRes::_spUICaptureVessel;
 std::map<int, int> LoadRes::_spUIHpVessel;
 std::map<int, int> LoadRes::_spUIStartScene;
+std::map<int, int> LoadRes::_spUIGameOverScene;
 
 void LoadRes::LoadResNovice()
 {
@@ -100,4 +101,14 @@ void LoadRes::LoadResNovice()
 	_spUIStartScene[3] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/3.png");
 	_spUIStartScene[4] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/4.png");
 	_spUIStartScene[5] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/5.png");
+
+	//_spUIGameOverScene[0] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/0.png");
+	//_spUIGameOverScene[1] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/1.png");
+	//_spUIGameOverScene[2] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/2.png");
+	//_spUIGameOverScene[3] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/3.png");
+	//_spUIGameOverScene[4] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/4.png");
+	//_spUIGameOverScene[5] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/5.png");
+	//_spUIGameOverScene[6] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/6.png");
+	//_spUIGameOverScene[7] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/7.png");
+	//奶奶的，这个读取本地图片的函数好像是有上限的，读取太多居然会溢出
 }

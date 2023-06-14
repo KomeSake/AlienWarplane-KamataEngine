@@ -10,6 +10,7 @@ Scene::Scene()
 	Game_HpVesselObj = new UI_HpVessel;
 
 	Start_Obj = new UI_StartScene;
+	GameOver_Obj = new UI_GameOverScene;
 }
 
 void Scene::ScreenGameDown()
@@ -33,4 +34,9 @@ void Scene::SceneStart()
 	if (Start_Obj->_isButton_Start) {
 		_sceneIndex = Game;
 	}
+}
+
+void Scene::GameOverStart()
+{
+	GameOver_Obj->UIOpen();
 }

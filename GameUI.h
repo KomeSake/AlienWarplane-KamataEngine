@@ -58,3 +58,20 @@ public:
 	void UIOpen();
 	bool _isButton_Start = false;
 };
+
+//游戏结束界面对象
+class UI_GameOverScene
+	:public GameUI
+{
+private:
+	float _titlePosX = 0, _titlePosY = 0;
+	float _buttonPosX_Restart = 0, _buttonPosY_Restart = 0;
+	float _buttonPosX_Back = 0, _buttonPosY_Back = 0;
+	float _buttonW = 0, _buttonH = 0;
+	float _buttonTextW_Restart = 0;
+	float _buttonTextW_Back = 0;
+
+public:
+	UI_GameOverScene();
+	void UIOpen();
+};

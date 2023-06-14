@@ -180,3 +180,42 @@ void UI_StartScene::UIOpen()
 	FrameAnimation(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
 	FrameAnimation(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
 }
+
+UI_GameOverScene::UI_GameOverScene()
+{
+	//因为读取图片的函数有错误，这个界面的具体数据还没有去读取
+	_posX = 0, _posY = 0;
+	_width = 450, _higth = 780;
+	_color = WHITE;
+
+	_titlePosX = 0, _titlePosY = 50;
+	_buttonW = 133, _buttonH = 55;
+	_buttonPosX_Restart = 450.f / 2 - _buttonW / 2, _buttonPosY_Restart = 450;
+	_buttonPosX_Back = 450.f / 2 - _buttonW / 2, _buttonPosY_Back = 600;
+	_buttonTextW_Restart = 105;
+	_buttonTextW_Back = 67;
+}
+
+void UI_GameOverScene::UIOpen()
+{
+	FrameAnimation(0, 0, LoadRes::_spUIStartScene[0], WHITE);
+	FrameAnimation(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
+	FrameAnimation(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIStartScene[2], WHITE);
+	FrameAnimation(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIStartScene[2], WHITE);
+	int mouseX = 0, mouseY = 0;
+	Novice::GetMousePosition(&mouseX, &mouseY);
+	if (mouseX >= _buttonPosX_Restart && mouseX <= _buttonPosX_Restart + _buttonW
+		&& mouseY >= _buttonPosY_Restart && mouseY <= _buttonPosY_Restart + _buttonH) {
+		FrameAnimation(_buttonPosX_Restart - 8, _buttonPosX_Restart - 7, LoadRes::_spUIStartScene[5], WHITE);
+		//点击Start按钮触发效果
+		if (Novice::IsPressMouse(0)) {
+		}
+	}
+	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
+		&& mouseY >= _buttonPosY_Back && mouseY <= _buttonPosY_Back + _buttonH) {
+		FrameAnimation(_buttonPosX_Back - 8, _buttonPosY_Back - 7, LoadRes::_spUIStartScene[5], WHITE);
+		//点击Help按钮触发效果
+	}
+	FrameAnimation(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart - 15, LoadRes::_spUIStartScene[3], WHITE);
+	FrameAnimation(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back - 15, LoadRes::_spUIStartScene[4], WHITE);
+}
