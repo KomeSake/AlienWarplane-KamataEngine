@@ -1,7 +1,10 @@
 ﻿#include "Scene.h"
 
+Scene::SceneName Scene::_sceneIndex = Scene::Start;
 Scene::Scene()
 {
+	_sceneIndex = Start;
+
 	Game_BGObj = new UI_BackGround;
 	Game_CaptureVesselObj = new UI_CaptureVessel;
 	Game_HpVesselObj = new UI_HpVessel;
@@ -27,4 +30,7 @@ void Scene::ScreenGameUp(Player obj)
 void Scene::SceneStart()
 {
 	Start_Obj->UIOpen();
+	if (Start_Obj->_isButton_Start) {
+		_sceneIndex = Game;
+	}
 }

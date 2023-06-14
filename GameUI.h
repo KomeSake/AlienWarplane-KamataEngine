@@ -7,7 +7,7 @@ class GameUI
 {
 	//我的UI的父类和子类都写在这里了，虽然会有点拥挤，但是UI的代码量应该都不大
 	//所有东西都Public出来了，UI应该没什么问题，就不弄太复杂了
-public:
+protected:
 	float _posX = 0, _posY = 0;
 	float _speed = 5;
 	float _width = 0, _higth = 0;
@@ -46,13 +46,15 @@ public:
 class UI_StartScene
 	:public GameUI
 {
-public:
+private:
 	float _titlePosX = 0, _titlePosY = 0;
 	float _buttonPosX_Start = 0, _buttonPosY_Start = 0;
 	float _buttonPosX_Help = 0, _buttonPosY_Help = 0;
 	float _buttonW = 0, _buttonH = 0;
 	float _buttonTextW_Start = 0;
 	float _buttonTextW_Help = 0;
+public:
 	UI_StartScene();
 	void UIOpen();
+	bool _isButton_Start = false;
 };

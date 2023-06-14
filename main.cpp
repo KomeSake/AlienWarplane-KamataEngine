@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player PlayerObj;
 	Level LevelObj;
 
-	Scene ScreenObj;
+	Scene SceneObj;
 	DataMessage DataMessageObj(PlayerObj);
 
 
@@ -45,32 +45,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		ScreenObj.ScreenGameDown();
+		switch (SceneObj._sceneIndex) {
+		case Scene::Game:
+			//游戏开始
+			SceneObj.ScreenGameDown();
 
-		PlayerObj.DamageCheck();
-		PlayerObj.Move(keys);
-		PlayerObj.Attack(keys);
-		PlayerObj.CaptureEnemy();
+			PlayerObj.DamageCheck();
+			PlayerObj.Move(keys);
+			PlayerObj.Attack(keys);
+			PlayerObj.CaptureEnemy();
 
-		BulletManager::BulletUpdata();
-		EnemyManager::EnemyUpdata();
+			BulletManager::BulletUpdata();
+			EnemyManager::EnemyUpdata();
 
-		LevelObj.LevelDirector();
-		DataMessageObj.MessageCheck();
+			LevelObj.LevelDirector();
+			DataMessageObj.MessageCheck();
 
-		///
-		/// ↑更新処理ここまで
-		///
-
-		///
-		/// ↓描画処理ここから
-		///
-
-		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
-		PlayerObj.AniPlayerUP();
-		ScreenObj.ScreenGameUp(PlayerObj);
-		//ScreenObj.SceneStart();
-
+			PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
+			PlayerObj.AniPlayerUP();
+			SceneObj.ScreenGameUp(PlayerObj);
+			break;
+		case Scene::Start:
+			//开始界面
+			SceneObj.SceneStart();
+			break;
+		case Scene::GameOver:
+			//结束界面
+			break;
+		}
 
 		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";
 		//OutputDebugStringA(output.c_str());

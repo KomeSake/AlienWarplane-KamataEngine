@@ -167,7 +167,7 @@ void Player::CaptureEnemy()
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
 		if (_enemyCaptured->GetIsLive() == false) {
 			//被抓住的敌人死亡后先播放爆炸动画，然后在更新判定条件
-			if (!Timers((int)(LoadRes::_spAniExplode.size()) * 50, 12)) {
+			if (!Timers((int)(LoadRes::_spAniExplode.size() + 2) * 50, 12)) {
 				FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 64, LoadRes::_spAniExplode, 50, 2);
 			}
 			else {

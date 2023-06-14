@@ -162,9 +162,21 @@ void UI_StartScene::UIOpen()
 	FrameAnimation(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
 	FrameAnimation(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene[2], WHITE);
 	FrameAnimation(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene[2], WHITE);
-
-	//这里写鼠标点击的判断条件
-
+	int mouseX = 0, mouseY = 0;
+	Novice::GetMousePosition(&mouseX, &mouseY);
+	if (mouseX >= _buttonPosX_Start && mouseX <= _buttonPosX_Start + _buttonW
+		&& mouseY >= _buttonPosY_Start && mouseY <= _buttonPosY_Start + _buttonH) {
+		FrameAnimation(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene[5], WHITE);
+		//点击Start按钮触发效果
+		if (Novice::IsPressMouse(0)) {
+			_isButton_Start = true;
+		}
+	}
+	if (mouseX >= _buttonPosX_Help && mouseX <= _buttonPosX_Help + _buttonW
+		&& mouseY >= _buttonPosY_Help && mouseY <= _buttonPosY_Help + _buttonH) {
+		FrameAnimation(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene[5], WHITE);
+		//点击Help按钮触发效果
+	}
 	FrameAnimation(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
 	FrameAnimation(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
 }

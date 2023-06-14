@@ -33,7 +33,7 @@ protected:
 
 public:
 	void FrameAnimation(float x, float y, int sprite, unsigned int color);
-	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下
+	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下(注意时间不是百分百准确的，需要自行微调一下)
 	void FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index);
 	void FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index);
 	float GetPosX();

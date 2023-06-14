@@ -99,4 +99,5 @@ void LoadRes::LoadResNovice()
 	_spUIStartScene[2] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/2.png");
 	_spUIStartScene[3] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/3.png");
 	_spUIStartScene[4] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/4.png");
+	_spUIStartScene[5] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/5.png");
 }
