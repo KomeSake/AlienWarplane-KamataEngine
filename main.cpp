@@ -69,7 +69,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
 		PlayerObj.AniPlayerUP();
 		ScreenObj.ScreenGameUp(PlayerObj);
-		ScreenObj.SceneStart();
+		//ScreenObj.SceneStart();
 
 
 		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";

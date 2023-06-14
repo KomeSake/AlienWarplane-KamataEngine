@@ -49,6 +49,7 @@ void LoadRes::LoadResNovice()
 	_spAniExplode[6] = Novice::LoadTexture("./Resources/Textures/Animation/Explode7.png");
 	_spAniExplode[7] = Novice::LoadTexture("./Resources/Textures/Animation/Explode8.png");
 	_spAniExplode[8] = Novice::LoadTexture("./Resources/Textures/Animation/Explode9.png");
+	_spAniExplode[9] = Novice::LoadTexture("./Resources/Textures/Animation/Explode10.png");
 
 	_spAniPlayerTentaclesTwo[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo1.png");
 	_spAniPlayerTentaclesTwo[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo2.png");
