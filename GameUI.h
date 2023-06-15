@@ -66,6 +66,8 @@ class UI_GameOverScene
 {
 private:
 	float _titlePosX = 0, _titlePosY = 0;
+	float _scoreX = 0, _scoreY = 0;
+	float _scoreW = 0, _scoreH = 0;
 	float _buttonPosX_Restart = 0, _buttonPosY_Restart = 0;
 	float _buttonPosX_Back = 0, _buttonPosY_Back = 0;
 	float _buttonW = 0, _buttonH = 0;

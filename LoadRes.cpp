@@ -6,11 +6,14 @@ int LoadRes::_spPlayer = 0;
 int LoadRes::_spPlayerTentacles = 0;
 int LoadRes::_spEnemy = 0;
 int LoadRes::_spEnemy2 = 0;
+int LoadRes::_spEnemy3 = 0;
 int LoadRes::_spBullet_player = 0;
 int LoadRes::_spBullet_enemy = 0;
 int LoadRes::_spBullet_enemy2 = 0;
+int LoadRes::_spBullet_enemy3 = 0;
 int LoadRes::_spBullet_enemyCapture = 0;
 int LoadRes::_spBullet_enemy2Capture = 0;
+int LoadRes::_spBullet_enemy3Capture = 0;
 
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerTentacles;
@@ -33,12 +36,15 @@ void LoadRes::LoadResNovice()
 
 	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
 	_spEnemy2 = Novice::LoadTexture("./Resources/Textures/Enemy2.png");
+	_spEnemy3 = Novice::LoadTexture("./Resources/Textures/Enemy3.png");
 
 	_spBullet_player = Novice::LoadTexture("./Resources/Textures/Bullet.png");
 	_spBullet_enemy = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy.png");
 	_spBullet_enemyCapture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy(Captured).png");
 	_spBullet_enemy2 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2.png");
 	_spBullet_enemy2Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2(Captured).png");
+	_spBullet_enemy3 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy3.png");
+	_spBullet_enemy3Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy3(Captured).png");
 
 	//动画
 	for (int i = 0; i < 10; i++) {
@@ -53,7 +59,7 @@ void LoadRes::LoadResNovice()
 		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Tentacles.png");
 		int w = 64, h = 64;
 		int x = i * w, y = 0;
-		int listW = 640, listH = 64;
+		int listW = 256, listH = 64;
 		_spAniPlayerTentacles[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
@@ -102,13 +108,12 @@ void LoadRes::LoadResNovice()
 	_spUIStartScene[4] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/4.png");
 	_spUIStartScene[5] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/5.png");
 
-	//_spUIGameOverScene[0] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/0.png");
-	//_spUIGameOverScene[1] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/1.png");
-	//_spUIGameOverScene[2] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/2.png");
-	//_spUIGameOverScene[3] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/3.png");
-	//_spUIGameOverScene[4] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/4.png");
-	//_spUIGameOverScene[5] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/5.png");
-	//_spUIGameOverScene[6] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/6.png");
-	//_spUIGameOverScene[7] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/7.png");
-	//奶奶的，这个读取本地图片的函数好像是有上限的，读取太多居然会溢出
+	_spUIGameOverScene[0] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/0.png");
+	_spUIGameOverScene[1] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/1.png");
+	_spUIGameOverScene[2] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/2.png");
+	_spUIGameOverScene[3] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/3.png");
+	_spUIGameOverScene[4] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/4.png");
+	_spUIGameOverScene[5] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/5.png");
+	_spUIGameOverScene[6] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/6.png");
+	_spUIGameOverScene[7] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/7.png");
 }

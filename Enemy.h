@@ -9,7 +9,8 @@ class Enemy :
 public:
 	static enum EnemyType {
 		normal,
-		laser
+		laser,
+		ufo,
 	}enemyType;
 
 	//敌人初始化里面，我还少写了一个要根据不同的类型做一些特殊的初始化操作
@@ -54,6 +55,7 @@ public:
 
 	static std::queue<Enemy*> _enemyIdiePool_normal;
 	static std::queue<Enemy*> _enemyIdiePool_laser;
+	static std::queue<Enemy*> _enemyIdiePool_ufo;
 
 	static Enemy* AcquireEnemy(float bornX, float bornY, Enemy::EnemyType type);
 	static void ReleaseEnemy(Enemy* enemy);

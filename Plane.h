@@ -18,13 +18,6 @@ protected:
 	int _sprite = 0;
 	unsigned int _color = WHITE;
 
-	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、
-	int Timers(int milli, int index);
-	int FrameTimers(int milli, int index);
-	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
-
-	//受伤抖动动画(坐标x，坐标y，移动Y距离，变化颜色);函数需放在对象移动方法中，通过播放的int来控制
-	void GetHurtAni(float& x, float& y, float dirY, unsigned int color);
 	bool _isGetHurtAniStart = false;						//初次进入函数判断
 	float _getHurtPosX = 0, _getHurtPosY = 0;				//用以记录原始位置
 	float _getHurtSpeedX = 0, _getHurtSpeedY = 0;			//每帧抖动速度
@@ -32,6 +25,14 @@ protected:
 	int _aniMode_getHurt = 0;								//0：不播放，1：播放开始，2：播放中
 
 public:
+	//0~10号位是用来给Plane类用的；0：受伤抖动反馈、
+	int Timers(int milli, int index);
+	int FrameTimers(int milli, int index);
+	void MoveToTarget(float& objX, float& objY, float targetX, float targetY, float speed);
+
+	//受伤抖动动画(坐标x，坐标y，移动Y距离，变化颜色);函数需放在对象移动方法中，通过播放的int来控制
+	void GetHurtAni(float& x, float& y, float dirY, unsigned int color);
+
 	void FrameTexture(float x, float y, int sprite, unsigned int color);
 	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下(注意时间不是百分百准确的，需要自行微调一下)
 	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index);

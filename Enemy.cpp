@@ -60,6 +60,12 @@ void Enemy::Initial(float x, float y, int type)
 		_attackTime_normal2 = 100;
 		_normalSum = 10;
 		break;
+	case ufo:
+		_type = ufo;
+		_sprite = LoadRes::_spEnemy3;
+		_hp = 2;
+		_speed = 5;
+		break;
 	}
 }
 
@@ -97,7 +103,7 @@ void Enemy::Move()
 
 void Enemy::Attack(float x, float y, bool isCapture)
 {
-	if (_isLive) {
+	if (_isLive && _posY > 30) {
 		if (!Timers(_attackTime_normal1, 17)) {
 			if (_normalCount < _normalSum) {
 				if (Timers(_attackTime_normal2, 13)) {
@@ -111,6 +117,9 @@ void Enemy::Attack(float x, float y, bool isCapture)
 						case laser:
 							bullet = BulletManager::AcquireBullet(Bullet::laser);
 							break;
+						case ufo:
+							bullet = BulletManager::AcquireBullet(Bullet::ufo);
+							break;
 						}
 					}
 					else {
@@ -120,6 +129,9 @@ void Enemy::Attack(float x, float y, bool isCapture)
 							break;
 						case laser:
 							bullet = BulletManager::AcquireBullet(Bullet::laserCapture);
+							break;
+						case ufo:
+							bullet = BulletManager::AcquireBullet(Bullet::ufoCapture);
 							break;
 						}
 					}
@@ -186,6 +198,9 @@ void Enemy::CaptureFire(float x, float y)
 		case laser:
 			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy2, 1, 1, 3.14159f, _color);
 			break;
+		case ufo:
+			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy3, 1, 1, 3.14159f, _color);
+			break;
 		}
 	}
 }
@@ -209,6 +224,7 @@ Enemy::Direction Enemy::MoveAI()
 std::vector<Enemy*> EnemyManager::_enemyUpdateVector;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_normal;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_laser;
+std::queue<Enemy*> EnemyManager::_enemyIdiePool_ufo;
 void EnemyManager::EnemyUpdata()
 {
 	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
@@ -245,6 +261,18 @@ Enemy* EnemyManager::AcquireEnemy(float bornX, float bornY, Enemy::EnemyType typ
 			return enemy;
 		}
 		break;
+	case Enemy::ufo:
+		if (EnemyManager::_enemyIdiePool_ufo.empty()) {
+			Enemy* enemy = new Enemy(bornX, bornY, type);
+			return enemy;
+		}
+		else {
+			Enemy* enemy = EnemyManager::_enemyIdiePool_ufo.front();
+			enemy->Initial(bornX, bornY, type);
+			EnemyManager::_enemyIdiePool_ufo.pop();
+			return enemy;
+		}
+		break;
 	}
 	return nullptr;
 }
@@ -264,6 +292,13 @@ void EnemyManager::ReleaseEnemy(Enemy* enemy)
 		if (it != EnemyManager::_enemyUpdateVector.end()) {
 			EnemyManager::_enemyUpdateVector.erase(it);
 			EnemyManager::_enemyIdiePool_laser.push(enemy);
+		}
+		break; }
+	case Enemy::ufo: {
+		auto it = std::find(EnemyManager::_enemyUpdateVector.begin(), EnemyManager::_enemyUpdateVector.end(), enemy);
+		if (it != EnemyManager::_enemyUpdateVector.end()) {
+			EnemyManager::_enemyUpdateVector.erase(it);
+			EnemyManager::_enemyIdiePool_ufo.push(enemy);
 		}
 		break; }
 	}

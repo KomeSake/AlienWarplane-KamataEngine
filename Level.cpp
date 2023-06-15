@@ -11,8 +11,9 @@ Level::Level()
 	timeEnd = clock();
 
 	_enemyWeightVec = {
-		{Enemy::normal,7},
-		{Enemy::laser,3}
+		{Enemy::normal,5},
+		{Enemy::laser,2},
+		{Enemy::ufo,3}
 	};
 }
 

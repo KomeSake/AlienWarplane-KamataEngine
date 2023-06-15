@@ -3,13 +3,15 @@
 #include <queue>
 #include <vector>
 #include "LoadRes.h"
+#include "Plane.h"
+
 class Bullet
 {
 protected:
-	float _posX;
-	float _posY;
-	float _width;
-	float _higth;
+	float _posX = 0, _posY = 0;
+	float _width = 0, _higth = 0;
+	float _scaleX = 1, _scaleY = 1;
+	unsigned int _color = WHITE;
 
 	int _damage;
 	float _speed;
@@ -17,8 +19,7 @@ protected:
 	int _type;
 	bool _isFire;
 
-	void FrameAnimation(float x, float y, int sprite);
-
+	void FrameTexture(float x, float y, int sprite);
 public:
 	static enum BulletType {
 		player,
@@ -26,6 +27,8 @@ public:
 		enemyCapture,
 		laser,
 		laserCapture,
+		ufo,
+		ufoCapture,
 	}bulletType;
 
 	Bullet(BulletType type);
@@ -57,6 +60,8 @@ public:
 	static std::queue<Bullet*> _bulletIdiePool_enemyCapture;
 	static std::queue<Bullet*> _bulletIdiePool_laser;
 	static std::queue<Bullet*> _bulletIdiePool_laserCapture;
+	static std::queue<Bullet*> _bulletIdiePool_ufo;
+	static std::queue<Bullet*> _bulletIdiePool_ufoCapture;
 
 
 	static Bullet* AcquireBullet(Bullet::BulletType type);

@@ -35,50 +35,57 @@ void Player::Move(char keys[])
 {
 	float spriteScaleX = 1, spriteScaleY = 1;
 	//移动部分
-	if (keys[DIK_W] && keys[DIK_A]) {
-		spriteScaleY = 2;
-		_posX -= _speed * 0.7f;
-		_posY -= _speed * 0.7f;
+	if (_hp > 0) {
+		if (keys[DIK_W] && keys[DIK_A]) {
+			spriteScaleY = 2;
+			_posX -= _speed * 0.7f;
+			_posY -= _speed * 0.7f;
+		}
+		else if (keys[DIK_W] && keys[DIK_D]) {
+			spriteScaleY = 2;
+			_posX += _speed * 0.7f;
+			_posY -= _speed * 0.7f;
+		}
+		else if (keys[DIK_S] && keys[DIK_A]) {
+			_posX -= _speed * 0.7f;
+			_posY += _speed * 0.7f;
+		}
+		else if (keys[DIK_S] && keys[DIK_D]) {
+			_posX += _speed * 0.7f;
+			_posY += _speed * 0.7f;
+		}
+		else if (keys[DIK_W]) {
+			spriteScaleY = 2;
+			_posY -= _speed;
+		}
+		else if (keys[DIK_S]) {
+			spriteScaleY = 0.7f;
+			_posY += _speed;
+		}
+		else if (keys[DIK_A]) {
+			_posX -= _speed;
+		}
+		else if (keys[DIK_D]) {
+			_posX += _speed;
+		}
+		//画面内限制部分
+		if (_posX <= 0) {
+			_posX = 0;
+		}
+		else if (_posX >= 450.f - _width) {
+			_posX = 450.f - _width;
+		}
+		if (_posY <= 0) {
+			_posY = 0;
+		}
+		else if (_posY >= 780.f - _higth) {
+			_posY = 780.f - _higth;
+		}
 	}
-	else if (keys[DIK_W] && keys[DIK_D]) {
-		spriteScaleY = 2;
-		_posX += _speed * 0.7f;
-		_posY -= _speed * 0.7f;
-	}
-	else if (keys[DIK_S] && keys[DIK_A]) {
-		_posX -= _speed * 0.7f;
-		_posY += _speed * 0.7f;
-	}
-	else if (keys[DIK_S] && keys[DIK_D]) {
-		_posX += _speed * 0.7f;
-		_posY += _speed * 0.7f;
-	}
-	else if (keys[DIK_W]) {
-		spriteScaleY = 2;
-		_posY -= _speed;
-	}
-	else if (keys[DIK_S]) {
-		spriteScaleY = 0.7f;
-		_posY += _speed;
-	}
-	else if (keys[DIK_A]) {
-		_posX -= _speed;
-	}
-	else if (keys[DIK_D]) {
-		_posX += _speed;
-	}
-	//画面内限制部分
-	if (_posX <= 0) {
-		_posX = 0;
-	}
-	if (_posX >= 450.f - _width) {
-		_posX = 450.f - _width;
-	}
-	if (_posY <= 0) {
-		_posY = 0;
-	}
-	if (_posY >= 780.f - _higth) {
-		_posY = 780.f - _higth;
+	else {
+		//被打爆，缓缓的往下飞
+		_posY += 1;
+		_tentaclePosY += 2;
 	}
 
 	//动画效果部分
@@ -115,22 +122,23 @@ void Player::CaptureEnemy()
 	else if (mouseY < 0) {
 		mouseY = 0;
 	}
-	switch (_isCaptureCD) {
-	case false:
-		MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, _captureSpeed);
-		break;
-	case true:
-		MoveToTarget(_tentaclePosX, _tentaclePosY, _posX + _width / 2, _posY + _higth / 2, _captureSpeed / 2);
-		break;
+	if (_hp > 0) {
+		switch (_isCaptureCD) {
+		case false:
+			MoveToTarget(_tentaclePosX, _tentaclePosY, (float)mouseX, (float)mouseY, _captureSpeed);
+			break;
+		case true:
+			MoveToTarget(_tentaclePosX, _tentaclePosY, _posX + _width / 2, _posY + _higth / 2, _captureSpeed / 2);
+			break;
+		}
+		//画3条连线来充当和触手的链接(有空改成长方体试一试)
+		Novice::DrawLine((int)_posX + 32, (int)_posY + 32, (int)_tentaclePosX, (int)_tentaclePosY, RED);
+		Novice::DrawLine((int)_posX + 35, (int)_posY + 35, (int)_tentaclePosX + 2, (int)_tentaclePosY + 2, BLUE);
+		Novice::DrawLine((int)_posX + 30, (int)_posY + 30, (int)_tentaclePosX - 2, (int)_tentaclePosY - 2, GREEN);
 	}
 
-	//画3条连线来充当和触手的链接(有空改成长方体试一试)
-	Novice::DrawLine((int)_posX + 32, (int)_posY + 32, (int)_tentaclePosX, (int)_tentaclePosY, RED);
-	Novice::DrawLine((int)_posX + 35, (int)_posY + 35, (int)_tentaclePosX + 2, (int)_tentaclePosY + 2, BLUE);
-	Novice::DrawLine((int)_posX + 30, (int)_posY + 30, (int)_tentaclePosX - 2, (int)_tentaclePosY - 2, GREEN);
-
 	//触手的机制判断与绘图部分
-	//触手可以抓人
+	//触手可以抓人阶段
 	if (Novice::IsPressMouse(1) && !_isCapture && !_isCaptureCD) {
 		//碰撞判断
 		float tentacleW = 64, tentacleH = 64;
@@ -155,13 +163,15 @@ void Player::CaptureEnemy()
 				case Enemy::laser:
 					_enemyCaptured->SetHp(1, 1.5f);
 					_captureSpeed = 2;
+				case Enemy::ufo:
+					_enemyCaptured->SetHp(1, 0.5f);
 				}
 			}
 		}
 		//触手夹子的帧动画
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentacles, 100, 1);
 	}
-	//触手已经夹住敌人
+	//触手已经夹住敌人阶段
 	else if (_isCapture && !_isCaptureCD) {
 		_enemyCaptured->CaptureFire(_tentaclePosX, _tentaclePosY);
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, WHITE);
@@ -190,7 +200,7 @@ void Player::CaptureEnemy()
 		}
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, 0x464646FF);
 	}
-	//触手正常情况绘图
+	//触手正常情况绘图阶段
 	else {
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, WHITE);
 	}
@@ -206,7 +216,9 @@ void Player::DamageCheck()
 			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
 			_hp -= element->GetDamage();
-			//血没了这里需要做一个爆炸的动画效果，和传出一条死亡信息
+			if (_hp <= 0) {
+				//血没了这里需要做一个爆炸的动画效果，和传出一条死亡信息
+			}
 		}
 	}
 }
@@ -225,6 +237,10 @@ void Player::AniPlayerUP()
 			SetFrameIndex(4, 0);
 			_isPlayerHpPlus = false;
 		}
+	}
+	if (_hp <= 0) {
+		FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 5);
+		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniExplode, 50, 5);
 	}
 }
 
