@@ -26,17 +26,27 @@ void Scene::ScreenGameUp(Player obj)
 
 	//生命值UI
 	Game_HpVesselObj->UIOpen(obj);
+
+	//检测玩家状态
+	if (obj.GetHp() <= 0) {
+		_sceneIndex = GameOver;
+	}
 }
 
 void Scene::SceneStart()
 {
 	Start_Obj->UIOpen();
 	if (Start_Obj->_isButton_Start) {
-		_sceneIndex = Game;
+		_sceneIndex = Loading;
+		Start_Obj->_isButton_Start = false;
 	}
 }
 
 void Scene::GameOverStart()
 {
 	GameOver_Obj->UIOpen();
+	if (GameOver_Obj->_isButton_Restart) {
+		_sceneIndex = Loading;
+		GameOver_Obj->_isButton_Restart = false;
+	}
 }

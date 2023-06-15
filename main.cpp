@@ -25,11 +25,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//自己的变量
 	LoadRes::LoadResNovice();
-	Player PlayerObj;
-	Level LevelObj;
+	Player* PlayerObj = new Player;
+	Level* LevelObj = nullptr;
 
 	Scene SceneObj;
-	DataMessage DataMessageObj(PlayerObj);
+	DataMessage DataMessageObj;
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -45,24 +46,35 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		switch (SceneObj._sceneIndex) {
+		case Scene::Loading:
+			delete PlayerObj;
+			delete LevelObj;
+			BulletManager::_bulletUpdateVector.clear();			//本来还是想用对象池的回收方法的
+			BulletManager::_bulletUpdateVector_enemy.clear();	//但是不知道为什么不管用，所以只可以直接清空了
+			EnemyManager::_enemyUpdateVector.clear();
+			PlayerObj = new Player;
+			LevelObj = new Level;
+			DataMessageObj.Initial(PlayerObj);
+			Scene::_sceneIndex = Scene::Game;
+			break;
 		case Scene::Game:
 			//游戏开始
 			SceneObj.ScreenGameDown();
 
-			PlayerObj.DamageCheck();
-			PlayerObj.Move(keys);
-			PlayerObj.Attack(keys);
-			PlayerObj.CaptureEnemy();
+			PlayerObj->DamageCheck();
+			PlayerObj->Move(keys);
+			PlayerObj->Attack(keys);
+			PlayerObj->CaptureEnemy();
 
 			BulletManager::BulletUpdata();
 			EnemyManager::EnemyUpdata();
 
-			LevelObj.LevelDirector();
+			LevelObj->LevelDirector();
 			DataMessageObj.MessageCheck();
 
-			PlayerObj.FrameTexture(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
-			PlayerObj.AniPlayerUP();
-			SceneObj.ScreenGameUp(PlayerObj);
+			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
+			PlayerObj->AniPlayerUP();
+			SceneObj.ScreenGameUp(*PlayerObj);
 			break;
 		case Scene::Start:
 			//开始界面
@@ -70,6 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case Scene::GameOver:
 			//结束界面
+			SceneObj.GameOverStart();
 			break;
 		}
 

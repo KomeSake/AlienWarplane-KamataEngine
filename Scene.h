@@ -10,6 +10,7 @@ class Scene
 public:
 	static enum SceneName
 	{
+		Loading,	//这个会重置游戏，所以开始新游戏的时候请载入这个
 		Start,
 		Game,
 		GameOver,

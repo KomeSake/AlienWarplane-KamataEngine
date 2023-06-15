@@ -5,8 +5,8 @@
 class DataMessage
 {
 private:
-	Player& PlayerObj;
+	Player* PlayerObj;
 public:
-	DataMessage(Player& obj) :PlayerObj(obj) {};
+	void Initial(Player* obj);
 	void MessageCheck();
 };

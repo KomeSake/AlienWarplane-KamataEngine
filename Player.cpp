@@ -216,9 +216,6 @@ void Player::DamageCheck()
 			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
 			_hp -= element->GetDamage();
-			if (_hp <= 0) {
-				//血没了这里需要做一个爆炸的动画效果，和传出一条死亡信息
-			}
 		}
 	}
 }
@@ -238,10 +235,16 @@ void Player::AniPlayerUP()
 			_isPlayerHpPlus = false;
 		}
 	}
+	//玩家死亡爆炸特效
 	if (_hp <= 0) {
 		FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 5);
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniExplode, 50, 5);
 	}
+}
+
+int Player::GetHp()
+{
+	return _hp;
 }
 
 int Player::GetCapturedValue()

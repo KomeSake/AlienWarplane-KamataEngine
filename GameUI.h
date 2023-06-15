@@ -5,6 +5,8 @@
 
 class GameUI
 {
+	//这个类只用来控制UI逻辑，如果想要转换界面在，在自身上设置一共开关。
+	// 外面的Scene类检测到这个开关被打开就转换界面即可
 	//我的UI的父类和子类都写在这里了，虽然会有点拥挤，但是UI的代码量应该都不大
 	//所有东西都Public出来了，UI应该没什么问题，就不弄太复杂了
 protected:
@@ -77,4 +79,5 @@ private:
 public:
 	UI_GameOverScene();
 	void UIOpen();
+	bool _isButton_Restart = false;
 };

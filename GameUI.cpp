@@ -153,6 +153,7 @@ void UI_HpVessel::UIOpen(Player obj)
 
 UI_StartScene::UI_StartScene()
 {
+	_isButton_Start = false;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
@@ -192,6 +193,7 @@ void UI_StartScene::UIOpen()
 
 UI_GameOverScene::UI_GameOverScene()
 {
+	_isButton_Restart = false;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
@@ -220,6 +222,7 @@ void UI_GameOverScene::UIOpen()
 		FrameTexture(_buttonPosX_Restart - 5, _buttonPosY_Restart - 6, LoadRes::_spUIGameOverScene[7], WHITE);
 		//点击Restart按钮触发效果
 		if (Novice::IsPressMouse(0)) {
+			_isButton_Restart = true;
 		}
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
