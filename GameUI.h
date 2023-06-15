@@ -12,7 +12,8 @@ protected:
 	float _speed = 5;
 	float _width = 0, _higth = 0;
 	unsigned int _color = WHITE;
-	void FrameAnimation(float x, float y, int sprite, unsigned int color);
+	void FrameTexture(float x, float y, int sprite, unsigned int color);
+	void FrameTexture(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int index, unsigned int color);
 };
 
 //游戏界面对象

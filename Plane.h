@@ -32,11 +32,10 @@ protected:
 	int _aniMode_getHurt = 0;								//0：不播放，1：播放开始，2：播放中
 
 public:
-	void FrameAnimation(float x, float y, int sprite, unsigned int color);
+	void FrameTexture(float x, float y, int sprite, unsigned int color);
 	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下(注意时间不是百分百准确的，需要自行微调一下)
-	void FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index);
-	void FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index);
-	void FrameAnimation_New(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index);
+	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index);
+	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float scaleX, float scaleY, int frameTime, int index);
 	float GetPosX();
 	float GetPosY();
 	//0：直接设置数值，1：倍率式设置数值

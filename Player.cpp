@@ -159,12 +159,12 @@ void Player::CaptureEnemy()
 			}
 		}
 		//触手夹子的帧动画
-		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentaclesTwo, 100, 1);
+		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentacles, 100, 1);
 	}
 	//触手已经夹住敌人
 	else if (_isCapture && !_isCaptureCD) {
 		_enemyCaptured->CaptureFire(_tentaclePosX, _tentaclePosY);
-		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
+		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, WHITE);
 		if (_enemyCaptured->GetIsLive() == false) {
 			//被抓住的敌人死亡后先播放爆炸动画，然后在更新判定条件
 			if (!Timers((int)(LoadRes::_spAniExplode.size() + 2) * 50, 12)) {
@@ -188,11 +188,11 @@ void Player::CaptureEnemy()
 				_capturedValue = 0;
 			}
 		}
-		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, 0x464646FF);
+		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, 0x464646FF);
 	}
 	//触手正常情况绘图
 	else {
-		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentaclesTwo, 1, 1, 0, WHITE);
+		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, WHITE);
 	}
 }
 

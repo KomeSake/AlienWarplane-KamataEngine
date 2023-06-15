@@ -73,17 +73,16 @@ void Enemy::Move()
 	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
 	if (_isLive) {
 		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, 100, 0);
-		FrameAnimation(_posX, _posY, _sprite, _color);
+		FrameTexture(_posX, _posY, _sprite, _color);
 		_posY += _speed;
 		GetHurtAni(_posX, _posY, -_getHurtSpeedY, RED);
 	}
 	else if (_isLive == false) {
 		if (!Timers(200, 12)) {
-			FrameAnimation(_posX, _posY, _sprite, RED);
+			FrameTexture(_posX, _posY, _sprite, RED);
 		}
-		if (!Timers((int)(LoadRes::_spAniExplode_new.size() + 3) * 50, 16)) {
-			//FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
-			FrameAnimation_New(_posX, _posY, LoadRes::_spAniExplode_new, 50, 1);
+		if (!Timers((int)(LoadRes::_spAniExplode.size() + 3) * 50, 16)) {
+			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
 		}
 		else {
 			SetFrameIndex(1, 0);

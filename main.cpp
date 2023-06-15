@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			LevelObj.LevelDirector();
 			DataMessageObj.MessageCheck();
 
-			PlayerObj.FrameAnimation(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
+			PlayerObj.FrameTexture(PlayerObj.GetPosX(), PlayerObj.GetPosY(), LoadRes::_spPlayer, PlayerObj.GetColor());
 			PlayerObj.AniPlayerUP();
 			SceneObj.ScreenGameUp(PlayerObj);
 			break;

@@ -1,8 +1,17 @@
 ﻿#include "GameUI.h"
 
-void GameUI::FrameAnimation(float x, float y, int sprite, unsigned int color)
+void GameUI::FrameTexture(float x, float y, int sprite, unsigned int color)
 {
 	Novice::DrawSprite((int)x, (int)y, sprite, 1, 1, 0, color);
+}
+
+void GameUI::FrameTexture(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int index, unsigned int color)
+{
+	int arrSprite = sprite[index].sprite;
+	int arrW = sprite[index].w, arrH = sprite[index].h;
+	int arrX = sprite[index].x, arrY = sprite[index].y;
+	int arrSpriteW = sprite[index].listW, arrSpriteH = sprite[index].listH;
+	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrW, arrH, arrSprite, ((float)arrW / (float)arrSpriteW), ((float)arrH / (float)arrSpriteH), 0, color);
 }
 
 UI_BackGround::UI_BackGround()
@@ -21,8 +30,8 @@ void UI_BackGround::BgMove()
 	if (_posY > 780) {
 		_posY = 0;
 	}
-	FrameAnimation(_posX, _posY, LoadRes::_spUIBg, _color);
-	FrameAnimation(_posX, _posY - _higth, LoadRes::_spUIBg, _color);
+	FrameTexture(_posX, _posY, LoadRes::_spUIBg, _color);
+	FrameTexture(_posX, _posY - _higth, LoadRes::_spUIBg, _color);
 }
 
 UI_CaptureVessel::UI_CaptureVessel()
@@ -40,19 +49,19 @@ UI_CaptureVessel::UI_CaptureVessel()
 
 void UI_CaptureVessel::UIOpen(Player obj)
 {
-	FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[0], _color);
+	FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 0, _color);
 	switch (obj.GetCapturedValue()) {
 	case 1:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[1], _color);
+		FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 1, _color);
 		break;
 	case 2:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[2], _color);
+		FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 2, _color);
 		break;
 	case 3:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[3], _color);
+		FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 3, _color);
 		break;
 	case 4:
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[4], _color);
+		FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 4, _color);
 		break;
 	}
 	//CD标记部分
@@ -67,13 +76,13 @@ void UI_CaptureVessel::UIOpen(Player obj)
 				(int)_posX + (int)_cdMove, (int)_posY + (int)_higth,
 				0, 0,
 				(int)_cdMove, (int)_higth,
-				LoadRes::_spUICaptureVessel[5],
+				LoadRes::_spUICaptureVessel_05,
 				WHITE);
 		}
 	}
 	else {
 		_cdMove = 0;
-		FrameAnimation(_posX, _posY, LoadRes::_spUICaptureVessel[5], _color);
+		FrameTexture(_posX, _posY, LoadRes::_spUICaptureVessel, 5, _color);
 	}
 }
 
@@ -89,7 +98,7 @@ UI_HpVessel::UI_HpVessel()
 
 void UI_HpVessel::UIOpen(Player obj)
 {
-	FrameAnimation(_posX, _posY, LoadRes::_spUIHpVessel[0], _color);
+	FrameTexture(_posX, _posY, LoadRes::_spUIHpVessel[0], _color);
 
 	int hpBoxW = 62, hpBoxH = 12;
 	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY - 2;
@@ -158,15 +167,15 @@ UI_StartScene::UI_StartScene()
 
 void UI_StartScene::UIOpen()
 {
-	FrameAnimation(0, 0, LoadRes::_spUIStartScene[0], WHITE);
-	FrameAnimation(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
-	FrameAnimation(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene[2], WHITE);
-	FrameAnimation(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene[2], WHITE);
+	FrameTexture(0, 0, LoadRes::_spUIStartScene[0], WHITE);
+	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
+	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene[2], WHITE);
+	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene[2], WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
 	if (mouseX >= _buttonPosX_Start && mouseX <= _buttonPosX_Start + _buttonW
 		&& mouseY >= _buttonPosY_Start && mouseY <= _buttonPosY_Start + _buttonH) {
-		FrameAnimation(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene[5], WHITE);
 		//点击Start按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Start = true;
@@ -174,11 +183,11 @@ void UI_StartScene::UIOpen()
 	}
 	if (mouseX >= _buttonPosX_Help && mouseX <= _buttonPosX_Help + _buttonW
 		&& mouseY >= _buttonPosY_Help && mouseY <= _buttonPosY_Help + _buttonH) {
-		FrameAnimation(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene[5], WHITE);
 		//点击Help按钮触发效果
 	}
-	FrameAnimation(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
-	FrameAnimation(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
+	FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
+	FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
 }
 
 UI_GameOverScene::UI_GameOverScene()
@@ -198,24 +207,24 @@ UI_GameOverScene::UI_GameOverScene()
 
 void UI_GameOverScene::UIOpen()
 {
-	FrameAnimation(0, 0, LoadRes::_spUIStartScene[0], WHITE);
-	FrameAnimation(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
-	FrameAnimation(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIStartScene[2], WHITE);
-	FrameAnimation(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIStartScene[2], WHITE);
+	FrameTexture(0, 0, LoadRes::_spUIStartScene[0], WHITE);
+	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
+	FrameTexture(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIStartScene[2], WHITE);
+	FrameTexture(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIStartScene[2], WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
 	if (mouseX >= _buttonPosX_Restart && mouseX <= _buttonPosX_Restart + _buttonW
 		&& mouseY >= _buttonPosY_Restart && mouseY <= _buttonPosY_Restart + _buttonH) {
-		FrameAnimation(_buttonPosX_Restart - 8, _buttonPosX_Restart - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Restart - 8, _buttonPosX_Restart - 7, LoadRes::_spUIStartScene[5], WHITE);
 		//点击Start按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 		}
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
 		&& mouseY >= _buttonPosY_Back && mouseY <= _buttonPosY_Back + _buttonH) {
-		FrameAnimation(_buttonPosX_Back - 8, _buttonPosY_Back - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Back - 8, _buttonPosY_Back - 7, LoadRes::_spUIStartScene[5], WHITE);
 		//点击Help按钮触发效果
 	}
-	FrameAnimation(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart - 15, LoadRes::_spUIStartScene[3], WHITE);
-	FrameAnimation(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back - 15, LoadRes::_spUIStartScene[4], WHITE);
+	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart - 15, LoadRes::_spUIStartScene[3], WHITE);
+	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back - 15, LoadRes::_spUIStartScene[4], WHITE);
 }

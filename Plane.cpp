@@ -82,34 +82,12 @@ void Plane::GetHurtAni(float& x, float& y, float travelY, unsigned int color)
 	}
 }
 
-void Plane::FrameAnimation(float x, float y, int sprite, unsigned int color)
+void Plane::FrameTexture(float x, float y, int sprite, unsigned int color)
 {
 	Novice::DrawSprite((int)x, (int)y, sprite, 1, 1, 0, color);
 }
 
-void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, int frameTime, int index)
-{
-	if (FrameTimers(frameTime, index)) {
-		_frameIndex[index]++;
-	}
-	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {
-		_frameIndex[index] = 0;
-	}
-	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex[index]], 1, 1, 0, WHITE);
-}
-
-void Plane::FrameAnimation(float x, float y, std::map<int, int> sprite, float scaleX, float scaleY, int frameTime, int index)
-{
-	if (FrameTimers(frameTime, index)) {
-		_frameIndex[index]++;
-	}
-	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {
-		_frameIndex[index] = 0;
-	}
-	Novice::DrawSprite((int)x, (int)y, sprite[_frameIndex[index]], scaleX, scaleY, 0, WHITE);
-}
-
-void Plane::FrameAnimation_New(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index)
+void Plane::FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index)
 {
 	if (FrameTimers(frameTime, index)) {
 		_frameIndex[index]++;
@@ -120,7 +98,23 @@ void Plane::FrameAnimation_New(float x, float y, std::map<int, LoadRes::SpriteLi
 	int arrSprite = sprite[_frameIndex[index]].sprite;
 	int arrW = sprite[_frameIndex[index]].w, arrH = sprite[_frameIndex[index]].h;
 	int arrX = sprite[_frameIndex[index]].x, arrY = sprite[_frameIndex[index]].y;
-	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrH, arrH, arrSprite, ((float)arrH / (float)arrW), 1, 0, WHITE);
+	int arrSpriteW = sprite[_frameIndex[index]].listW, arrSpriteH = sprite[_frameIndex[index]].listH;
+	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrW, arrH, arrSprite, ((float)arrW / (float)arrSpriteW), ((float)arrH / (float)arrSpriteH), 0, WHITE);
+}
+
+void Plane::FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float scaleX, float scaleY, int frameTime, int index)
+{
+	if (FrameTimers(frameTime, index)) {
+		_frameIndex[index]++;
+	}
+	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {
+		_frameIndex[index] = 0;
+	}
+	int arrSprite = sprite[_frameIndex[index]].sprite;
+	int arrW = sprite[_frameIndex[index]].w, arrH = sprite[_frameIndex[index]].h;
+	int arrX = sprite[_frameIndex[index]].x, arrY = sprite[_frameIndex[index]].y;
+	int arrSpriteW = sprite[_frameIndex[index]].listW, arrSpriteH = sprite[_frameIndex[index]].listH;
+	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrH, arrH, arrSprite, scaleX * ((float)arrW / (float)arrSpriteW), scaleY * ((float)arrH / (float)arrSpriteH), 0, WHITE);
 }
 
 float Plane::GetPosX()

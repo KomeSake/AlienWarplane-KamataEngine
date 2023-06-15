@@ -3,8 +3,7 @@
 LoadRes::SpriteList LoadRes::_spriteList;
 
 int LoadRes::_spPlayer = 0;
-int LoadRes::_spPlayerTentaclesOne = 0;
-int LoadRes::_spPlayerTentaclesTwo = 0;
+int LoadRes::_spPlayerTentacles = 0;
 int LoadRes::_spEnemy = 0;
 int LoadRes::_spEnemy2 = 0;
 int LoadRes::_spBullet_player = 0;
@@ -13,16 +12,15 @@ int LoadRes::_spBullet_enemy2 = 0;
 int LoadRes::_spBullet_enemyCapture = 0;
 int LoadRes::_spBullet_enemy2Capture = 0;
 
-std::map<int, int> LoadRes::_spAniExplode;
-std::map<int, int> LoadRes::_spAniPlayerTentaclesTwo;
-std::map<int, int> LoadRes::_spAniPlayerFire;
-std::map<int, int> LoadRes::_spAniEnemyFire;
-std::map<int, int> LoadRes::_spAniPlayerHpPlus;
-
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode_new;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerTentacles;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerFire;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniEnemyFire;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus;
 
 int LoadRes::_spUIBg = 0;
-std::map<int, int> LoadRes::_spUICaptureVessel;
+std::map<int, LoadRes::SpriteList> LoadRes::_spUICaptureVessel;
+int LoadRes::_spUICaptureVessel_05 = 0;
 std::map<int, int> LoadRes::_spUIHpVessel;
 std::map<int, int> LoadRes::_spUIStartScene;
 std::map<int, int> LoadRes::_spUIGameOverScene;
@@ -31,8 +29,7 @@ void LoadRes::LoadResNovice()
 {
 	//Sprite贴图
 	_spPlayer = Novice::LoadTexture("./Resources/Textures/Player0-0.png");
-	_spPlayerTentaclesOne = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesOne.png");
-	_spPlayerTentaclesTwo = Novice::LoadTexture("./Resources/Textures/PlayerTentaclesTwo.png");
+	_spPlayerTentacles = Novice::LoadTexture("./Resources/Textures/PlayerTentacles.png");
 
 	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
 	_spEnemy2 = Novice::LoadTexture("./Resources/Textures/Enemy2.png");
@@ -44,63 +41,57 @@ void LoadRes::LoadResNovice()
 	_spBullet_enemy2Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2(Captured).png");
 
 	//动画
-	_spAniExplode[0] = Novice::LoadTexture("./Resources/Textures/Animation/Explode1.png");
-	_spAniExplode[1] = Novice::LoadTexture("./Resources/Textures/Animation/Explode2.png");
-	_spAniExplode[2] = Novice::LoadTexture("./Resources/Textures/Animation/Explode3.png");
-	_spAniExplode[3] = Novice::LoadTexture("./Resources/Textures/Animation/Explode4.png");
-	_spAniExplode[4] = Novice::LoadTexture("./Resources/Textures/Animation/Explode5.png");
-	_spAniExplode[5] = Novice::LoadTexture("./Resources/Textures/Animation/Explode6.png");
-	_spAniExplode[6] = Novice::LoadTexture("./Resources/Textures/Animation/Explode7.png");
-	_spAniExplode[7] = Novice::LoadTexture("./Resources/Textures/Animation/Explode8.png");
-	_spAniExplode[8] = Novice::LoadTexture("./Resources/Textures/Animation/Explode9.png");
-	_spAniExplode[9] = Novice::LoadTexture("./Resources/Textures/Animation/Explode10.png");
-
-	_spAniPlayerTentaclesTwo[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo1.png");
-	_spAniPlayerTentaclesTwo[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo2.png");
-	_spAniPlayerTentaclesTwo[2] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo3.png");
-	_spAniPlayerTentaclesTwo[3] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerTentaclesTwo4.png");
-
-	_spAniPlayerFire[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire1.png");
-	_spAniPlayerFire[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire2.png");
-	_spAniPlayerFire[2] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire3.png");
-	_spAniPlayerFire[3] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire4.png");
-	_spAniPlayerFire[4] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire5.png");
-	_spAniPlayerFire[5] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerFire6.png");
-
-	_spAniEnemyFire[0] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire1.png");
-	_spAniEnemyFire[1] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire2.png");
-	_spAniEnemyFire[2] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire3.png");
-	_spAniEnemyFire[3] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire4.png");
-	_spAniEnemyFire[4] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire5.png");
-	_spAniEnemyFire[5] = Novice::LoadTexture("./Resources/Textures/Animation/EnemyFire6.png");
-
-	_spAniPlayerHpPlus[0] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus1.png");
-	_spAniPlayerHpPlus[1] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus2.png");
-	_spAniPlayerHpPlus[2] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus3.png");
-	_spAniPlayerHpPlus[3] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus4.png");
-	_spAniPlayerHpPlus[4] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus5.png");
-	_spAniPlayerHpPlus[5] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus6.png");
-	_spAniPlayerHpPlus[6] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus7.png");
-	_spAniPlayerHpPlus[7] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus8.png");
-	_spAniPlayerHpPlus[8] = Novice::LoadTexture("./Resources/Textures/Animation/PlayerHpPlus9.png");
-
-	//注意Width要填的是整个图集的长度(所以如果是横条图，x 就应该是 i * h )
 	for (int i = 0; i < 10; i++) {
 		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Explode.png");
-		int w = 640, h = 64;
-		int x = i * h, y = 0;
-		_spAniExplode_new[i] = { sprite,x,y,w,h };
+		int w = 64, h = 64;
+		int x = i * w, y = 0;
+		int listW = 640, listH = 64;
+		_spAniExplode[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 4; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Tentacles.png");
+		int w = 64, h = 64;
+		int x = i * w, y = 0;
+		int listW = 640, listH = 64;
+		_spAniPlayerTentacles[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 6; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Fire.png");
+		int w = 32, h = 32;
+		int x = i * w, y = 0;
+		int listW = 192, listH = 32;
+		_spAniPlayerFire[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 6; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Enemy_Fire.png");
+		int w = 32, h = 32;
+		int x = i * w, y = 0;
+		int listW = 192, listH = 32;
+		_spAniEnemyFire[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 9; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_hpPlus.png");
+		int w = 64, h = 64;
+		int x = i * w, y = 0;
+		int listW = 640, listH = 64;
+		_spAniPlayerHpPlus[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	//UI
 	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");
 
-	_spUICaptureVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_00.png");
-	_spUICaptureVessel[1] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_01.png");
-	_spUICaptureVessel[2] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_02.png");
-	_spUICaptureVessel[3] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_03.png");
-	_spUICaptureVessel[4] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_04.png");
-	_spUICaptureVessel[5] = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
+	for (int i = 0; i < 6; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel.png");
+		int w = 120, h = 135;
+		int x = i * w, y = 0;
+		int listW = 720, listH = 135;
+		_spUICaptureVessel[i] = { sprite,x,y,w,h,listW,listH };
+	}
+	_spUICaptureVessel_05 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
 
 	_spUIHpVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_00.png");
 

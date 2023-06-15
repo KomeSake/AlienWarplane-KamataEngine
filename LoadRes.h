@@ -13,25 +13,27 @@ public:
 		int y = 0;
 		int w = 0;
 		int h = 0;
+		int listW = 0;
+		int listH = 0;
 	}_spriteList;
 
 	//Sprite贴图
-	static int _spPlayer, _spPlayerTentaclesOne, _spPlayerTentaclesTwo;
+	static int _spPlayer, _spPlayerTentacles;
 	static int _spEnemy, _spEnemy2;
 	static int _spBullet_player, _spBullet_enemy, _spBullet_enemyCapture, _spBullet_enemy2, _spBullet_enemy2Capture;
 
 	//动画
-	static std::map<int, int> _spAniExplode;
-	static std::map<int, int> _spAniPlayerTentaclesTwo;
-	static std::map<int, int> _spAniPlayerFire;
-	static std::map<int, int> _spAniEnemyFire;
-	static std::map<int, int> _spAniPlayerHpPlus;
+	static std::map<int, SpriteList> _spAniExplode;
+	static std::map<int, SpriteList> _spAniPlayerTentacles;
+	static std::map<int, SpriteList> _spAniPlayerFire;
+	static std::map<int, SpriteList> _spAniEnemyFire;
+	static std::map<int, SpriteList> _spAniPlayerHpPlus;
 
-	static std::map<int, SpriteList> _spAniExplode_new;
 
 	//UI
 	static int _spUIBg;
-	static std::map<int, int> _spUICaptureVessel;
+	static std::map<int, SpriteList> _spUICaptureVessel;
+	static int _spUICaptureVessel_05;
 	static std::map<int, int> _spUIHpVessel;
 	static std::map<int, int> _spUIStartScene;
 	static std::map<int, int> _spUIGameOverScene;
