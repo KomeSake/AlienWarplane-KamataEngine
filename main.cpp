@@ -1,4 +1,7 @@
 #pragma warning(disable: 28251)//无视了主函数WinMain出现的警告
+//未解决问题：
+//子弹会突然加速
+//将敌人提前捏爆的功能逻辑还不够完美
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"

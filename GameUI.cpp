@@ -194,6 +194,7 @@ void UI_StartScene::UIOpen()
 UI_GameOverScene::UI_GameOverScene()
 {
 	_isButton_Restart = false;
+	_isButton_Back = false;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
@@ -229,6 +230,9 @@ void UI_GameOverScene::UIOpen()
 		&& mouseY >= _buttonPosY_Back && mouseY <= _buttonPosY_Back + _buttonH) {
 		FrameTexture(_buttonPosX_Back - 5, _buttonPosY_Back - 6, LoadRes::_spUIGameOverScene[7], WHITE);
 		//点击Back按钮触发效果
+		if (Novice::IsPressMouse(0)) {
+			_isButton_Back = true;
+		}
 	}
 	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene[5], WHITE);
 	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene[6], WHITE);

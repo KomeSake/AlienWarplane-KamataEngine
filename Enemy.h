@@ -24,15 +24,19 @@ public:
 	void CaptureFire(float x, float y);
 	int GetType();
 	bool GetIsLive();
+	void SetIsLive(bool live);
 	bool _isMessageOver_isLive = false;
+	//可以修改敌人攻击频率；每轮攻击持续时间，每轮攻击时间，每轮子弹数量
+	void SetAttackValue(int attackTime1, int attackTime2, int bulletSum);
 protected:
 	int _type = 0;
 	bool _isLive = true;
+	bool _isCaptureGod = true;
 
-	int _attackTime_normal1 = 0;
-	int _attackTime_normal2 = 0;
-	int _normalSum = 0, _normalCount = 0;
-
+	int _attackTime1 = 0;		//每轮攻击持续时间(从攻击开始计算)
+	int _attackTime2 = 0;		//每轮攻击时间
+	int _bulletSum = 0;			//每轮子弹数量
+	int	_bulletCount = 0;		//这个不需要改
 	enum Direction {
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;

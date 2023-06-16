@@ -148,9 +148,23 @@ unsigned int Plane::GetColor()
 	return _color;
 }
 
+void Plane::RestartTimers(bool isTimeOpen, int index)
+{
+	_isTimeOpen[index] = isTimeOpen;
+}
+
 void Plane::SetFrameIndex(int index, int num)
 {
 	_frameIndex[index] = num;
+}
+
+void Plane::SetAniMode(int value, int index)
+{
+	switch (index) {
+	case 0:
+		_aniMode_getHurt = value;
+		break;
+	}
 }
 
 

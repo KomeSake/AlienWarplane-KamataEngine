@@ -27,6 +27,9 @@ private:
 	int _capturedValue = 0;
 	float _captureSpeed = 0;
 	bool _isPlayerHpPlus = false;
+	//这两个是针对提前抓爆被抓敌人的设定
+	int _captureDamageCount = 0;
+	bool _iscaptureDamage = false;
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
 };

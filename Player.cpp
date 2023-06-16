@@ -23,6 +23,8 @@ Player::Player()
 	_capturedValue = 0;
 	_captureSpeed = 10;
 	_isPlayerHpPlus = false;
+	_captureDamageCount = 0;
+	_iscaptureDamage = false;
 
 	_isGetHurtAniStart = false;
 	_getHurtPosX = 0, _getHurtPosY = 0;
@@ -182,10 +184,28 @@ void Player::CaptureEnemy()
 			}
 			else {
 				SetFrameIndex(2, 0);
+				if (!_iscaptureDamage) {
+					_isCaptureCD = true;
+				}
 				_isCapture = false;
-				_isCaptureCD = true;
 				_captureSpeed = 10;
+				_iscaptureDamage = false;
 				delete(_enemyCaptured);
+			}
+		}
+		//按住右键捏爆抓住的敌人(需要持续按住，一共1500毫秒)
+		//有个小问题，应该抓敌人也是按右键，所以很容易一并进入这个循环中导致敌人立马死亡
+		if (Timers(500, 15)) {
+			if (!Novice::IsPressMouse(1)) {
+				_captureDamageCount = 0;
+			}
+			else {
+				_captureDamageCount++;
+				_enemyCaptured->SetAniMode(1, 0);
+				if (_captureDamageCount >= 3) {
+					_iscaptureDamage = true;
+					_enemyCaptured->SetIsLive(false);
+				}
 			}
 		}
 	}

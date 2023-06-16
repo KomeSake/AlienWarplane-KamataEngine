@@ -43,8 +43,12 @@ public:
 	void SetHp(int type, float num);
 	int GetHp();
 	unsigned int GetColor();
+	//将指定计时器立马重新开始计时
+	void RestartTimers(bool isTimeOpen, int index);
 	//输入当前使用的播放序号，需要改的帧数值
 	void SetFrameIndex(int index, int num);
+	//设置自己设置的代码特效，输入值和代号；0:受伤抖动
+	void SetAniMode(int value, int index);
 
 private:
 	//给帧动画用的

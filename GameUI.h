@@ -80,4 +80,5 @@ public:
 	UI_GameOverScene();
 	void UIOpen();
 	bool _isButton_Restart = false;
+	bool _isButton_Back = false;
 };

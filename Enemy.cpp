@@ -32,10 +32,11 @@ void Enemy::Initial(float x, float y, int type)
 
 	_type = 0;
 	_isLive = true;
-	_attackTime_normal1 = 2000;	//每轮攻击持续时间(从攻击开始计算)
-	_attackTime_normal2 = 150;	//每轮攻击时间
-	_normalSum = 3;				//每轮子弹数量
-	_normalCount = 0;			//这个不需要改
+	_isCaptureGod = true;
+	_attackTime1 = 2000;
+	_attackTime2 = 150;
+	_bulletSum = 3;
+	_bulletCount = 0;
 
 	_moveDirection = Down;
 
@@ -56,9 +57,9 @@ void Enemy::Initial(float x, float y, int type)
 		_sprite = LoadRes::_spEnemy2;
 		_hp = 5;
 		_speed = 1;
-		_attackTime_normal1 = 3000;
-		_attackTime_normal2 = 100;
-		_normalSum = 10;
+		_attackTime1 = 3000;
+		_attackTime2 = 100;
+		_bulletSum = 10;
 		break;
 	case ufo:
 		_type = ufo;
@@ -104,10 +105,10 @@ void Enemy::Move()
 void Enemy::Attack(float x, float y, bool isCapture)
 {
 	if (_isLive && _posY > 30) {
-		if (!Timers(_attackTime_normal1, 17)) {
-			if (_normalCount < _normalSum) {
-				if (Timers(_attackTime_normal2, 13)) {
-					_normalCount++;
+		if (!Timers(_attackTime1, 17)) {
+			if (_bulletCount < _bulletSum) {
+				if (Timers(_attackTime2, 13)) {
+					_bulletCount++;
 					Bullet* bullet = nullptr;
 					if (!isCapture) {
 						switch (_type) {
@@ -140,7 +141,7 @@ void Enemy::Attack(float x, float y, bool isCapture)
 			}
 		}
 		else {
-			_normalCount = 0;
+			_bulletCount = 0;
 		}
 	}
 }
@@ -168,8 +169,12 @@ void Enemy::DamageCheck()
 void Enemy::CaptureFire(float x, float y)
 {
 	_color = 0x7300ffFF;//被捕获的敌人加一层紫色
+	if (Timers(700, 13)) {
+		//给一小段无敌时间，不然很容易一抓到就被自己刚刚射的敌人子弹打死
+		_isCaptureGod = false;
+	}
 	//碰撞检测部分(输入的触手坐标是从中心开始的，不要忘记了)
-	if (Timers(100, 14)) {
+	if (Timers(100, 14) && !_isCaptureGod) {
 		for (Bullet* element : BulletManager::_bulletUpdateVector_enemy) {
 			//敌人坐标要特殊处理，因为输入的触手坐标是从中心开始
 			float enemyCenterX = x, enemyCenterY = y - _higth;
@@ -213,6 +218,18 @@ int Enemy::GetType()
 bool Enemy::GetIsLive()
 {
 	return _isLive;
+}
+
+void Enemy::SetIsLive(bool live)
+{
+	_isLive = live;
+}
+
+void Enemy::SetAttackValue(int attackTime1, int attackTime2, int bulletSum)
+{
+	_attackTime1 = attackTime1;
+	_attackTime2 = attackTime2;
+	_bulletSum = bulletSum;
 }
 
 Enemy::Direction Enemy::MoveAI()

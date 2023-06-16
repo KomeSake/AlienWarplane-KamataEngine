@@ -49,4 +49,8 @@ void Scene::GameOverStart()
 		_sceneIndex = Loading;
 		GameOver_Obj->_isButton_Restart = false;
 	}
+	else if (GameOver_Obj->_isButton_Back) {
+		_sceneIndex = Start;
+		GameOver_Obj->_isButton_Back = false;
+	}
 }
