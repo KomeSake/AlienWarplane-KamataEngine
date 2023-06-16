@@ -1,7 +1,6 @@
 #pragma warning(disable: 28251)//无视了主函数WinMain出现的警告
 //未解决问题：
 //子弹会突然加速
-//将敌人提前捏爆的功能逻辑还不够完美
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"
@@ -78,13 +77,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
 			SceneObj.ScreenGameUp(*PlayerObj);
+			Novice::ScreenPrintf(296, 758, "1868315");//直接用显示数字的函数好想也可以替代分数
 			break;
 		case Scene::Start:
 			//开始界面
+			SceneObj.ScreenGameDown();
 			SceneObj.SceneStart();
 			break;
 		case Scene::GameOver:
 			//结束界面
+			SceneObj.ScreenGameDown();
+			PlayerObj->DamageCheck();
+			char temp = 0;//为了剥夺玩家的控制，随便创建一个空的输入key
+			PlayerObj->Move(&temp);
+			PlayerObj->CaptureEnemy();
+			BulletManager::BulletUpdata();
+			EnemyManager::EnemyUpdata();
+			LevelObj->LevelDirector();
+			DataMessageObj.MessageCheck();
+			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
+			PlayerObj->AniPlayerUP();
+			//SceneObj.ScreenGameUp(*PlayerObj);//看看到时候要不要做一个GameUI下降
+			//以上都是游戏界面中有的，充当结束界面的背景图，不显得那么单调
 			SceneObj.GameOverStart();
 			break;
 		}

@@ -20,7 +20,7 @@ UI_BackGround::UI_BackGround()
 	_posY = 0;
 	_width = 450;
 	_higth = 780;
-	_speed = 1;
+	_speed = 0.4f;
 	_color = WHITE;
 }
 

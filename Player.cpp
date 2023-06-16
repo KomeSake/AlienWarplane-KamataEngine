@@ -142,6 +142,7 @@ void Player::CaptureEnemy()
 	//触手的机制判断与绘图部分
 	//触手可以抓人阶段
 	if (Novice::IsPressMouse(1) && !_isCapture && !_isCaptureCD) {
+		_captureDamageCount = 0;//将夹爆被抓敌人计数归零
 		//碰撞判断
 		float tentacleW = 64, tentacleH = 64;
 		float enemyW = 64, enemyH = 64;
@@ -194,12 +195,8 @@ void Player::CaptureEnemy()
 			}
 		}
 		//按住右键捏爆抓住的敌人(需要持续按住，一共1500毫秒)
-		//有个小问题，应该抓敌人也是按右键，所以很容易一并进入这个循环中导致敌人立马死亡
-		if (Timers(500, 15)) {
-			if (!Novice::IsPressMouse(1)) {
-				_captureDamageCount = 0;
-			}
-			else {
+		if (Novice::IsPressMouse(1)) {
+			if (Timers(500, 15)) {
 				_captureDamageCount++;
 				_enemyCaptured->SetAniMode(1, 0);
 				if (_captureDamageCount >= 3) {
@@ -207,6 +204,9 @@ void Player::CaptureEnemy()
 					_enemyCaptured->SetIsLive(false);
 				}
 			}
+		}
+		else {
+			_captureDamageCount = 0;
 		}
 	}
 	//触手爆炸，CD阶段
