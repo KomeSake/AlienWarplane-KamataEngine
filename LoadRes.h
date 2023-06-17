@@ -35,8 +35,8 @@ public:
 	static std::map<int, SpriteList> _spUICaptureVessel;
 	static int _spUICaptureVessel_05;
 	static std::map<int, int> _spUIHpVessel;
-	static std::map<int, int> _spUIStartScene;
-	static std::map<int, int> _spUIGameOverScene;
+	static std::map<int, SpriteList> _spUIStartScene;
+	static std::map<int, SpriteList> _spUIGameOverScene;
 	static std::map<int, SpriteList> _spUINumber;
 	static int _spUIHelp;
 

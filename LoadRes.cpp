@@ -25,13 +25,17 @@ int LoadRes::_spUIBg = 0;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUICaptureVessel;
 int LoadRes::_spUICaptureVessel_05 = 0;
 std::map<int, int> LoadRes::_spUIHpVessel;
-std::map<int, int> LoadRes::_spUIStartScene;
-std::map<int, int> LoadRes::_spUIGameOverScene;
+std::map<int, LoadRes::SpriteList> LoadRes::_spUIStartScene;
+std::map<int, LoadRes::SpriteList> LoadRes::_spUIGameOverScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
 int LoadRes::_spUIHelp = 0;
 
 void LoadRes::LoadResNovice()
 {
+	int sprite = 0;
+	int listW = 0, listH = 0;
+	int w = 0, h = 0, x = 0, y = 0;
+
 	//Sprite贴图
 	_spPlayer = Novice::LoadTexture("./Resources/Textures/Player0-0.png");
 	_spPlayerTentacles = Novice::LoadTexture("./Resources/Textures/PlayerTentacles.png");
@@ -50,42 +54,42 @@ void LoadRes::LoadResNovice()
 
 	//动画
 	for (int i = 0; i < 10; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Explode.png");
-		int w = 64, h = 64;
-		int x = i * w, y = 0;
-		int listW = 640, listH = 64;
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Explode.png");
+		w = 64, h = 64;
+		x = i * w, y = 0;
+		listW = 640, listH = 64;
 		_spAniExplode[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	for (int i = 0; i < 4; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Tentacles.png");
-		int w = 64, h = 64;
-		int x = i * w, y = 0;
-		int listW = 256, listH = 64;
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Tentacles.png");
+		w = 64, h = 64;
+		x = i * w, y = 0;
+		listW = 256, listH = 64;
 		_spAniPlayerTentacles[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	for (int i = 0; i < 6; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Fire.png");
-		int w = 32, h = 32;
-		int x = i * w, y = 0;
-		int listW = 192, listH = 32;
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_Fire.png");
+		w = 32, h = 32;
+		x = i * w, y = 0;
+		listW = 192, listH = 32;
 		_spAniPlayerFire[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	for (int i = 0; i < 6; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Enemy_Fire.png");
-		int w = 32, h = 32;
-		int x = i * w, y = 0;
-		int listW = 192, listH = 32;
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Enemy_Fire.png");
+		w = 32, h = 32;
+		x = i * w, y = 0;
+		listW = 192, listH = 32;
 		_spAniEnemyFire[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	for (int i = 0; i < 9; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_hpPlus.png");
-		int w = 64, h = 64;
-		int x = i * w, y = 0;
-		int listW = 640, listH = 64;
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_hpPlus.png");
+		w = 64, h = 64;
+		x = i * w, y = 0;
+		listW = 640, listH = 64;
 		_spAniPlayerHpPlus[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
@@ -93,39 +97,57 @@ void LoadRes::LoadResNovice()
 	_spUIBg = Novice::LoadTexture("./Resources/Textures/BG.png");
 
 	for (int i = 0; i < 6; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel.png");
-		int w = 120, h = 135;
-		int x = i * w, y = 0;
-		int listW = 720, listH = 135;
+		sprite = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel.png");
+		w = 120, h = 135;
+		x = i * w, y = 0;
+		listW = 720, listH = 135;
 		_spUICaptureVessel[i] = { sprite,x,y,w,h,listW,listH };
 	}
 	_spUICaptureVessel_05 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
 
 	_spUIHpVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_00.png");
 
-	_spUIStartScene[0] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/0.png");
-	_spUIStartScene[1] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/1.png");
-	_spUIStartScene[2] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/2.png");
-	_spUIStartScene[3] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/3.png");
-	_spUIStartScene[4] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/4.png");
-	_spUIStartScene[5] = Novice::LoadTexture("./Resources/Textures/UI/StartScene/5.png");
+	sprite = Novice::LoadTexture("./Resources/Textures/UI/StartScene/List.png");
+	listW = 900, listH = 780;
+	w = 450, h = 780, x = 0, y = 0;
+	_spUIStartScene[0] = { sprite,x,y,w,h,listW,listH };
+	w = 450, h = 334, x = 450, y = 0;
+	_spUIStartScene[1] = { sprite,x,y,w,h,listW,listH };
+	w = 210, h = 73, x = 450 + 225, y = 334;
+	_spUIStartScene[2] = { sprite,x,y,w,h,listW,listH };
+	w = 127, h = 57, x = 450, y = 334 + 81;
+	_spUIStartScene[3] = { sprite,x,y,w,h,listW,listH };
+	w = 105, h = 70, x = 450 + 225, y = 334 + 73;
+	_spUIStartScene[4] = { sprite,x,y,w,h,listW,listH };
+	w = 225, h = 81, x = 450, y = 334;
+	_spUIStartScene[5] = { sprite,x,y,w,h,listW,listH };
 
-	_spUIGameOverScene[0] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/0.png");
-	_spUIGameOverScene[1] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/1.png");
-	_spUIGameOverScene[2] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/2.png");
-	_spUIGameOverScene[3] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/3.png");
-	_spUIGameOverScene[4] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/4.png");
-	_spUIGameOverScene[5] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/5.png");
-	_spUIGameOverScene[6] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/6.png");
-	_spUIGameOverScene[7] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/7.png");
+	sprite = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/List.png");
+	listW = 900, listH = 780;
+	w = 450, h = 780, x = 0, y = 0;
+	_spUIGameOverScene[0] = { sprite,x,y,w,h,listW,listH };
+	w = 450, h = 222, x = 450, y = 0;
+	_spUIGameOverScene[1] = { sprite,x,y,w,h,listW,listH };
+	w = 129, h = 46, x = 450 + 142, y = 222 + 55;
+	_spUIGameOverScene[2] = { sprite,x,y,w,h,listW,listH };
+	w = 133, h = 55, x = 450 + 142, y = 222;
+	_spUIGameOverScene[3] = { sprite,x,y,w,h,listW,listH };
+	w = 133, h = 55, x = 450 + 142 + 133, y = 222;
+	_spUIGameOverScene[4] = { sprite,x,y,w,h,listW,listH };
+	w = 105, h = 37, x = 450 + 142 + 129, y = 222 + 55;
+	_spUIGameOverScene[5] = { sprite,x,y,w,h,listW,listH };
+	w = 67, h = 37, x = 450 + 142 + 129 + 105, y = 222 + 55;
+	_spUIGameOverScene[6] = { sprite,x,y,w,h,listW,listH };
+	w = 142, h = 61, x = 450, y = 222;
+	_spUIGameOverScene[7] = { sprite,x,y,w,h,listW,listH };
 
 	for (int i = 0; i < 10; i++) {
-		int sprite = Novice::LoadTexture("./Resources/Textures/UI/Number.png");
-		int w = 30, h = 50;
-		int x = i * w, y = 0;
-		int listW = 300, listH = 50;
+		sprite = Novice::LoadTexture("./Resources/Textures/UI/Number.png");
+		w = 30, h = 50;
+		x = i * w, y = 0;
+		listW = 300, listH = 50;
 		_spUINumber[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
-	//_spUIHelp = Novice::LoadTexture("./Resources/Textures/Help.png");
+	_spUIHelp = Novice::LoadTexture("./Resources/Textures/UI/Help.png");
 }

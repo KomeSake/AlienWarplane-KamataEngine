@@ -196,15 +196,15 @@ UI_StartScene::UI_StartScene()
 
 void UI_StartScene::UIOpen()
 {
-	FrameTexture(0, 0, LoadRes::_spUIStartScene[0], WHITE);
-	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene[1], WHITE);
-	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene[2], WHITE);
-	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene[2], WHITE);
+	FrameTexture(0, 0, LoadRes::_spUIStartScene, 0, WHITE);
+	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene, 1, WHITE);
+	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene, 2, WHITE);
+	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene, 2, WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
 	if (mouseX >= _buttonPosX_Start && mouseX <= _buttonPosX_Start + _buttonW
 		&& mouseY >= _buttonPosY_Start && mouseY <= _buttonPosY_Start + _buttonH) {
-		FrameTexture(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene, 5, WHITE);
 		//点击Start按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Start = true;
@@ -212,11 +212,11 @@ void UI_StartScene::UIOpen()
 	}
 	if (mouseX >= _buttonPosX_Help && mouseX <= _buttonPosX_Help + _buttonW
 		&& mouseY >= _buttonPosY_Help && mouseY <= _buttonPosY_Help + _buttonH) {
-		FrameTexture(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene[5], WHITE);
+		FrameTexture(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene, 5, WHITE);
 		//点击Help按钮触发效果
 	}
-	FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene[3], WHITE);
-	FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene[4], WHITE);
+	FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
+	FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
 }
 
 UI_GameOverScene::UI_GameOverScene()
@@ -242,16 +242,16 @@ UI_GameOverScene::UI_GameOverScene()
 
 void UI_GameOverScene::UIOpen(Player obj)
 {
-	FrameTexture(0, 0, LoadRes::_spUIGameOverScene[0], WHITE);
-	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIGameOverScene[1], WHITE);
-	FrameTexture(_scoreX + 20, _scoreY, LoadRes::_spUIGameOverScene[2], WHITE);
-	FrameTexture(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIGameOverScene[3], WHITE);
-	FrameTexture(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIGameOverScene[4], WHITE);
+	FrameTexture(0, 0, LoadRes::_spUIGameOverScene, 0, WHITE);
+	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIGameOverScene, 1, WHITE);
+	FrameTexture(_scoreX + 5, _scoreY, LoadRes::_spUIGameOverScene, 2, WHITE);
+	FrameTexture(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIGameOverScene, 3, WHITE);
+	FrameTexture(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIGameOverScene, 4, WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
 	if (mouseX >= _buttonPosX_Restart && mouseX <= _buttonPosX_Restart + _buttonW
 		&& mouseY >= _buttonPosY_Restart && mouseY <= _buttonPosY_Restart + _buttonH) {
-		FrameTexture(_buttonPosX_Restart - 5, _buttonPosY_Restart - 6, LoadRes::_spUIGameOverScene[7], WHITE);
+		FrameTexture(_buttonPosX_Restart - 5, _buttonPosY_Restart - 6, LoadRes::_spUIGameOverScene, 7, WHITE);
 		//点击Restart按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Restart = true;
@@ -260,15 +260,15 @@ void UI_GameOverScene::UIOpen(Player obj)
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
 		&& mouseY >= _buttonPosY_Back && mouseY <= _buttonPosY_Back + _buttonH) {
-		FrameTexture(_buttonPosX_Back - 5, _buttonPosY_Back - 6, LoadRes::_spUIGameOverScene[7], WHITE);
+		FrameTexture(_buttonPosX_Back - 5, _buttonPosY_Back - 6, LoadRes::_spUIGameOverScene, 7, WHITE);
 		//点击Back按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Back = true;
 			_isScoreAniStart = false;
 		}
 	}
-	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene[5], WHITE);
-	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene[6], WHITE);
+	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene, 5, WHITE);
+	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene, 6, WHITE);
 
 	//分数显示部分
 	int score = obj.GetScoreSum();
