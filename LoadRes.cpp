@@ -27,6 +27,8 @@ int LoadRes::_spUICaptureVessel_05 = 0;
 std::map<int, int> LoadRes::_spUIHpVessel;
 std::map<int, int> LoadRes::_spUIStartScene;
 std::map<int, int> LoadRes::_spUIGameOverScene;
+std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
+int LoadRes::_spUIHelp = 0;
 
 void LoadRes::LoadResNovice()
 {
@@ -116,4 +118,14 @@ void LoadRes::LoadResNovice()
 	_spUIGameOverScene[5] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/5.png");
 	_spUIGameOverScene[6] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/6.png");
 	_spUIGameOverScene[7] = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/7.png");
+
+	for (int i = 0; i < 10; i++) {
+		int sprite = Novice::LoadTexture("./Resources/Textures/UI/Number.png");
+		int w = 30, h = 50;
+		int x = i * w, y = 0;
+		int listW = 300, listH = 50;
+		_spUINumber[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	_spUIHelp = Novice::LoadTexture("./Resources/Textures/Help.png");
 }

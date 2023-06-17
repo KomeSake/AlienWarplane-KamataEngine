@@ -31,6 +31,8 @@ Player::Player()
 	_getHurtSpeedX = 10, _getHurtSpeedY = 10;
 	_getHurtTime = 100;
 	_aniMode_getHurt = 0;
+
+	_scoreSum = 0;
 }
 
 void Player::Move(char keys[])
@@ -292,4 +294,14 @@ bool Player::GetIsCaptureCD()
 int Player::GetCaptureCDTime()
 {
 	return _captureCDTime;
+}
+
+int Player::GetScoreSum()
+{
+	return _scoreSum;
+}
+
+void Player::SetScorePlus(int value)
+{
+	_scoreSum += value;
 }

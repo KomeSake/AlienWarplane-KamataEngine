@@ -5,10 +5,19 @@
 class Level
 {
 private:
-	int rand_enemyTime;
-	float rand_enemyPosX;
-	float beforeEnemyPosX;//把前一个生成的敌人坐标记下来，这样可以避免两个敌人互相盖住对方
-	clock_t timeStart, timeEnd;
+	//从Plane类中拿来的计时器
+	clock_t _timeStart[11] = { 0 };
+	clock_t _timeEnd[11] = { 0 };
+	bool _isTimeOpen[11] = { 0 };
+
+	int _rand_enemyTime = 0;
+	int _rand_enemyTimeMin = 0, _rand_enemyTimeMax = 0;
+	float _rand_enemyPosX = 0;
+	float _beforeEnemyPosX = 0;//把前一个生成的敌人坐标记下来，这样可以避免两个敌人互相盖住对方
+
+	int _dangerLevelSum = 0;//危险度
+	int _dangerLevelOne = 0, _dangerLevelTwo = 0, _dangerLevelThree = 0;
+	bool _isDangerLevel = false;
 
 	struct EnemyWeight
 	{
@@ -19,7 +28,9 @@ private:
 
 public:
 	Level();
+	bool Timers(int milli, int index);
 	void LevelDirector();
-
 	Enemy::EnemyType EnemyRandom(std::vector<EnemyWeight> vec);
+
+	void DangerLevelPlus(int value);
 };

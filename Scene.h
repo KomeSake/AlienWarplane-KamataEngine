@@ -21,7 +21,7 @@ public:
 	void ScreenGameUp(Player obj);
 
 	void SceneStart();
-	void GameOverStart();
+	void GameOverStart(Player obj);
 private:
 	UI_BackGround* Game_BGObj;
 	UI_CaptureVessel* Game_CaptureVesselObj;

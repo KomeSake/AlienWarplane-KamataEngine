@@ -31,6 +31,7 @@ void Enemy::Initial(float x, float y, int type)
 	_color = WHITE;
 
 	_type = 0;
+	_score = 50;
 	_isLive = true;
 	_isCaptureGod = true;
 	_attackTime1 = 2000;
@@ -47,6 +48,7 @@ void Enemy::Initial(float x, float y, int type)
 	_aniMode_getHurt = 0;
 
 	_isMessageOver_isLive = false;
+	_message_isFree = 0;
 
 	switch (type) {
 	case normal:
@@ -54,6 +56,7 @@ void Enemy::Initial(float x, float y, int type)
 		break;
 	case laser:
 		_type = laser;
+		_score = 100;
 		_sprite = LoadRes::_spEnemy2;
 		_hp = 5;
 		_speed = 1;
@@ -63,6 +66,7 @@ void Enemy::Initial(float x, float y, int type)
 		break;
 	case ufo:
 		_type = ufo;
+		_score = 30;
 		_sprite = LoadRes::_spEnemy3;
 		_hp = 2;
 		_speed = 5;
@@ -89,6 +93,7 @@ void Enemy::Move()
 			FrameTexture(_posX, _posY, _sprite, RED);
 		}
 		if (!Timers((int)(LoadRes::_spAniExplode.size() + 3) * 50, 16)) {
+			_posY -= 0.5f;
 			FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 1);
 		}
 		else {
@@ -96,7 +101,11 @@ void Enemy::Move()
 			EnemyManager::ReleaseEnemy(this);
 		}
 	}
-	if (_posY > 1000) {
+	//敌人已经飞出屏幕
+	if (_posY > 850 && _message_isFree == 0) {
+		_message_isFree = 1;
+	}
+	else if (_posY > 1000) {
 		_isLive = false;
 		EnemyManager::ReleaseEnemy(this);
 	}
@@ -223,6 +232,11 @@ bool Enemy::GetIsLive()
 void Enemy::SetIsLive(bool live)
 {
 	_isLive = live;
+}
+
+int Enemy::GetScore()
+{
+	return _score;
 }
 
 void Enemy::SetAttackValue(int attackTime1, int attackTime2, int bulletSum)

@@ -25,9 +25,14 @@ public:
 	int GetType();
 	bool GetIsLive();
 	void SetIsLive(bool live);
-	bool _isMessageOver_isLive = false;
+	int GetScore();
+
 	//可以修改敌人攻击频率；每轮攻击持续时间，每轮攻击时间，每轮子弹数量
 	void SetAttackValue(int attackTime1, int attackTime2, int bulletSum);
+
+	//给信息管理发信息(信息要不断读取和修改就不管理起来了)
+	bool _isMessageOver_isLive = false;		//发送死亡信息，以此来给玩家回血
+	int _message_isFree = 0;				//发送逃逸信息；0：初始化，1：已逃逸，2：信息发送完成
 protected:
 	int _type = 0;
 	bool _isLive = true;
@@ -41,6 +46,8 @@ protected:
 		Down, Left, Right, LeftDown, RightDown
 	}_moveDirection;
 	Direction MoveAI();//这个还在想，要不要通过写一个AI来控制敌人的飞行轨道，现在就是直接飞有点太无聊了
+
+	int _score = 0;//自己被击败时的分数(不要设置这么大，因为死亡前每帧都会读取这个分数)
 };
 
 // 需要设计的功能

@@ -42,9 +42,9 @@ void Scene::SceneStart()
 	}
 }
 
-void Scene::GameOverStart()
+void Scene::GameOverStart(Player obj)
 {
-	GameOver_Obj->UIOpen();
+	GameOver_Obj->UIOpen(obj);
 	if (GameOver_Obj->_isButton_Restart) {
 		_sceneIndex = Loading;
 		GameOver_Obj->_isButton_Restart = false;

@@ -70,6 +70,10 @@ private:
 	float _titlePosX = 0, _titlePosY = 0;
 	float _scoreX = 0, _scoreY = 0;
 	float _scoreW = 0, _scoreH = 0;
+	float _scoreNumIntervalX = 0;
+	float _scoreNumX = 0, _scoreNumY = 0;
+	bool _isScoreAniStart = 0;
+	int _scoreAnimation = 0;//用来最后做一个分数滚动效果
 	float _buttonPosX_Restart = 0, _buttonPosY_Restart = 0;
 	float _buttonPosX_Back = 0, _buttonPosY_Back = 0;
 	float _buttonW = 0, _buttonH = 0;
@@ -78,7 +82,7 @@ private:
 
 public:
 	UI_GameOverScene();
-	void UIOpen();
+	void UIOpen(Player obj);
 	bool _isButton_Restart = false;
 	bool _isButton_Back = false;
 };

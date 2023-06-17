@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			EnemyManager::_enemyUpdateVector.clear();
 			PlayerObj = new Player;
 			LevelObj = new Level;
-			DataMessageObj.Initial(PlayerObj);
+			DataMessageObj.Initial(PlayerObj, LevelObj);
 			Scene::_sceneIndex = Scene::Game;
 			break;
 		case Scene::Game:
@@ -77,7 +77,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
 			SceneObj.ScreenGameUp(*PlayerObj);
-			Novice::ScreenPrintf(296, 758, "1868315");//直接用显示数字的函数好想也可以替代分数
 			break;
 		case Scene::Start:
 			//开始界面
@@ -99,7 +98,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			PlayerObj->AniPlayerUP();
 			//SceneObj.ScreenGameUp(*PlayerObj);//看看到时候要不要做一个GameUI下降
 			//以上都是游戏界面中有的，充当结束界面的背景图，不显得那么单调
-			SceneObj.GameOverStart();
+			SceneObj.GameOverStart(*PlayerObj);
 			break;
 		}
 

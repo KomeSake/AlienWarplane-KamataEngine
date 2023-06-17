@@ -149,6 +149,34 @@ void UI_HpVessel::UIOpen(Player obj)
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 3, hpBoxW, hpBoxH, 0, hpBoxColor4, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 2, hpBoxW, hpBoxH, 0, hpBoxColor5, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 1, hpBoxW, hpBoxH, 0, hpBoxColor6, kFillModeSolid);
+
+	//直接用显示数字的函数来替代分数
+	int score = obj.GetScoreSum();
+	int scoreX = 0;
+	if (obj.GetScoreSum() >= 9999999) {
+		score = 9999999;
+		scoreX = 297;
+	}
+	else if (obj.GetScoreSum() >= 100000) {
+		scoreX = 353 - 9 * 5;
+	}
+	else if (obj.GetScoreSum() >= 10000) {
+		scoreX = 353 - 9 * 4;
+	}
+	else if (obj.GetScoreSum() >= 1000) {
+		scoreX = 353 - 9 * 3;
+	}
+	else if (obj.GetScoreSum() >= 100) {
+		scoreX = 353 - 9 * 2;
+	}
+	else if (obj.GetScoreSum() >= 10) {
+		scoreX = 353 - 9;
+	}
+	else if (obj.GetScoreSum() == 0) {
+		score = 0;
+		scoreX = 353;
+	}
+	Novice::ScreenPrintf(scoreX, 758, "%d", score);
 }
 
 UI_StartScene::UI_StartScene()
@@ -203,17 +231,20 @@ UI_GameOverScene::UI_GameOverScene()
 	_buttonW = 133, _buttonH = 55;
 	_scoreW = 129, _scoreH = 46;
 	_scoreX = 450.f / 2 - _scoreW / 2, _scoreY = 350;
+	_scoreNumX = _scoreX + (_scoreW / 2) - 15, _scoreNumY = _scoreY + 70;
+	_scoreNumIntervalX = 35;
+	_isScoreAniStart = false, _scoreAnimation = 0;
 	_buttonPosX_Restart = 450.f / 2 + 50, _buttonPosY_Restart = 600;
 	_buttonPosX_Back = 450.f / 2 - 50 - _buttonW, _buttonPosY_Back = 600;
 	_buttonTextW_Restart = 105;
 	_buttonTextW_Back = 67;
 }
 
-void UI_GameOverScene::UIOpen()
+void UI_GameOverScene::UIOpen(Player obj)
 {
 	FrameTexture(0, 0, LoadRes::_spUIGameOverScene[0], WHITE);
 	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIGameOverScene[1], WHITE);
-	FrameTexture(_scoreX, _scoreY, LoadRes::_spUIGameOverScene[2], WHITE);
+	FrameTexture(_scoreX + 20, _scoreY, LoadRes::_spUIGameOverScene[2], WHITE);
 	FrameTexture(_buttonPosX_Restart, _buttonPosY_Restart, LoadRes::_spUIGameOverScene[3], WHITE);
 	FrameTexture(_buttonPosX_Back, _buttonPosY_Back, LoadRes::_spUIGameOverScene[4], WHITE);
 	int mouseX = 0, mouseY = 0;
@@ -224,6 +255,7 @@ void UI_GameOverScene::UIOpen()
 		//点击Restart按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Restart = true;
+			_isScoreAniStart = false;
 		}
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
@@ -232,8 +264,124 @@ void UI_GameOverScene::UIOpen()
 		//点击Back按钮触发效果
 		if (Novice::IsPressMouse(0)) {
 			_isButton_Back = true;
+			_isScoreAniStart = false;
 		}
 	}
 	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene[5], WHITE);
 	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene[6], WHITE);
+
+	//分数显示部分
+	int score = obj.GetScoreSum();
+	unsigned int color = WHITE;
+	if (!_isScoreAniStart) {
+		_scoreAnimation = (int)(score * 0.7f);
+		_isScoreAniStart = true;
+	}
+	if (_scoreAnimation >= 9999999) {
+		_scoreAnimation = 9999999;
+		color = RED;
+	}
+	else if (_scoreAnimation < score) {
+		if (_scoreAnimation >= 1000000) {
+			_scoreAnimation += 11111;
+			color = RED;
+		}
+		else if (_scoreAnimation >= 100000) {
+			_scoreAnimation += 1111;
+			color = GREEN;
+		}
+		else if (_scoreAnimation >= 10000) {
+			_scoreAnimation += 1111;
+			color = 0x29b6f6FF;
+		}
+		else if (_scoreAnimation >= 1000) {
+			_scoreAnimation += 111;
+			color = WHITE;
+		}
+		else if (_scoreAnimation >= 100) {
+			_scoreAnimation += 11;
+			color = WHITE;
+		}
+		else if (_scoreAnimation >= 10) {
+			_scoreAnimation += 1;
+			color = WHITE;
+		}
+	}
+	else {
+		_scoreAnimation = score;
+	}
+	int num1 = _scoreAnimation % 10;
+	int num2 = (_scoreAnimation / 10) % 10;
+	int num3 = (_scoreAnimation / 100) % 10;
+	int num4 = (_scoreAnimation / 1000) % 10;
+	int num5 = (_scoreAnimation / 10000) % 10;
+	int num6 = (_scoreAnimation / 100000) % 10;
+	int num7 = (_scoreAnimation / 1000000) % 10;
+	if (score >= 9999999) {
+		color = RED;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 4) + 15;
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num7, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num6, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num5, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 3, _scoreNumY, LoadRes::_spUINumber, num4, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 4, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 5, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 6, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 1000000) {
+		color = RED;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 4) + 15;
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num7, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num6, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num5, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 3, _scoreNumY, LoadRes::_spUINumber, num4, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 4, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 5, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 6, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 100000) {
+		color = GREEN;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 3);
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num6, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num5, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num4, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 3, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 4, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 5, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 10000) {
+		color = 0x29b6f6FF;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 3) + 15;
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num5, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num4, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 3, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 4, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 1000) {
+		color = WHITE;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 2);
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num4, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 3, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 100) {
+		color = WHITE;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 1) + 15;
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num3, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 2, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() >= 10) {
+		color = WHITE;
+		_scoreNumX = _scoreX + (_scoreW / 2) - (30 * 1);
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num2, color);
+		FrameTexture(_scoreNumX + _scoreNumIntervalX * 1, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+	else if (obj.GetScoreSum() == 0) {
+		color = WHITE;
+		_scoreNumX = _scoreX + (_scoreW / 2) - 15;
+		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
 }

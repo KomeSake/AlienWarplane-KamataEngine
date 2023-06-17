@@ -17,6 +17,8 @@ public:
 	bool GetIsCapture();
 	bool GetIsCaptureCD();
 	int GetCaptureCDTime();
+	int GetScoreSum();
+	void SetScorePlus(int value);
 private:
 	int _attackTime = 0;
 	//触手的两点坐标是从中心开始！
@@ -32,4 +34,5 @@ private:
 	bool _iscaptureDamage = false;
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
+	int _scoreSum = 0;//分数就写这里吧，这里方便读取
 };

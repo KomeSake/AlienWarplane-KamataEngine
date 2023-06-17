@@ -37,6 +37,8 @@ public:
 	static std::map<int, int> _spUIHpVessel;
 	static std::map<int, int> _spUIStartScene;
 	static std::map<int, int> _spUIGameOverScene;
+	static std::map<int, SpriteList> _spUINumber;
+	static int _spUIHelp;
 
 	//在主方法中调用(进行实现的材质载入)
 	static void LoadResNovice();
