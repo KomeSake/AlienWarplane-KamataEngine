@@ -127,5 +127,5 @@ void LoadRes::LoadResNovice()
 		_spUINumber[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
-	_spUIHelp = Novice::LoadTexture("./Resources/Textures/Help.png");
+	//_spUIHelp = Novice::LoadTexture("./Resources/Textures/Help.png");
 }

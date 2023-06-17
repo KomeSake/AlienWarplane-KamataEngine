@@ -291,11 +291,11 @@ void UI_GameOverScene::UIOpen(Player obj)
 			color = GREEN;
 		}
 		else if (_scoreAnimation >= 10000) {
-			_scoreAnimation += 1111;
+			_scoreAnimation += 111;
 			color = 0x29b6f6FF;
 		}
 		else if (_scoreAnimation >= 1000) {
-			_scoreAnimation += 111;
+			_scoreAnimation += 11;
 			color = WHITE;
 		}
 		else if (_scoreAnimation >= 100) {
