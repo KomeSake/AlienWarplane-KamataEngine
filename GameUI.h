@@ -3,6 +3,7 @@
 #include "LoadRes.h"
 #include "Player.h"
 #include "Level.h"
+#include "Enemy.h"
 
 class GameUI
 {
@@ -65,6 +66,19 @@ private:
 	bool _isDangerAniStart = false;
 public:
 	UI_SignalVessel();
+	void UIOpen(Level obj);
+};
+
+class UI_DanagerWarning
+	:public GameUI
+{
+private:
+	float _bottomPosX = 0, _bottomPosY = 0;
+	float _text1PosX = 0, _text1PosY = 0;
+	float _text2PosX = 0, _text2PosY = 0;
+	float _levelPosX = 0, _levelPosY = 0;
+public:
+	UI_DanagerWarning();
 	void UIOpen(Level obj);
 };
 

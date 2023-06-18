@@ -30,6 +30,7 @@ std::map<int, LoadRes::SpriteList> LoadRes::_spUIStartScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUIGameOverScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
 int LoadRes::_spUIHelp = 0;
+std::map<int, LoadRes::SpriteList> LoadRes::_spUIDanger;
 
 void LoadRes::LoadResNovice()
 {
@@ -107,6 +108,7 @@ void LoadRes::LoadResNovice()
 	_spUICaptureVessel_05 = Novice::LoadTexture("./Resources/Textures/UI/CaptureVessel_05.png");
 
 	_spUIHpVessel[0] = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_00.png");
+	_spUIHpVessel[1] = Novice::LoadTexture("./Resources/Textures/UI/HpVessel_01.png");
 
 	sprite = Novice::LoadTexture("./Resources/Textures/UI/SignalVessel/List.png");
 	listW = 359, listH = 70;
@@ -167,4 +169,21 @@ void LoadRes::LoadResNovice()
 	}
 
 	_spUIHelp = Novice::LoadTexture("./Resources/Textures/UI/Help.png");
+
+	sprite = Novice::LoadTexture("./Resources/Textures/UI/Dangaer/List.png");
+	listW = 480, listH = 124;
+	w = 244, h = 124, x = 0, y = 0;
+	_spUIDanger[0] = { sprite,x,y,w,h,listW,listH };
+	w = 190, h = 28, x = 244, y = 0;
+	_spUIDanger[1] = { sprite,x,y,w,h,listW,listH };
+	w = 69, h = 28, x = 244, y = 28;
+	_spUIDanger[2] = { sprite,x,y,w,h,listW,listH };
+	w = 23, h = 28, x = 244 + 190, y = 0;
+	_spUIDanger[3] = { sprite,x,y,w,h,listW,listH };
+	w = 23, h = 28, x = 244 + 190 + 23, y = 0;
+	_spUIDanger[4] = { sprite,x,y,w,h,listW,listH };
+	w = 23, h = 28, x = 244 + 69, y = 28;
+	_spUIDanger[5] = { sprite,x,y,w,h,listW,listH };
+	w = 23, h = 28, x = 244 + 69 + 23, y = 28;
+	_spUIDanger[6] = { sprite,x,y,w,h,listW,listH };
 }

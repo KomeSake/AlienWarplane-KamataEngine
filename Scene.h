@@ -28,6 +28,7 @@ private:
 	UI_CaptureVessel* Game_CaptureVesselObj;
 	UI_HpVessel* Game_HpVesselObj;
 	UI_SignalVessel* Game_SignalVesselObj;
+	UI_DanagerWarning* Game_DanagerMarningObj;
 
 	UI_StartScene* Start_Obj;
 	UI_GameOverScene* GameOver_Obj;

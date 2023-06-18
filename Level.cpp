@@ -2,17 +2,19 @@
 
 Level::Level()
 {
-	srand(unsigned int(time(nullptr)));
+	srand(unsigned int(time(nullptr)));//随机数计算
 	_rand_enemyTime = 0;
 	_rand_enemyTimeMax = 2001, _rand_enemyTimeMin = 1000;
 	_rand_enemyPosX = 0;
 	_beforeEnemyPosX = 0;
 
 	_isDangerLevel = false;
+	_isDangerMarningAni = false;
 	_dangerLevelSum = 0;
 	_dangerLevelOne = 10;
 	_dangerLevelTwo = 20;
 	_dangerLevelThree = 30;
+	_levelTime = 30000;
 
 	_enemyWeightVec = {
 		{Enemy::normal,5},
@@ -21,35 +23,30 @@ Level::Level()
 	};
 }
 
-//ChatGPT提出了一个挺有意思的建议，敌人要有波次概念。
-//平时就是普通出现敌人，然后一段时间就出一大波敌人，这样有紧迫感，也更符合现实
 void Level::LevelDirector()
 {
 	//危险度计算部分
 	if (!_isDangerLevel) {
-		if (Timers(30000, 1)) {
+		if (Timers(_levelTime, 1)) {
 			if (_dangerLevelSum >= _dangerLevelThree) {
 				_rand_enemyTimeMax = 101, _rand_enemyTimeMin = 50;
-				Novice::ConsolePrintf("Enemy Comeing! Level3! Level:%d\n", _dangerLevelSum);
 			}
 			else if (_dangerLevelSum >= _dangerLevelTwo) {
 				_rand_enemyTimeMax = 301, _rand_enemyTimeMin = 200;
-				Novice::ConsolePrintf("Enemy Comeing! Level2! Level:%d\n", _dangerLevelSum);
 			}
 			else if (_dangerLevelSum >= _dangerLevelOne) {
 				_rand_enemyTimeMax = 501, _rand_enemyTimeMin = 300;
-				Novice::ConsolePrintf("Enemy Comeing! Level1! Level:%d\n", _dangerLevelSum);
 			}
 			else {
 				_rand_enemyTimeMax = 1001, _rand_enemyTimeMin = 500;
 				_dangerLevelSum += 20;
-				Novice::ConsolePrintf("Enemy Comeing! Level0! Level:%d\n", _dangerLevelSum);
 			}
+			_isDangerMarningAni = true;
 			_isDangerLevel = true;
 			_rand_enemyTime = 0;//重置一下敌人生成的间隔时间，让它立马开始
 		}
 	}
-	else if (_isDangerLevel) {
+	if (_isDangerLevel) {
 		if (Timers(5000, 2)) {
 			_rand_enemyTimeMax = 2001, _rand_enemyTimeMin = 1000;
 			_dangerLevelSum -= 10;
@@ -58,6 +55,10 @@ void Level::LevelDirector()
 			}
 			_isDangerLevel = false;
 		}
+	}
+	if (_isDangerMarningAni && Timers(3000, 3)) {
+		//到时间提示GameUI类把危险度告示收回去
+		_isDangerMarningAni = false;
 	}
 	//根据随机时间生成敌人
 	if (Timers(_rand_enemyTime, 0)) {
@@ -109,12 +110,35 @@ bool Level::Timers(int milli, int index)
 	return false;
 }
 
-int Level::GetDangerLevel()
+int Level::GetDangerLevelSum()
 {
 	return _dangerLevelSum;
+}
+
+int Level::GetDangerLevelMax1()
+{
+	return _dangerLevelOne;
+}
+int Level::GetDangerLevelMax2()
+{
+	return _dangerLevelTwo;
+}
+int Level::GetDangerLevelMax3()
+{
+	return _dangerLevelThree;
 }
 
 void Level::DangerLevelPlus(int value)
 {
 	_dangerLevelSum += value;
+}
+
+bool Level::GetDangerMarningAni()
+{
+	return _isDangerMarningAni;
+}
+
+void Level::SetDangerMarningAni(bool taf)
+{
+	_isDangerMarningAni = taf;
 }

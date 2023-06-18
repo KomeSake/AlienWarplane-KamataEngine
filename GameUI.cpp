@@ -103,7 +103,7 @@ void UI_CaptureVessel::UIOpen(Player obj)
 UI_HpVessel::UI_HpVessel()
 {
 	_width = 165;
-	_higth = 108;
+	_higth = 153;
 	_posX = 450 - _width;
 	_posY = 780 - _higth;
 	_speed = 0;
@@ -113,9 +113,25 @@ UI_HpVessel::UI_HpVessel()
 void UI_HpVessel::UIOpen(Player obj)
 {
 	FrameTexture(_posX, _posY, LoadRes::_spUIHpVessel[0], _color);
-
+	//吸收敌机指示坐标
+	int captureEnemyX = (int)_posX + 180, captureEnemyY = (int)_posY + 40;
+	float captureEnemyAngle = 3.14159f / 180 * 150;
+	switch (obj.GetCaptureEnemyType()) {
+	case Enemy::normal:
+		Novice::DrawSprite(captureEnemyX, captureEnemyY, LoadRes::_spEnemy, 0.75f, 0.75f, captureEnemyAngle, WHITE);
+		break;
+	case Enemy::laser:
+		Novice::DrawSprite(captureEnemyX, captureEnemyY, LoadRes::_spEnemy2, 0.75f, 0.75f, captureEnemyAngle, WHITE);
+		break;
+	case Enemy::ufo:
+		captureEnemyX -= 7, captureEnemyY -= 7;
+		Novice::DrawSprite(captureEnemyX, captureEnemyY, LoadRes::_spEnemy3, 0.75f, 0.75f, captureEnemyAngle, WHITE);
+		break;
+	}
+	FrameTexture(_posX, _posY, LoadRes::_spUIHpVessel[1], _color);
+	//血条相关坐标
 	int hpBoxW = 62, hpBoxH = 12;
-	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY - 2;
+	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY + 42;
 	int hpBoxGapY = hpBoxH + 3;
 	unsigned int hpBoxColor_ON = 0xd01716FF, hpBoxColor_OFF = 0x661111FF;
 	unsigned int hpBoxColor1 = hpBoxColor_OFF;
@@ -214,7 +230,7 @@ UI_SignalVessel::UI_SignalVessel()
 void UI_SignalVessel::UIOpen(Level obj)
 {
 	FrameTexture(_signalPosX, _signalPosY, LoadRes::_spUISignalVessel, 3, _color);
-	if (_dangerLevelSum < obj.GetDangerLevel()) {
+	if (_dangerLevelSum < obj.GetDangerLevelSum()) {
 		_isDangerAniStart = true;
 	}
 	if (_isDangerAniStart == true) {
@@ -226,15 +242,15 @@ void UI_SignalVessel::UIOpen(Level obj)
 			_isDangerAniStart = false;
 		}
 	}
-	_dangerLevelSum = obj.GetDangerLevel();
+	_dangerLevelSum = obj.GetDangerLevelSum();
 	FrameTexture(_signalPosX, _signalPosY, LoadRes::_spUISignalVessel, 5, _color);
 	FrameTexture(_bottomPosX, _bottomPosY, LoadRes::_spUISignalVessel, 0, _color);
 	FrameTexture(_numberPosX, _numberPosY, LoadRes::_spUISignalVessel, 1, _color);
-	if (_redPosX + (float)(_dangerLevelSum * 4.8f) <= 167) {
+	if (_redPosX + (float)(_dangerLevelSum * 4.8f) <= 154) {
 		FrameTexture(_redPosX + (float)(_dangerLevelSum * 4.8f), _redPosY, LoadRes::_spUISignalVessel, 2, _color);
 	}
 	else {
-		FrameTexture(167, _redPosY, LoadRes::_spUISignalVessel, 2, _color);
+		FrameTexture(154, _redPosY, LoadRes::_spUISignalVessel, 2, _color);
 	}
 }
 
@@ -467,5 +483,47 @@ void UI_GameOverScene::UIOpen(Player obj)
 		color = WHITE;
 		_scoreNumX = _scoreX + (_scoreW / 2) - (_scoreNumIntervalX / 2);
 		FrameTexture(_scoreNumX, _scoreNumY, LoadRes::_spUINumber, num1, color);
+	}
+}
+
+UI_DanagerWarning::UI_DanagerWarning()
+{
+	_bottomPosX = 450.f / 2 - 224.f / 2, _bottomPosY = -125;
+	_text1PosX = _bottomPosX + 112 - 190.f / 2 + 10, _text1PosY = _bottomPosY + 30;
+	_text2PosX = _bottomPosX + 70, _text2PosY = _bottomPosY + 65;
+	_levelPosX = _text2PosX + 80, _levelPosY = _text2PosY;
+	_speed = 5;
+}
+
+void UI_DanagerWarning::UIOpen(Level obj)
+{
+	_text1PosY = _bottomPosY + 30;
+	_text2PosY = _bottomPosY + 65;
+	_levelPosY = _text2PosY;
+
+	if (obj.GetDangerMarningAni()) {
+		if (_bottomPosY < 70) {
+			_bottomPosY += _speed;
+		}
+	}
+	else {
+		if (_bottomPosY > -125) {
+			_bottomPosY -= _speed;
+		}
+	}
+	FrameTexture(_bottomPosX, _bottomPosY, LoadRes::_spUIDanger, 0, WHITE);
+	FrameTexture(_text1PosX, _text1PosY, LoadRes::_spUIDanger, 1, WHITE);
+	FrameTexture(_text2PosX, _text2PosY, LoadRes::_spUIDanger, 2, WHITE);
+	if (obj.GetDangerLevelSum() >= obj.GetDangerLevelMax3()) {
+		FrameTexture(_levelPosX, _levelPosY, LoadRes::_spUIDanger, 5, WHITE);
+	}
+	else if (obj.GetDangerLevelSum() >= obj.GetDangerLevelMax2()) {
+		FrameTexture(_levelPosX, _levelPosY, LoadRes::_spUIDanger, 4, WHITE);
+	}
+	else if (obj.GetDangerLevelSum() >= obj.GetDangerLevelMax1()) {
+		FrameTexture(_levelPosX, _levelPosY, LoadRes::_spUIDanger, 3, WHITE);
+	}
+	else {
+		FrameTexture(_levelPosX, _levelPosY, LoadRes::_spUIDanger, 6, WHITE);
 	}
 }

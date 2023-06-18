@@ -26,7 +26,7 @@ Player::Player()
 
 	_captureDamageCount = 0;
 	_iscaptureDamage = false;
-	_captureEnemyType = Enemy::normal;
+	_captureEnemyType = Enemy::null;
 
 	_isGetHurtAniStart = false;
 	_getHurtPosX = 0, _getHurtPosY = 0;
@@ -305,6 +305,7 @@ void Player::DamageCheck()
 			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
 			_iscaptureDamage = false;
+			_captureEnemyType = Enemy::null;
 			_hp -= element->GetDamage();
 		}
 	}
@@ -372,6 +373,11 @@ int Player::GetScoreSum()
 void Player::SetScorePlus(int value)
 {
 	_scoreSum += value;
+}
+
+Enemy::EnemyType Player::GetCaptureEnemyType()
+{
+	return _captureEnemyType;
 }
 
 bool Player::PlayerAndTentaclePlus()

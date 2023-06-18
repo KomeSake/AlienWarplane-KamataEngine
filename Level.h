@@ -18,6 +18,8 @@ private:
 	int _dangerLevelSum = 0;//危险度
 	int _dangerLevelOne = 0, _dangerLevelTwo = 0, _dangerLevelThree = 0;
 	bool _isDangerLevel = false;
+	bool _isDangerMarningAni = false;//给界面的危险度提示用
+	int _levelTime = 0;//波次间隔时间
 
 	struct EnemyWeight
 	{
@@ -32,6 +34,11 @@ public:
 	void LevelDirector();
 	Enemy::EnemyType EnemyRandom(std::vector<EnemyWeight> vec);
 
-	int GetDangerLevel();
+	int GetDangerLevelSum();
+	int GetDangerLevelMax1();
+	int GetDangerLevelMax2();
+	int GetDangerLevelMax3();
 	void DangerLevelPlus(int value);
+	bool GetDangerMarningAni();
+	void SetDangerMarningAni(bool taf);
 };

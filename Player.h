@@ -19,6 +19,7 @@ public:
 	int GetCaptureCDTime();
 	int GetScoreSum();
 	void SetScorePlus(int value);
+	Enemy::EnemyType GetCaptureEnemyType();
 private:
 	int _attackTime = 0;
 	//触手的两点坐标是从中心开始！
@@ -32,7 +33,7 @@ private:
 	//下面是针对提前抓爆被抓敌人的设定
 	int _captureDamageCount = 0;
 	bool _iscaptureDamage = false;//这个值代表是否吸收了敌人
-	Enemy::EnemyType _captureEnemyType = Enemy::normal;
+	Enemy::EnemyType _captureEnemyType = Enemy::null;
 	bool PlayerAndTentaclePlus();//这个方法会判断触手和玩家是否合体，而且会进行一些合体的变化
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)

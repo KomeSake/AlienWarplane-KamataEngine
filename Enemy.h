@@ -8,6 +8,7 @@ class Enemy :
 {
 public:
 	static enum EnemyType {
+		null,
 		normal,
 		laser,
 		ufo,

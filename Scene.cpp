@@ -9,6 +9,7 @@ Scene::Scene()
 	Game_CaptureVesselObj = new UI_CaptureVessel;
 	Game_HpVesselObj = new UI_HpVessel;
 	Game_SignalVesselObj = new UI_SignalVessel;
+	Game_DanagerMarningObj = new UI_DanagerWarning;
 
 	Start_Obj = new UI_StartScene;
 	GameOver_Obj = new UI_GameOverScene;
@@ -27,6 +28,8 @@ void Scene::ScreenGameUp(Player obj, Level obj2)
 	Game_HpVesselObj->UIOpen(obj);
 	//危险度UI
 	Game_SignalVesselObj->UIOpen(obj2);
+	//危险波次警告
+	Game_DanagerMarningObj->UIOpen(obj2);
 
 	//检测玩家状态
 	if (obj.GetHp() <= 0) {
