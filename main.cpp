@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//自己的变量
 	LoadRes::LoadResNovice();
 	Player* PlayerObj = new Player;
-	Level* LevelObj = nullptr;
+	Level* LevelObj = new Level;
 
 	Scene SceneObj;
 	DataMessage DataMessageObj;
@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
-			SceneObj.ScreenGameUp(*PlayerObj);
+			SceneObj.ScreenGameUp(*PlayerObj, *LevelObj);
 			break;
 		case Scene::Start:
 			//开始界面

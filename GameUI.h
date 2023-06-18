@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"
+#include "Level.h"
 
 class GameUI
 {
@@ -16,6 +17,12 @@ protected:
 	unsigned int _color = WHITE;
 	void FrameTexture(float x, float y, int sprite, unsigned int color);
 	void FrameTexture(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int index, unsigned int color);
+	bool Timers(int milli, int index);
+private:
+	//从Plane类偷来的计时器
+	clock_t _timeStart[11] = { 0 };
+	clock_t _timeEnd[11] = { 0 };
+	bool _isTimeOpen[11] = { 0 };
 };
 
 //游戏界面对象
@@ -45,6 +52,22 @@ public:
 	void UIOpen(Player obj);
 };
 
+class UI_SignalVessel
+	:public GameUI
+{
+private:
+	float _bottomPosX = 0, _bottomPosY = 0;
+	float _numberPosX = 0, _numberPosY = 0;
+	float _redPosX = 0, _redPosY = 0;
+	float _signalPosX = 0, _signalPosY = 0;
+
+	int _dangerLevelSum = 0;//从Level类中获取的危险度
+	bool _isDangerAniStart = false;
+public:
+	UI_SignalVessel();
+	void UIOpen(Level obj);
+};
+
 //开始界面对象
 class UI_StartScene
 	:public GameUI
@@ -56,10 +79,11 @@ private:
 	float _buttonW = 0, _buttonH = 0;
 	float _buttonTextW_Start = 0;
 	float _buttonTextW_Help = 0;
+	float _helpPosX = 0, _helpPosY = 0;
 public:
 	UI_StartScene();
 	void UIOpen();
-	bool _isButton_Start = false;
+	bool _isButton_Start = false, _isButton_Help = false;
 };
 
 //游戏结束界面对象
@@ -79,10 +103,10 @@ private:
 	float _buttonW = 0, _buttonH = 0;
 	float _buttonTextW_Restart = 0;
 	float _buttonTextW_Back = 0;
-
 public:
 	UI_GameOverScene();
 	void UIOpen(Player obj);
 	bool _isButton_Restart = false;
 	bool _isButton_Back = false;
+	bool _isMouseCheckStart = false;//用来延迟获取鼠标坐标(不然玩家可能一下子就点到了重新开始按钮)
 };

@@ -3,6 +3,7 @@
 #include "LoadRes.h"
 #include "GameUI.h"
 #include "Player.h"
+#include "Level.h"
 class Scene
 {
 	//这个类的作用是控制每个场景中出现的UI
@@ -18,7 +19,7 @@ public:
 
 	Scene();
 	void ScreenGameDown();
-	void ScreenGameUp(Player obj);
+	void ScreenGameUp(Player obj, Level obj2);
 
 	void SceneStart();
 	void GameOverStart(Player obj);
@@ -26,6 +27,7 @@ private:
 	UI_BackGround* Game_BGObj;
 	UI_CaptureVessel* Game_CaptureVesselObj;
 	UI_HpVessel* Game_HpVesselObj;
+	UI_SignalVessel* Game_SignalVesselObj;
 
 	UI_StartScene* Start_Obj;
 	UI_GameOverScene* GameOver_Obj;

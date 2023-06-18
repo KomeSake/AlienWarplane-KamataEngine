@@ -32,5 +32,6 @@ public:
 	void LevelDirector();
 	Enemy::EnemyType EnemyRandom(std::vector<EnemyWeight> vec);
 
+	int GetDangerLevel();
 	void DangerLevelPlus(int value);
 };

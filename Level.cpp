@@ -109,6 +109,11 @@ bool Level::Timers(int milli, int index)
 	return false;
 }
 
+int Level::GetDangerLevel()
+{
+	return _dangerLevelSum;
+}
+
 void Level::DangerLevelPlus(int value)
 {
 	_dangerLevelSum += value;
