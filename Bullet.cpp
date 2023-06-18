@@ -24,7 +24,8 @@ void Bullet::Initial(BulletType type)
 	_color = WHITE;
 
 	_damage = 1;
-	_speed = 15;	//让敌人子弹速度为负数即可子弹从上往下
+	_speedY = 15;	//让敌人子弹速度为负数即可子弹从上往下
+	_speedX = 0;
 
 	_type = 0;
 	_sprite = LoadRes::_spBullet_player;
@@ -38,43 +39,46 @@ void Bullet::Initial(BulletType type)
 	case enemy:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy;
-		_speed = -7;
+		_speedY = -7;
 		break;
 	case enemyCapture:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemyCapture;
-		_speed = 7;
+		_speedY = 7;
 		break;
 	case laser:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy2;
 		_width = 32, _higth = 32;
-		_speed = -4;
+		_speedY = -4;
 		break;
 	case laserCapture:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy2Capture;
 		_width = 32, _higth = 32;
-		_speed = 4;
+		_speedY = 4;
 		break;
 	case ufo:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy3;
 		_width = 64, _higth = 64;
-		_speed = -0.3f;
+		_speedY = -0.3f;
+		_damage = 3;
 		break;
 	case ufoCapture:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy3Capture;
 		_width = 64, _higth = 64;
-		_speed = -0.1f;
+		_speedY = -0.1f;
+		_damage = 3;
 		break;
 	}
 }
 
 void Bullet::Move()
 {
-	_posY -= _speed;
+	_posY -= _speedY;
+	_posX -= _speedX;
 	if (_posX > 0 - 50 && _posX < 450 + 50 && _posY>0 - 50 && _posY < 780 + 50) {
 		if (_type != ufo && _type != ufoCapture) {
 			FrameTexture(_posX, _posY, _sprite);
@@ -182,6 +186,32 @@ int Bullet::GetDamage()
 void Bullet::SetType(int type)
 {
 	_type = type;
+}
+
+void Bullet::SetSpeed(int type, int xy, float num)
+{
+	switch (xy) {
+	case 0:
+		switch (type) {
+		case 0:
+			_speedX = num;
+			break;
+		case 1:
+			_speedX = _speedX * num;
+			break;
+		}
+		break;
+	case 1:
+		switch (type) {
+		case 0:
+			_speedY = num;
+			break;
+		case 1:
+			_speedY = _speedY * num;
+			break;
+		}
+		break;
+	}
 }
 
 

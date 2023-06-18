@@ -52,7 +52,7 @@ public:
 
 private:
 	//给帧动画用的
-	int _frameIndex[11] = { 0 };
+	int _frameIndex[31] = { 0 };
 	clock_t _frame_timeStart[31] = { 0 };
 	clock_t _frame_timeEnd[31] = { 0 };
 	bool _frame_isTimeOpen[31] = { 0 };

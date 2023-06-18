@@ -23,8 +23,10 @@ Player::Player()
 	_capturedValue = 0;
 	_captureSpeed = 10;
 	_isPlayerHpPlus = false;
+
 	_captureDamageCount = 0;
 	_iscaptureDamage = false;
+	_captureEnemyType = Enemy::normal;
 
 	_isGetHurtAniStart = false;
 	_getHurtPosX = 0, _getHurtPosY = 0;
@@ -99,15 +101,83 @@ void Player::Move(char keys[])
 
 void Player::Attack(char keys[])
 {
-	if (keys[DIK_SPACE] || keys[DIK_J] || Novice::IsPressMouse(0)) {
+	if (keys[DIK_SPACE] || Novice::IsPressMouse(0)) {
 		if (Timers(_attackTime, 11)) {
-			Bullet* bullet = BulletManager::AcquireBullet(Bullet::player);
-			bullet->Fire(_posX + 15, _posY + 15);
+			Bullet* bullet = nullptr;
+			float bulletX = 15, bulletY = 15;
+			Bullet* bullet2 = nullptr;
+			float bullet2X = 15, bullet2Y = 15;
+			Bullet* bullet3 = nullptr;
+			float bullet3X = 15, bullet3Y = 15;
+			//是否是吸收状态
+			if (_iscaptureDamage) {
+				//吸收状态下，还捕获了相同类型的敌人,而且触手和自己重合，触发合体技！
+				if (PlayerAndTentaclePlus() && _isCapture && !_isCaptureCD
+					&& _captureEnemyType == _enemyCaptured->GetType()) {
+					switch (_captureEnemyType) {
+					case Enemy::normal:
+						bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
+						bulletX = -1;
+						bullet2 = BulletManager::AcquireBullet(Bullet::enemyCapture);
+						bullet2X = 31;
+						_attackTime = 150;
+						break;
+					case Enemy::laser:
+						bullet = BulletManager::AcquireBullet(Bullet::laserCapture);
+						bullet->SetSpeed(1, 1, 3);
+						_attackTime = 50;
+						break;
+					case Enemy::ufo:
+						bullet = BulletManager::AcquireBullet(Bullet::ufoCapture);
+						bullet->SetSpeed(0, 1, 10);
+						bullet2 = BulletManager::AcquireBullet(Bullet::ufoCapture);
+						bullet2->SetSpeed(0, 1, 10);
+						bullet2->SetSpeed(0, 0, -5);
+						bullet3 = BulletManager::AcquireBullet(Bullet::ufoCapture);
+						bullet3->SetSpeed(0, 1, 10);
+						bullet3->SetSpeed(0, 0, 5);
+						_attackTime = 600;
+						break;
+					}
+				}
+				//单纯只是吸收状态
+				else {
+					switch (_captureEnemyType) {
+					case Enemy::normal:
+						bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
+						_attackTime = 300;
+						break;
+					case Enemy::laser:
+						bullet = BulletManager::AcquireBullet(Bullet::laserCapture);
+						_attackTime = 300;
+						break;
+					case Enemy::ufo:
+						bullet = BulletManager::AcquireBullet(Bullet::ufoCapture);
+						bullet->SetSpeed(0, 1, 10);
+						_attackTime = 600;
+						break;
+					}
+				}
+			}
+			//不是吸收状态下的正常子弹
+			else {
+				bullet = BulletManager::AcquireBullet(Bullet::player);
+				_attackTime = 300;
+			}
+
+			if (bullet != nullptr) {
+				bullet->Fire(_posX + bulletX, _posY + bulletY);
+			}
+			if (bullet2 != nullptr) {
+				bullet2->Fire(_posX + bullet2X, _posY + bullet2Y);
+			}
+			if (bullet3 != nullptr) {
+				bullet3->Fire(_posX + bullet3X, _posY + bullet3Y);
+			}
 		}
 	}
 }
 
-//一个可以提前捏爆抓住敌机的机制
 void Player::CaptureEnemy()
 {
 	//触手移动部分
@@ -187,12 +257,8 @@ void Player::CaptureEnemy()
 			}
 			else {
 				SetFrameIndex(2, 0);
-				if (!_iscaptureDamage) {
-					_isCaptureCD = true;
-				}
-				_isCapture = false;
+				_isCaptureCD = true;
 				_captureSpeed = 10;
-				_iscaptureDamage = false;
 				delete(_enemyCaptured);
 			}
 		}
@@ -203,6 +269,7 @@ void Player::CaptureEnemy()
 				_enemyCaptured->SetAniMode(1, 0);
 				if (_captureDamageCount >= 3) {
 					_iscaptureDamage = true;
+					_captureEnemyType = (Enemy::EnemyType)(_enemyCaptured->GetType());
 					_enemyCaptured->SetIsLive(false);
 				}
 			}
@@ -237,6 +304,7 @@ void Player::DamageCheck()
 		if (distacne < _width / 2 + element->GetWidth() / 2) {
 			BulletManager::ReleaseBullet(element);
 			_aniMode_getHurt = 1;
+			_iscaptureDamage = false;
 			_hp -= element->GetDamage();
 		}
 	}
@@ -304,4 +372,14 @@ int Player::GetScoreSum()
 void Player::SetScorePlus(int value)
 {
 	_scoreSum += value;
+}
+
+bool Player::PlayerAndTentaclePlus()
+{
+	if (_tentaclePosX > _posX && _tentaclePosX < _posX + 64
+		&& _tentaclePosY > _posY - 64 && _tentaclePosY < _posY + 64) {
+		return true;
+	}
+
+	return false;
 }

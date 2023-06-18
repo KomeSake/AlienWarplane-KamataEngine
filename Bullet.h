@@ -14,7 +14,8 @@ protected:
 	unsigned int _color = WHITE;
 
 	int _damage;
-	float _speed;
+	float _speedY = 0;
+	float _speedX = 0;
 	int _sprite;
 	int _type;
 	bool _isFire;
@@ -44,6 +45,8 @@ public:
 	int GetType();
 	int GetDamage();
 	void SetType(int type);
+	//两种模式，0：直接设置值，1：倍率设置值(推荐);速度有X轴和Y轴；
+	void SetSpeed(int type, int xy, float num);
 };
 
 class BulletManager

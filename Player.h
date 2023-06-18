@@ -29,9 +29,11 @@ private:
 	int _capturedValue = 0;
 	float _captureSpeed = 0;
 	bool _isPlayerHpPlus = false;
-	//这两个是针对提前抓爆被抓敌人的设定
+	//下面是针对提前抓爆被抓敌人的设定
 	int _captureDamageCount = 0;
-	bool _iscaptureDamage = false;
+	bool _iscaptureDamage = false;//这个值代表是否吸收了敌人
+	Enemy::EnemyType _captureEnemyType = Enemy::normal;
+	bool PlayerAndTentaclePlus();//这个方法会判断触手和玩家是否合体，而且会进行一些合体的变化
 
 	Enemy* _enemyCaptured;//记录被抓住的敌人(放在触手上的)
 	int _scoreSum = 0;//分数就写这里吧，这里方便读取
