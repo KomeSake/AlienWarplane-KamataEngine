@@ -6,6 +6,7 @@ Player::Player()
 	_higth = 64;
 	_posX = 450.f / 2;
 	_posY = 780 - _higth;
+	_sprite = LoadRes::_spPlayer;
 
 	_hp = 12;
 	_speed = 4;
@@ -114,6 +115,7 @@ void Player::Attack(char keys[])
 				//吸收状态下，还捕获了相同类型的敌人,而且触手和自己重合，触发合体技！
 				if (PlayerAndTentaclePlus() && _isCapture && !_isCaptureCD
 					&& _captureEnemyType == _enemyCaptured->GetType()) {
+					_sprite = LoadRes::_spPlayer2;
 					switch (_captureEnemyType) {
 					case Enemy::normal:
 						bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
@@ -333,6 +335,11 @@ void Player::AniPlayerUP()
 	}
 }
 
+int Player::GetSprite()
+{
+	return _sprite;
+}
+
 int Player::GetHp()
 {
 	return _hp;
@@ -382,10 +389,13 @@ Enemy::EnemyType Player::GetCaptureEnemyType()
 
 bool Player::PlayerAndTentaclePlus()
 {
-	if (_tentaclePosX > _posX && _tentaclePosX < _posX + 64
-		&& _tentaclePosY > _posY - 64 && _tentaclePosY < _posY + 64) {
-		return true;
+	if (!_isCaptureCD) {
+		if (_tentaclePosX > _posX && _tentaclePosX < _posX + 64
+			&& _tentaclePosY > _posY - 64 && _tentaclePosY < _posY + 64) {
+			return true;
+		}
 	}
 
+	_sprite = LoadRes::_spPlayer;
 	return false;
 }

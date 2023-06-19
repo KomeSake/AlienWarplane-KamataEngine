@@ -2,8 +2,8 @@
 #include <Novice.h>
 #include <queue>
 #include <vector>
+#include <ctime>
 #include "LoadRes.h"
-#include "Plane.h"
 
 class Bullet
 {
@@ -21,6 +21,9 @@ protected:
 	bool _isFire;
 
 	void FrameTexture(float x, float y, int sprite);
+	//子弹的特殊处理(注意在方法开头要做类型判断，因为这个方法会直接调用)
+	void BulletUfo();
+	void BulletBigGun();
 public:
 	static enum BulletType {
 		player,
@@ -30,6 +33,8 @@ public:
 		laserCapture,
 		ufo,
 		ufoCapture,
+		bigGun,
+		bigGunCapture,
 	}bulletType;
 
 	Bullet(BulletType type);
@@ -44,9 +49,18 @@ public:
 	float GetHigth();
 	int GetType();
 	int GetDamage();
+	float GetSpeed(int xy);
 	void SetType(int type);
 	//两种模式，0：直接设置值，1：倍率设置值(推荐);速度有X轴和Y轴；
 	void SetSpeed(int type, int xy, float num);
+	//特殊子弹变量
+	bool _isBigGunFirst = true;//判断是不是第一颗
+private:
+	//从Plane类偷来的计时器
+	bool Timers(int milli, int index);
+	clock_t _timeStart[11] = { 0 };
+	clock_t _timeEnd[11] = { 0 };
+	bool _isTimeOpen[11] = { 0 };
 };
 
 class BulletManager
@@ -65,6 +79,8 @@ public:
 	static std::queue<Bullet*> _bulletIdiePool_laserCapture;
 	static std::queue<Bullet*> _bulletIdiePool_ufo;
 	static std::queue<Bullet*> _bulletIdiePool_ufoCapture;
+	static std::queue<Bullet*> _bulletIdiePool_bigGun;
+	static std::queue<Bullet*> _bulletIdiePool_bigGunCapture;
 
 
 	static Bullet* AcquireBullet(Bullet::BulletType type);

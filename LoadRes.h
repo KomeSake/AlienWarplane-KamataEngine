@@ -18,9 +18,9 @@ public:
 	}_spriteList;
 
 	//Sprite贴图
-	static int _spPlayer, _spPlayerTentacles;
-	static int _spEnemy, _spEnemy2, _spEnemy3;
-	static int _spBullet_player, _spBullet_enemy, _spBullet_enemyCapture, _spBullet_enemy2, _spBullet_enemy2Capture, _spBullet_enemy3, _spBullet_enemy3Capture;
+	static int _spPlayer, _spPlayer2, _spPlayerTentacles;
+	static int _spEnemy, _spEnemy2, _spEnemy3, _spEnemy4;
+	static int _spBullet_player, _spBullet_enemy, _spBullet_enemyCapture, _spBullet_enemy2, _spBullet_enemy2Capture, _spBullet_enemy3, _spBullet_enemy3Capture, _spBullet_enemy4, _spBullet_enemy4Capture;
 
 	//动画
 	static std::map<int, SpriteList> _spAniExplode;

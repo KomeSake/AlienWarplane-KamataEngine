@@ -11,6 +11,7 @@ public:
 	void CaptureEnemy();
 	void DamageCheck();
 	void AniPlayerUP();			//这个方法放一些要显示在玩家图像上面的特效
+	int GetSprite();
 	int GetHp();
 	int GetCapturedValue();
 	void CapturedValueAdd();

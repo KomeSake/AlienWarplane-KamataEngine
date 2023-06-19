@@ -9,7 +9,7 @@
 //4.1、一般都是在Level类里面调用，这是主管关卡的类
 //5、最后对对象调用Fire方法(这是决定敌人开始攻击的关键方法！)
 //5.1、注意被抓的敌人是调用CapturedFire方法
-//6、最后就是修改CaptureFire方法，添加相对应的敌人绘图，发射对应的子弹
+//6、最后就是修改Attack和CaptureFire方法，添加相对应的敌人绘图，发射对应的子弹
 
 
 
@@ -53,13 +53,16 @@ void Enemy::Initial(float x, float y, int type)
 	switch (type) {
 	case normal:
 		_type = normal;
+		_score = 50;
+		_hp = 3;
+		_speed = 3;
 		break;
 	case laser:
 		_type = laser;
 		_score = 100;
 		_sprite = LoadRes::_spEnemy2;
 		_hp = 5;
-		_speed = 1;
+		_speed = 1.5f;
 		_attackTime1 = 3000;
 		_attackTime2 = 100;
 		_bulletSum = 10;
@@ -70,6 +73,16 @@ void Enemy::Initial(float x, float y, int type)
 		_sprite = LoadRes::_spEnemy3;
 		_hp = 2;
 		_speed = 5;
+		break;
+	case bigGun:
+		_type = bigGun;
+		_score = 130;
+		_sprite = LoadRes::_spEnemy4;
+		_hp = 4;
+		_speed = 0.5f;
+		_attackTime1 = 3000;
+		_attackTime2 = 10;
+		_bulletSum = 1;
 		break;
 	}
 }
@@ -118,34 +131,78 @@ void Enemy::Attack(float x, float y, bool isCapture)
 			if (_bulletCount < _bulletSum) {
 				if (Timers(_attackTime2, 13)) {
 					_bulletCount++;
-					Bullet* bullet = nullptr;
+					Bullet* bullet1 = nullptr;
+					Bullet* bullet2 = nullptr;
+					Bullet* bullet3 = nullptr;
+					Bullet* bullet4 = nullptr;
+					Bullet* bullet5 = nullptr;
 					if (!isCapture) {
 						switch (_type) {
 						case normal:
-							bullet = BulletManager::AcquireBullet(Bullet::enemy);
+							bullet1 = BulletManager::AcquireBullet(Bullet::enemy);
 							break;
 						case laser:
-							bullet = BulletManager::AcquireBullet(Bullet::laser);
+							bullet1 = BulletManager::AcquireBullet(Bullet::laser);
 							break;
 						case ufo:
-							bullet = BulletManager::AcquireBullet(Bullet::ufo);
+							bullet1 = BulletManager::AcquireBullet(Bullet::ufo);
+							break;
+						case bigGun:
+							bullet1 = BulletManager::AcquireBullet(Bullet::bigGun);
+							bullet2 = BulletManager::AcquireBullet(Bullet::bigGun);
+							bullet2->SetSpeed(0, 0, -bullet2->GetSpeed(1));
+							bullet3 = BulletManager::AcquireBullet(Bullet::bigGun);
+							bullet3->SetSpeed(0, 0, bullet3->GetSpeed(1));
+							bullet4 = BulletManager::AcquireBullet(Bullet::bigGun);
+							bullet4->SetSpeed(0, 0, -bullet4->GetSpeed(1));
+							bullet4->SetSpeed(0, 1, 0);
+							bullet5 = BulletManager::AcquireBullet(Bullet::bigGun);
+							bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1));
+							bullet5->SetSpeed(0, 1, 0);
 							break;
 						}
 					}
 					else {
 						switch (_type) {
 						case normal:
-							bullet = BulletManager::AcquireBullet(Bullet::enemyCapture);
+							bullet1 = BulletManager::AcquireBullet(Bullet::enemyCapture);
 							break;
 						case laser:
-							bullet = BulletManager::AcquireBullet(Bullet::laserCapture);
+							bullet1 = BulletManager::AcquireBullet(Bullet::laserCapture);
 							break;
 						case ufo:
-							bullet = BulletManager::AcquireBullet(Bullet::ufoCapture);
+							bullet1 = BulletManager::AcquireBullet(Bullet::ufoCapture);
+							break;
+						case bigGun:
+							bullet1 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
+							bullet2 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
+							bullet2->SetSpeed(0, 0, -bullet2->GetSpeed(1));
+							bullet3 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
+							bullet3->SetSpeed(0, 0, bullet3->GetSpeed(1));
+							bullet4 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
+							bullet4->SetSpeed(0, 0, -bullet4->GetSpeed(1));
+							bullet4->SetSpeed(0, 1, 0);
+							bullet5 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
+							bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1));
+							bullet5->SetSpeed(0, 1, 0);
 							break;
 						}
 					}
-					bullet->Fire(x, y);
+					if (bullet1 != nullptr) {
+						bullet1->Fire(x, y);
+					}
+					if (bullet2 != nullptr) {
+						bullet2->Fire(x, y);
+					}
+					if (bullet3 != nullptr) {
+						bullet3->Fire(x, y);
+					}
+					if (bullet4 != nullptr) {
+						bullet4->Fire(x, y);
+					}
+					if (bullet5 != nullptr) {
+						bullet5->Fire(x, y);
+					}
 				}
 			}
 		}
@@ -203,7 +260,7 @@ void Enemy::CaptureFire(float x, float y)
 	if (_isLive == true) {
 		//子弹发射部分
 		Attack(x - 32.f / 2, y - 64 - 10, true);
-		//绘图部分(到时候按照类型做个switch即可)
+		//绘图部分
 		GetHurtAni(x, y, 0, RED);
 		switch (_type) {
 		case normal:
@@ -214,6 +271,9 @@ void Enemy::CaptureFire(float x, float y)
 			break;
 		case ufo:
 			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy3, 1, 1, 3.14159f, _color);
+			break;
+		case bigGun:
+			Novice::DrawSprite((int)x + 32, (int)y, LoadRes::_spEnemy4, 1, 1, 3.14159f, _color);
 			break;
 		}
 	}
@@ -239,6 +299,16 @@ int Enemy::GetScore()
 	return _score;
 }
 
+float Enemy::GetWidth()
+{
+	return _width;
+}
+
+float Enemy::GetHigth()
+{
+	return _higth;
+}
+
 void Enemy::SetAttackValue(int attackTime1, int attackTime2, int bulletSum)
 {
 	_attackTime1 = attackTime1;
@@ -256,6 +326,7 @@ std::vector<Enemy*> EnemyManager::_enemyUpdateVector;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_normal;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_laser;
 std::queue<Enemy*> EnemyManager::_enemyIdiePool_ufo;
+std::queue<Enemy*> EnemyManager::_enemyIdiePool_bigGun;
 void EnemyManager::EnemyUpdata()
 {
 	for (Enemy* element : EnemyManager::_enemyUpdateVector) {
@@ -304,6 +375,18 @@ Enemy* EnemyManager::AcquireEnemy(float bornX, float bornY, Enemy::EnemyType typ
 			return enemy;
 		}
 		break;
+	case Enemy::bigGun:
+		if (EnemyManager::_enemyIdiePool_bigGun.empty()) {
+			Enemy* enemy = new Enemy(bornX, bornY, type);
+			return enemy;
+		}
+		else {
+			Enemy* enemy = EnemyManager::_enemyIdiePool_bigGun.front();
+			enemy->Initial(bornX, bornY, type);
+			EnemyManager::_enemyIdiePool_bigGun.pop();
+			return enemy;
+		}
+		break;
 	}
 	return nullptr;
 }
@@ -330,6 +413,13 @@ void EnemyManager::ReleaseEnemy(Enemy* enemy)
 		if (it != EnemyManager::_enemyUpdateVector.end()) {
 			EnemyManager::_enemyUpdateVector.erase(it);
 			EnemyManager::_enemyIdiePool_ufo.push(enemy);
+		}
+		break; }
+	case Enemy::bigGun: {
+		auto it = std::find(EnemyManager::_enemyUpdateVector.begin(), EnemyManager::_enemyUpdateVector.end(), enemy);
+		if (it != EnemyManager::_enemyUpdateVector.end()) {
+			EnemyManager::_enemyUpdateVector.erase(it);
+			EnemyManager::_enemyIdiePool_bigGun.push(enemy);
 		}
 		break; }
 	}

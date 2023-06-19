@@ -12,9 +12,9 @@ public:
 		normal,
 		laser,
 		ufo,
+		bigGun,
 	}enemyType;
 
-	//敌人初始化里面，我还少写了一个要根据不同的类型做一些特殊的初始化操作
 	Enemy(float x, float y, int type);
 	void Initial(float x, float y, int type);
 	void Fire();//一开始调用这个方法
@@ -27,6 +27,8 @@ public:
 	bool GetIsLive();
 	void SetIsLive(bool live);
 	int GetScore();
+	float GetWidth();
+	float GetHigth();
 
 	//可以修改敌人攻击频率；每轮攻击持续时间，每轮攻击时间，每轮子弹数量
 	void SetAttackValue(int attackTime1, int attackTime2, int bulletSum);
@@ -68,6 +70,7 @@ public:
 	static std::queue<Enemy*> _enemyIdiePool_normal;
 	static std::queue<Enemy*> _enemyIdiePool_laser;
 	static std::queue<Enemy*> _enemyIdiePool_ufo;
+	static std::queue<Enemy*> _enemyIdiePool_bigGun;
 
 	static Enemy* AcquireEnemy(float bornX, float bornY, Enemy::EnemyType type);
 	static void ReleaseEnemy(Enemy* enemy);

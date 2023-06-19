@@ -17,9 +17,10 @@ Level::Level()
 	_levelTime = 30000;
 
 	_enemyWeightVec = {
-		{Enemy::normal,5},
-		{Enemy::laser,2},
-		{Enemy::ufo,3}
+		{Enemy::normal,40},
+		{Enemy::laser,20},
+		{Enemy::ufo,30},
+		{Enemy::bigGun,10}
 	};
 }
 

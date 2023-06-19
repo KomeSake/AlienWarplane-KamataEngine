@@ -1,6 +1,7 @@
 #pragma warning(disable: 28251)//无视了主函数WinMain出现的警告
 //未解决问题：
 //子弹会突然加速
+//因为敌人死亡后不是立马回收，而是会在它基础上播放一个爆炸动画，所以如果吸收敌人的时候，鼠标也在自己身上，就会短暂的触发合体状态(以后爆炸特效什么的还是应该另外触发)
 #include <Novice.h>
 #include "LoadRes.h"
 #include "Player.h"
@@ -74,7 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			LevelObj->LevelDirector();
 			DataMessageObj.MessageCheck();
 
-			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
+			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), PlayerObj->GetSprite(), PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
 			SceneObj.ScreenGameUp(*PlayerObj, *LevelObj);
 			break;
@@ -94,7 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			EnemyManager::EnemyUpdata();
 			LevelObj->LevelDirector();
 			DataMessageObj.MessageCheck();
-			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), LoadRes::_spPlayer, PlayerObj->GetColor());
+			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), PlayerObj->GetSprite(), PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
 			//SceneObj.ScreenGameUp(*PlayerObj);//看看到时候要不要做一个GameUI下降
 			//以上都是游戏界面中有的，充当结束界面的背景图，不显得那么单调

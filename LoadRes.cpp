@@ -3,17 +3,21 @@
 LoadRes::SpriteList LoadRes::_spriteList;
 
 int LoadRes::_spPlayer = 0;
+int LoadRes::_spPlayer2 = 0;
 int LoadRes::_spPlayerTentacles = 0;
 int LoadRes::_spEnemy = 0;
 int LoadRes::_spEnemy2 = 0;
 int LoadRes::_spEnemy3 = 0;
+int LoadRes::_spEnemy4 = 0;
 int LoadRes::_spBullet_player = 0;
 int LoadRes::_spBullet_enemy = 0;
 int LoadRes::_spBullet_enemy2 = 0;
 int LoadRes::_spBullet_enemy3 = 0;
+int LoadRes::_spBullet_enemy4 = 0;
 int LoadRes::_spBullet_enemyCapture = 0;
 int LoadRes::_spBullet_enemy2Capture = 0;
 int LoadRes::_spBullet_enemy3Capture = 0;
+int LoadRes::_spBullet_enemy4Capture = 0;
 
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerTentacles;
@@ -40,11 +44,13 @@ void LoadRes::LoadResNovice()
 
 	//Sprite贴图
 	_spPlayer = Novice::LoadTexture("./Resources/Textures/Player0-0.png");
+	_spPlayer2 = Novice::LoadTexture("./Resources/Textures/Player0-2.png");
 	_spPlayerTentacles = Novice::LoadTexture("./Resources/Textures/PlayerTentacles.png");
 
 	_spEnemy = Novice::LoadTexture("./Resources/Textures/Enemy.png");
 	_spEnemy2 = Novice::LoadTexture("./Resources/Textures/Enemy2.png");
 	_spEnemy3 = Novice::LoadTexture("./Resources/Textures/Enemy3.png");
+	_spEnemy4 = Novice::LoadTexture("./Resources/Textures/Enemy4.png");
 
 	_spBullet_player = Novice::LoadTexture("./Resources/Textures/Bullet.png");
 	_spBullet_enemy = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy.png");
@@ -53,6 +59,8 @@ void LoadRes::LoadResNovice()
 	_spBullet_enemy2Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy2(Captured).png");
 	_spBullet_enemy3 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy3.png");
 	_spBullet_enemy3Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy3(Captured).png");
+	_spBullet_enemy4 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy4.png");
+	_spBullet_enemy4Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy4(Captured).png");
 
 	//动画
 	for (int i = 0; i < 10; i++) {
