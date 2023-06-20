@@ -20,9 +20,11 @@ public:
 	Scene();
 	void ScreenGameDown();
 	void ScreenGameUp(Player obj, Level obj2);
-
 	void SceneStart();
 	void GameOverStart(Player obj);
+
+	bool GetIsCheckAuto();
+	bool GetIsCheckEasyMode();
 private:
 	UI_BackGround* Game_BGObj;
 	UI_CaptureVessel* Game_CaptureVesselObj;
@@ -31,5 +33,6 @@ private:
 	UI_DanagerWarning* Game_DanagerMarningObj;
 
 	UI_StartScene* Start_Obj;
+	bool _isCheck_AutoShoot = false, _isCheck_EasyMode = false;
 	UI_GameOverScene* GameOver_Obj;
 };

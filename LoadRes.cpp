@@ -24,6 +24,7 @@ std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerTentacles;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerFire;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniEnemyFire;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus2;
 
 int LoadRes::_spUIBg = 0;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUICaptureVessel;
@@ -101,6 +102,14 @@ void LoadRes::LoadResNovice()
 		x = i * w, y = 0;
 		listW = 640, listH = 64;
 		_spAniPlayerHpPlus[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 9; i++) {
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Player_hpPlus2.png");
+		w = 64, h = 64;
+		x = i * w, y = 0;
+		listW = 640, listH = 64;
+		_spAniPlayerHpPlus2[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	//UI

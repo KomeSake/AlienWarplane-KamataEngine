@@ -39,7 +39,7 @@ public:
 	void FrameTexture(float x, float y, int sprite, unsigned int color);
 	//如果想要下次播放从第0帧开始，那么调用SetFrameIndex方法设置一下(注意时间不是百分百准确的，需要自行微调一下)
 	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int frameTime, int index);
-	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float scaleX, float scaleY, int frameTime, int index);
+	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float scaleX, float scaleY, unsigned int color, int frameTime, int index);
 	float GetPosX();
 	float GetPosY();
 	//0：直接设置数值，1：倍率式设置数值

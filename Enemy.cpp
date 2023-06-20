@@ -29,6 +29,7 @@ void Enemy::Initial(float x, float y, int type)
 	_speed = 3;
 	_sprite = LoadRes::_spEnemy;
 	_color = WHITE;
+	_color2 = 0xFFFFFF00;
 
 	_type = 0;
 	_score = 50;
@@ -96,9 +97,19 @@ void Enemy::Move()
 {
 	//敌机被射击，其他敌机的图像就会闪烁，不知道为什么
 	if (_isLive) {
-		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, 100, 0);
-		FrameTexture(_posX, _posY, _sprite, _color);
 		_posY += _speed;
+		FrameAnimation(_posX + _width / 4, _posY - _higth / 2 - 10, LoadRes::_spAniEnemyFire, 1, 2, WHITE, 100, 0);
+		//敌人的进场特效
+		if (_posY + 64 >= 0 && _posY < 30) {
+			unsigned int inter = (int)(256.f / (30.f / _speed));
+			if (_color2 < WHITE) {
+				_color2 += 0x00000001 * inter;
+			}
+			FrameTexture(_posX, _posY, _sprite, _color2);
+		}
+		else {
+			FrameTexture(_posX, _posY, _sprite, _color);
+		}
 		GetHurtAni(_posX, _posY, -_getHurtSpeedY, RED);
 	}
 	else if (_isLive == false) {
@@ -137,6 +148,7 @@ void Enemy::Attack(float x, float y, bool isCapture)
 					Bullet* bullet4 = nullptr;
 					Bullet* bullet5 = nullptr;
 					if (!isCapture) {
+						//敌人本身发射状态
 						switch (_type) {
 						case normal:
 							bullet1 = BulletManager::AcquireBullet(Bullet::enemy);
@@ -163,6 +175,7 @@ void Enemy::Attack(float x, float y, bool isCapture)
 						}
 					}
 					else {
+						//被捕获状态发射
 						switch (_type) {
 						case normal:
 							bullet1 = BulletManager::AcquireBullet(Bullet::enemyCapture);

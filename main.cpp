@@ -53,10 +53,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			delete PlayerObj;
 			delete LevelObj;
 			BulletManager::_bulletUpdateVector.clear();			//本来还是想用对象池的回收方法的
-			BulletManager::_bulletUpdateVector_enemy.clear();	//但是不知道为什么不管用，所以只可以直接清空了
-			EnemyManager::_enemyUpdateVector.clear();
+			BulletManager::_bulletUpdateVector_enemy.clear();	//但是不知道为什么不管用，只可以直接清空了
+			EnemyManager::_enemyUpdateVector.clear();			//一共3个别忘了
 			PlayerObj = new Player;
 			LevelObj = new Level;
+			PlayerObj->SetAutoShoot(SceneObj.GetIsCheckAuto());
+			PlayerObj->SetEasyMode(SceneObj.GetIsCheckEasyMode());
+			PlayerObj->EasyModeValue();
 			DataMessageObj.Initial(PlayerObj, LevelObj);
 			Scene::_sceneIndex = Scene::Game;
 			break;

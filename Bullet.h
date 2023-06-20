@@ -23,7 +23,6 @@ protected:
 	void FrameTexture(float x, float y, int sprite);
 	//子弹的特殊处理(注意在方法开头要做类型判断，因为这个方法会直接调用)
 	void BulletUfo();
-	void BulletBigGun();
 public:
 	static enum BulletType {
 		player,
@@ -53,8 +52,7 @@ public:
 	void SetType(int type);
 	//两种模式，0：直接设置值，1：倍率设置值(推荐);速度有X轴和Y轴；
 	void SetSpeed(int type, int xy, float num);
-	//特殊子弹变量
-	bool _isBigGunFirst = true;//判断是不是第一颗
+	void SetDamage(int num);
 private:
 	//从Plane类偷来的计时器
 	bool Timers(int milli, int index);

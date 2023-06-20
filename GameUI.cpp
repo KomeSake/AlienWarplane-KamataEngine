@@ -127,6 +127,10 @@ void UI_HpVessel::UIOpen(Player obj)
 		captureEnemyX -= 7, captureEnemyY -= 7;
 		Novice::DrawSprite(captureEnemyX, captureEnemyY, LoadRes::_spEnemy3, 0.75f, 0.75f, captureEnemyAngle, WHITE);
 		break;
+	case Enemy::bigGun:
+		captureEnemyX += 3, captureEnemyY += 3;
+		Novice::DrawSprite(captureEnemyX, captureEnemyY, LoadRes::_spEnemy4, 0.75f, 0.75f, captureEnemyAngle, WHITE);
+		break;
 	}
 	FrameTexture(_posX, _posY, LoadRes::_spUIHpVessel[1], _color);
 	//血条相关坐标
@@ -257,6 +261,7 @@ void UI_SignalVessel::UIOpen(Level obj)
 UI_StartScene::UI_StartScene()
 {
 	_isButton_Start = false, _isButton_Help = false;
+	_isCheck_AutoShoot = false, _isCheck_EasyMode = false;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
@@ -278,12 +283,13 @@ void UI_StartScene::UIOpen()
 	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene, 2, WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
+	//Start界面
 	if (!_isButton_Help) {
 		if (mouseX >= _buttonPosX_Start && mouseX <= _buttonPosX_Start + _buttonW
 			&& mouseY >= _buttonPosY_Start && mouseY <= _buttonPosY_Start + _buttonH) {
 			FrameTexture(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene, 5, WHITE);
 			//点击Start按钮触发效果
-			if (Novice::IsPressMouse(0)) {
+			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Start = true;
 			}
 		}
@@ -291,23 +297,58 @@ void UI_StartScene::UIOpen()
 			&& mouseY >= _buttonPosY_Help && mouseY <= _buttonPosY_Help + _buttonH) {
 			FrameTexture(_buttonPosX_Help - 8, _buttonPosY_Help - 7, LoadRes::_spUIStartScene, 5, WHITE);
 			//点击Help按钮触发效果
-			if (Novice::IsPressMouse(0)) {
+			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = true;
 			}
 		}
+		FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
+		FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
 	}
-	FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
-	FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
-
-	if (_isButton_Help) {
+	//Help弹窗
+	else {
 		FrameTexture(_helpPosX, _helpPosY, LoadRes::_spUIHelp, WHITE);
+		if (mouseX >= _helpPosX + 50 && mouseX <= _helpPosX + 50 + 50 && mouseY >= (int)_helpPosY + 550 && mouseY <= (int)_helpPosY + 550 + 50) {
+			if (Novice::IsTriggerMouse(0)) {
+				//点击Help界面中的AutoShoot选项
+				if (!_isCheck_AutoShoot) {
+					_isCheck_AutoShoot = true;
+				}
+				else {
+					_isCheck_AutoShoot = false;
+				}
+			}
+		}
+		if (mouseX >= _helpPosX + 250 && mouseX <= _helpPosX + 250 + 50 && mouseY >= (int)_helpPosY + 550 && mouseY <= (int)_helpPosY + 550 + 50) {
+			if (Novice::IsTriggerMouse(0)) {
+				//点击Help界面中的EasyMode选项
+				if (!_isCheck_EasyMode) {
+					_isCheck_EasyMode = true;
+				}
+				else {
+					_isCheck_EasyMode = false;
+				}
+			}
+		}
 		if (mouseX >= _helpPosX + 153 && mouseX <= _helpPosX + 153 + 133
 			&& mouseY >= _helpPosY + 625 && mouseY <= _helpPosY + 625 + 55) {
 			FrameTexture(_helpPosX + 153 - 5, _helpPosY + 625 - 5, LoadRes::_spUIGameOverScene, 7, WHITE);
 			//点击Help界面中Back按钮触发效果
-			if (Novice::IsPressMouse(0)) {
+			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = false;
 			}
+		}
+		//两个选项操控按钮(占位)
+		if (!_isCheck_AutoShoot) {
+			Novice::DrawBox((int)_helpPosX + 50, (int)_helpPosY + 550, 50, 50, 0, WHITE, kFillModeSolid);
+		}
+		else {
+			Novice::DrawBox((int)_helpPosX + 50, (int)_helpPosY + 550, 50, 50, 0, RED, kFillModeSolid);
+		}
+		if (!_isCheck_EasyMode) {
+			Novice::DrawBox((int)_helpPosX + 250, (int)_helpPosY + 550, 50, 50, 0, WHITE, kFillModeSolid);
+		}
+		else {
+			Novice::DrawBox((int)_helpPosX + 250, (int)_helpPosY + 550, 50, 50, 0, RED, kFillModeSolid);
 		}
 	}
 }
@@ -353,7 +394,7 @@ void UI_GameOverScene::UIOpen(Player obj)
 		&& mouseY >= _buttonPosY_Restart && mouseY <= _buttonPosY_Restart + _buttonH) {
 		FrameTexture(_buttonPosX_Restart - 5, _buttonPosY_Restart - 6, LoadRes::_spUIGameOverScene, 7, WHITE);
 		//点击Restart按钮触发效果
-		if (Novice::IsPressMouse(0)) {
+		if (Novice::IsTriggerMouse(0)) {
 			_isButton_Restart = true;
 			_isScoreAniStart = false;
 		}
@@ -362,7 +403,7 @@ void UI_GameOverScene::UIOpen(Player obj)
 		&& mouseY >= _buttonPosY_Back && mouseY <= _buttonPosY_Back + _buttonH) {
 		FrameTexture(_buttonPosX_Back - 5, _buttonPosY_Back - 6, LoadRes::_spUIGameOverScene, 7, WHITE);
 		//点击Back按钮触发效果
-		if (Novice::IsPressMouse(0)) {
+		if (Novice::IsTriggerMouse(0)) {
 			_isButton_Back = true;
 			_isScoreAniStart = false;
 		}

@@ -37,6 +37,7 @@ public:
 	bool _isMessageOver_isLive = false;		//发送死亡信息，以此来给玩家回血
 	int _message_isFree = 0;				//发送逃逸信息；0：初始化，1：已逃逸，2：信息发送完成
 protected:
+	unsigned int _color2 = WHITE;
 	int _type = 0;
 	bool _isLive = true;
 	bool _isCaptureGod = true;

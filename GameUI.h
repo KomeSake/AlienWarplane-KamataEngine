@@ -98,6 +98,7 @@ public:
 	UI_StartScene();
 	void UIOpen();
 	bool _isButton_Start = false, _isButton_Help = false;
+	bool _isCheck_AutoShoot = false, _isCheck_EasyMode = false;
 };
 
 //游戏结束界面对象

@@ -77,16 +77,14 @@ void Bullet::Initial(BulletType type)
 		_sprite = LoadRes::_spBullet_enemy4;
 		_width = 32, _higth = 32;
 		_speedY = -4;
-		_damage = 1;
-		_isBigGunFirst = true;
+		_damage = 3;
 		break;
 	case bigGunCapture:
 		_type = type;
 		_sprite = LoadRes::_spBullet_enemy4Capture;
 		_width = 32, _higth = 32;
 		_speedY = 4;
-		_damage = 1;
-		_isBigGunFirst = true;
+		_damage = 3;
 		break;
 	}
 }
@@ -108,7 +106,6 @@ void Bullet::Move()
 	}
 	//特殊子弹处理
 	BulletUfo();
-	BulletBigGun();
 }
 
 void Bullet::Fire(float x, float y)
@@ -172,17 +169,6 @@ void Bullet::BulletUfo()
 			BulletManager::ReleaseBullet(this);
 		}
 		Novice::DrawSprite((int)_posX, (int)_posY, _sprite, 1, 1, 0, _color);
-	}
-}
-
-void Bullet::BulletBigGun()
-{
-	if (_type == bigGun && _isBigGunFirst) {
-		if (Timers(1000, 0)) {
-			_isBigGunFirst = false;
-		}
-	}
-	if (_type == bigGunCapture && _isBigGunFirst) {
 	}
 }
 
@@ -277,6 +263,11 @@ void Bullet::SetSpeed(int type, int xy, float num)
 		}
 		break;
 	}
+}
+
+void Bullet::SetDamage(int num)
+{
+	_damage = num;
 }
 
 
