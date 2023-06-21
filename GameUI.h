@@ -93,7 +93,19 @@ private:
 	float _buttonW = 0, _buttonH = 0;
 	float _buttonTextW_Start = 0;
 	float _buttonTextW_Help = 0;
+	float _checkBottomX_Auto = 0, _checkBottomY_Auto = 0;
+	float _checkX_Auto = 0, _checkY_Auto = 0;
+	float _textX_Auto = 0, _textY_Auto = 0;
+	float _checkBottomX_Easy = 0, _checkBottomY_Easy = 0;
+	float _checkX_Easy = 0, _checkY_Easy = 0;
+	float _textX_Easy = 0, _textY_Easy = 0;
+	float _checkBottomW = 0, _checkBottomH = 0;
+
 	float _helpPosX = 0, _helpPosY = 0;
+	float _helpPosX_CheckAuto = 0, _helpPosY_CheckAuto = 0;
+	float _helpPosX_checkEasy = 0, _helpPosY_CheckEasy = 0;
+	float _helpPosX_BackButton = 0, _helpPosY_BackButton = 0;
+	float _helpPosX_NextButton = 0, _helpPosY_NextButton = 0;
 public:
 	UI_StartScene();
 	void UIOpen();

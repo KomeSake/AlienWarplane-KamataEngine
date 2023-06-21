@@ -35,6 +35,8 @@ std::map<int, LoadRes::SpriteList> LoadRes::_spUIStartScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUIGameOverScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
 int LoadRes::_spUIHelp = 0;
+int LoadRes::_spUIHelpText1 = 0;
+int LoadRes::_spUIHelpText2 = 0;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUIDanger;
 
 void LoadRes::LoadResNovice()
@@ -149,14 +151,24 @@ void LoadRes::LoadResNovice()
 	_spUIStartScene[0] = { sprite,x,y,w,h,listW,listH };
 	w = 450, h = 334, x = 450, y = 0;
 	_spUIStartScene[1] = { sprite,x,y,w,h,listW,listH };
-	w = 210, h = 73, x = 450 + 225, y = 334;
+	w = 210, h = 73, x = 450 + 225, y = 334 + 73;
 	_spUIStartScene[2] = { sprite,x,y,w,h,listW,listH };
-	w = 127, h = 57, x = 450, y = 334 + 81;
+	w = 127, h = 57, x = 450 + 105, y = 480;
 	_spUIStartScene[3] = { sprite,x,y,w,h,listW,listH };
-	w = 105, h = 70, x = 450 + 225, y = 334 + 73;
+	w = 105, h = 70, x = 450, y = 415;
 	_spUIStartScene[4] = { sprite,x,y,w,h,listW,listH };
 	w = 225, h = 81, x = 450, y = 334;
 	_spUIStartScene[5] = { sprite,x,y,w,h,listW,listH };
+	w = 225, h = 73, x = 675, y = 334;
+	_spUIStartScene[6] = { sprite,x,y,w,h,listW,listH };
+	w = 103, h = 31, x = 555, y = 415;
+	_spUIStartScene[7] = { sprite,x,y,w,h,listW,listH };
+	w = 141, h = 31, x = 682, y = 480;
+	_spUIStartScene[8] = { sprite,x,y,w,h,listW,listH };
+	w = 37, h = 29, x = 555, y = 446;
+	_spUIStartScene[9] = { sprite,x,y,w,h,listW,listH };
+	w = 29, h = 29, x = 593, y = 446;
+	_spUIStartScene[10] = { sprite,x,y,w,h,listW,listH };
 
 	sprite = Novice::LoadTexture("./Resources/Textures/UI/GameOverScene/List.png");
 	listW = 900, listH = 780;
@@ -186,6 +198,8 @@ void LoadRes::LoadResNovice()
 	}
 
 	_spUIHelp = Novice::LoadTexture("./Resources/Textures/UI/Help.png");
+	_spUIHelpText1 = Novice::LoadTexture("./Resources/Textures/UI/UI_HelpText1.png");
+	_spUIHelpText2 = Novice::LoadTexture("./Resources/Textures/UI/UI_HelpText2.png");
 
 	sprite = Novice::LoadTexture("./Resources/Textures/UI/Dangaer/List.png");
 	listW = 480, listH = 124;

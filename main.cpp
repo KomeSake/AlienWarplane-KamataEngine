@@ -11,9 +11,6 @@
 #include "Scene.h"
 #include "DataMessage.h"
 
-#include <Windows.h>
-#include <string>
-
 const char kWindowTitle[] = "LC1C_15_ソウ_チョウキ_v20230413";
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -105,9 +102,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			SceneObj.GameOverStart(*PlayerObj);
 			break;
 		}
-
-		//std::string output = "X: " + std::to_string(PlayerObj.GetPosX()) + ",Y: " + std::to_string(PlayerObj.GetPosY()) + "\n";
-		//OutputDebugStringA(output.c_str());
 
 		///
 		/// ↑描画処理ここまで

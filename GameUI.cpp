@@ -266,21 +266,38 @@ UI_StartScene::UI_StartScene()
 	_width = 450, _higth = 780;
 	_color = WHITE;
 
+	//Start界面
 	_titlePosX = 0, _titlePosY = 50;
 	_buttonW = 210, _buttonH = 73;
 	_buttonPosX_Start = 450.f / 2 - _buttonW / 2, _buttonPosY_Start = 450;
 	_buttonPosX_Help = 450.f / 2 - _buttonW / 2, _buttonPosY_Help = 600;
 	_buttonTextW_Start = 127;
 	_buttonTextW_Help = 105;
-	_helpPosX = 450.f / 2 - 437.f / 2, _helpPosY = 50;
+	_checkBottomX_Auto = 48, _checkBottomY_Auto = 711;
+	_checkX_Auto = 48, _checkY_Auto = 708;
+	_textX_Auto = 84, _textY_Auto = 711;
+	_checkBottomX_Easy = 271, _checkBottomY_Easy = 711;
+	_checkX_Easy = 271, _checkY_Easy = 708;
+	_textX_Easy = 310, _textY_Easy = 711;
+	_checkBottomW = 29, _checkBottomH = 29;
+	//Help弹窗
+	_helpPosX = 450.f / 2 - 437.f / 2, _helpPosY = 5;
+	_helpPosX_CheckAuto = 0, _helpPosY_CheckAuto = 0;
+	_helpPosX_checkEasy = 0, _helpPosY_CheckEasy = 0;
+	_helpPosX_BackButton = 450.f / 2 - 133 - 30, _helpPosY_BackButton = 720;
+	_helpPosX_NextButton = 450.f / 2 + 30, _helpPosY_NextButton = 720;
 }
 
 void UI_StartScene::UIOpen()
 {
 	FrameTexture(0, 0, LoadRes::_spUIStartScene, 0, WHITE);
 	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene, 1, WHITE);
-	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene, 2, WHITE);
+	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene, 6, WHITE);
 	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene, 2, WHITE);
+	FrameTexture(_checkBottomX_Auto, _checkBottomY_Auto, LoadRes::_spUIStartScene, 10, WHITE);
+	FrameTexture(_textX_Auto, _textY_Auto, LoadRes::_spUIStartScene, 8, WHITE);
+	FrameTexture(_checkBottomX_Easy, _checkBottomY_Easy, LoadRes::_spUIStartScene, 10, WHITE);
+	FrameTexture(_textX_Easy, _textY_Easy, LoadRes::_spUIStartScene, 7, WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
 	//Start界面
@@ -301,12 +318,46 @@ void UI_StartScene::UIOpen()
 				_isButton_Help = true;
 			}
 		}
+		if (mouseX >= _checkBottomX_Auto && mouseX <= _checkBottomX_Auto + _checkBottomW
+			&& mouseY >= _checkBottomY_Auto && mouseY <= _checkBottomY_Auto + _checkBottomH) {
+			//点击AutoShooting选项
+			if (Novice::IsTriggerMouse(0)) {
+				if (!_isCheck_AutoShoot) {
+					_isCheck_AutoShoot = true;
+				}
+				else {
+					_isCheck_AutoShoot = false;
+				}
+			}
+		}
+		if (mouseX >= _checkBottomX_Easy && mouseX <= _checkBottomX_Easy + _checkBottomW
+			&& mouseY >= _checkBottomY_Easy && mouseY <= _checkBottomY_Easy + _checkBottomH) {
+			//点击EasyMode选项
+			if (Novice::IsTriggerMouse(0)) {
+				if (!_isCheck_EasyMode) {
+					_isCheck_EasyMode = true;
+				}
+				else {
+					_isCheck_EasyMode = false;
+				}
+			}
+		}
 		FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
 		FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
+		if (_isCheck_AutoShoot) {
+			FrameTexture(_checkX_Auto, _checkY_Auto, LoadRes::_spUIStartScene, 9, WHITE);
+		}
+		if (_isCheck_EasyMode) {
+			FrameTexture(_checkX_Easy, _checkY_Easy, LoadRes::_spUIStartScene, 9, WHITE);
+		}
 	}
 	//Help弹窗
 	else {
 		FrameTexture(_helpPosX, _helpPosY, LoadRes::_spUIHelp, WHITE);
+		FrameTexture(_helpPosX_BackButton, _helpPosY_BackButton, LoadRes::_spUIGameOverScene, 4, WHITE);
+		FrameTexture(_helpPosX_NextButton, _helpPosY_NextButton, LoadRes::_spUIGameOverScene, 3, WHITE);
+		FrameTexture(_helpPosX_BackButton + 133.f / 2 - 67.f / 2, _helpPosY_BackButton + 5, LoadRes::_spUIGameOverScene, 6, WHITE);
+		FrameTexture(_helpPosX_NextButton + 133.f / 2 - 67.f / 2, _helpPosY_NextButton + 5, LoadRes::_spUIHelpText1, WHITE);
 		if (mouseX >= _helpPosX + 50 && mouseX <= _helpPosX + 50 + 50 && mouseY >= (int)_helpPosY + 550 && mouseY <= (int)_helpPosY + 550 + 50) {
 			if (Novice::IsTriggerMouse(0)) {
 				//点击Help界面中的AutoShoot选项
@@ -409,7 +460,7 @@ void UI_GameOverScene::UIOpen(Player obj)
 		}
 	}
 	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene, 5, WHITE);
-	FrameTexture(_buttonPosX_Back + +_buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene, 6, WHITE);
+	FrameTexture(_buttonPosX_Back + _buttonW / 2 - _buttonTextW_Back / 2, _buttonPosY_Back + 4, LoadRes::_spUIGameOverScene, 6, WHITE);
 
 	//分数显示部分
 	int score = obj.GetScoreSum();
