@@ -18,12 +18,19 @@ protected:
 	unsigned int _color = WHITE;
 	void FrameTexture(float x, float y, int sprite, unsigned int color);
 	void FrameTexture(float x, float y, std::map<int, LoadRes::SpriteList> sprite, int index, unsigned int color);
+	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float angle, int frameTime, int index);
+	//10~20留给帧动画用
 	bool Timers(int milli, int index);
 private:
 	//从Plane类偷来的计时器
-	clock_t _timeStart[11] = { 0 };
-	clock_t _timeEnd[11] = { 0 };
-	bool _isTimeOpen[11] = { 0 };
+	clock_t _timeStart[21] = { 0 };
+	clock_t _timeEnd[21] = { 0 };
+	bool _isTimeOpen[21] = { 0 };
+	//给帧动画用的(也是从Plane类偷来的)
+	int _frameIndex[31] = { 0 };
+	clock_t _frame_timeStart[31] = { 0 };
+	clock_t _frame_timeEnd[31] = { 0 };
+	bool _frame_isTimeOpen[31] = { 0 };
 };
 
 //游戏界面对象
@@ -106,6 +113,9 @@ private:
 	float _helpPosX_checkEasy = 0, _helpPosY_CheckEasy = 0;
 	float _helpPosX_BackButton = 0, _helpPosY_BackButton = 0;
 	float _helpPosX_NextButton = 0, _helpPosY_NextButton = 0;
+
+	float _messageX_mouse = 0, _messageY_mouse = 0;
+	float _messageSpeed_mouse = 0;
 public:
 	UI_StartScene();
 	void UIOpen();
@@ -113,6 +123,7 @@ public:
 	bool _isCheck_AutoShoot = false, _isCheck_EasyMode = false;
 	//Help界面中，0是操作方法，1是UI介绍(因为我已经用一个bool来控制Help界面的开启了，所以这个作为一个附加值就好，懒得改代码了)
 	int _button_HelpPage = 0;
+	bool _isMessage_Mouse = false;
 };
 
 //游戏结束界面对象

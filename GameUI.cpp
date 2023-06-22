@@ -14,6 +14,21 @@ void GameUI::FrameTexture(float x, float y, std::map<int, LoadRes::SpriteList> s
 	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrW, arrH, arrSprite, ((float)arrW / (float)arrSpriteW), ((float)arrH / (float)arrSpriteH), 0, color);
 }
 
+void GameUI::FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float angle, int frameTime, int index)
+{
+	if (Timers(frameTime, index)) {
+		_frameIndex[index]++;
+	}
+	if (_frameIndex[index] > (int)sprite.size() - 1 || _frameIndex[index] < 0) {
+		_frameIndex[index] = 0;
+	}
+	int arrSprite = sprite[_frameIndex[index]].sprite;
+	int arrW = sprite[_frameIndex[index]].w, arrH = sprite[_frameIndex[index]].h;
+	int arrX = sprite[_frameIndex[index]].x, arrY = sprite[_frameIndex[index]].y;
+	int arrSpriteW = sprite[_frameIndex[index]].listW, arrSpriteH = sprite[_frameIndex[index]].listH;
+	Novice::DrawSpriteRect((int)x, (int)y, arrX, arrY, arrW, arrH, arrSprite, ((float)arrW / (float)arrSpriteW), ((float)arrH / (float)arrSpriteH), angle, WHITE);
+}
+
 bool GameUI::Timers(int milli, int index)
 {
 	if (!_isTimeOpen[index]) {
@@ -265,12 +280,14 @@ void UI_SignalVessel::UIOpen(Level obj)
 
 UI_StartScene::UI_StartScene()
 {
-	_isButton_Start = false, _isButton_Help = false;
-	_isCheck_AutoShoot = false, _isCheck_EasyMode = false;
-	_button_HelpPage = 0;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
+
+	_isButton_Start = false, _isButton_Help = false;
+	_isCheck_AutoShoot = false, _isCheck_EasyMode = false;
+	_button_HelpPage = 0;
+	_isMessage_Mouse = false;
 
 	//Start界面
 	_titlePosX = 0, _titlePosY = 50;
@@ -292,6 +309,9 @@ UI_StartScene::UI_StartScene()
 	_helpPosX_checkEasy = 0, _helpPosY_CheckEasy = 0;
 	_helpPosX_BackButton = 450.f / 2 - 133 - 30, _helpPosY_BackButton = 670;
 	_helpPosX_NextButton = 450.f / 2 + 30, _helpPosY_NextButton = 670;
+	//鼠标提示信息
+	_messageX_mouse = _buttonPosX_Start + _buttonW - 50, _messageY_mouse = _buttonPosY_Start + _buttonW - 50;//下面还有一个地方会修改，要保持两个地方都相同，因为是让提示返回远处的代码
+	_messageSpeed_mouse = 2;
 }
 
 void UI_StartScene::UIOpen()
@@ -345,6 +365,18 @@ void UI_StartScene::UIOpen()
 				}
 			}
 		}
+		//鼠标使用提示
+		if (_messageY_mouse < _buttonPosY_Start + 50) {
+			if (Timers(500, 3)) {
+				_messageX_mouse = _buttonPosX_Start + _buttonW - 50;
+				_messageY_mouse = _buttonPosY_Start + _buttonW - 50;
+			}
+		}
+		else {
+			_messageX_mouse -= _messageSpeed_mouse / 2;
+			_messageY_mouse -= _messageSpeed_mouse;
+		}
+
 		FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
 		FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
 		FrameTexture(_checkBottomX_Auto, _checkBottomY_Auto, LoadRes::_spUIStartScene, 10, WHITE);
@@ -361,6 +393,7 @@ void UI_StartScene::UIOpen()
 		if (_isCheck_EasyMode) {
 			FrameTexture(_checkX_Easy, _checkY_Easy, LoadRes::_spUIStartScene, 9, WHITE);
 		}
+		FrameAnimation(_messageX_mouse, _messageY_mouse, LoadRes::_spAniMouse, 3.14159f / 180 * -30, 100, 0);
 	}
 	else {
 		//Help弹窗

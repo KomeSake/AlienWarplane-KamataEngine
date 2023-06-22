@@ -29,7 +29,7 @@ public:
 	static std::map<int, SpriteList> _spAniEnemyFire;
 	static std::map<int, SpriteList> _spAniPlayerHpPlus;
 	static std::map<int, SpriteList> _spAniPlayerHpPlus2;
-	static std::map<int, SpriteList> _spAniMouse;;
+	static std::map<int, SpriteList> _spAniMouse;
 
 
 	//UI

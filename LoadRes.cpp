@@ -119,10 +119,10 @@ void LoadRes::LoadResNovice()
 
 	for (int i = 0; i < 5; i++) {
 		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Mouse.png");
-		w = 60, h = 60;
+		w = 48, h = 60;
 		x = i * w, y = 0;
 		listW = 240, listH = 60;
-		_spAniPlayerHpPlus2[i] = { sprite,x,y,w,h,listW,listH };
+		_spAniMouse[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
 	//UI
