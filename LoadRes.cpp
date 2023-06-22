@@ -25,6 +25,7 @@ std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerFire;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniEnemyFire;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus;
 std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus2;
+std::map<int, LoadRes::SpriteList> LoadRes::_spAniMouse;
 
 int LoadRes::_spUIBg = 0;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUICaptureVessel;
@@ -35,8 +36,10 @@ std::map<int, LoadRes::SpriteList> LoadRes::_spUIStartScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUIGameOverScene;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
 int LoadRes::_spUIHelp = 0;
+int LoadRes::_spUIHelp2 = 0;
 int LoadRes::_spUIHelpText1 = 0;
 int LoadRes::_spUIHelpText2 = 0;
+int LoadRes::_spUIHelpMessage = 0;
 std::map<int, LoadRes::SpriteList> LoadRes::_spUIDanger;
 
 void LoadRes::LoadResNovice()
@@ -111,6 +114,14 @@ void LoadRes::LoadResNovice()
 		w = 64, h = 64;
 		x = i * w, y = 0;
 		listW = 640, listH = 64;
+		_spAniPlayerHpPlus2[i] = { sprite,x,y,w,h,listW,listH };
+	}
+
+	for (int i = 0; i < 5; i++) {
+		sprite = Novice::LoadTexture("./Resources/Textures/Animation/Ani_Mouse.png");
+		w = 60, h = 60;
+		x = i * w, y = 0;
+		listW = 240, listH = 60;
 		_spAniPlayerHpPlus2[i] = { sprite,x,y,w,h,listW,listH };
 	}
 
@@ -198,8 +209,10 @@ void LoadRes::LoadResNovice()
 	}
 
 	_spUIHelp = Novice::LoadTexture("./Resources/Textures/UI/Help.png");
+	_spUIHelp2 = Novice::LoadTexture("./Resources/Textures/UI/Help2.png");
 	_spUIHelpText1 = Novice::LoadTexture("./Resources/Textures/UI/UI_HelpText1.png");
 	_spUIHelpText2 = Novice::LoadTexture("./Resources/Textures/UI/UI_HelpText2.png");
+	_spUIHelpMessage = Novice::LoadTexture("./Resources/Textures/UI/Message.png");
 
 	sprite = Novice::LoadTexture("./Resources/Textures/UI/Dangaer/List.png");
 	listW = 480, listH = 124;

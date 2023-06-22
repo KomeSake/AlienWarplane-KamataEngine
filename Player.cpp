@@ -482,6 +482,11 @@ void Player::SetEasyMode(bool taf)
 	_isEasyMode = taf;
 }
 
+bool Player::GetEasyMode()
+{
+	return _isEasyMode;
+}
+
 bool Player::PlayerAndTentaclePlus()
 {
 	if (_captureEnemyType == _enemyCaptured->GetType() && !_isCaptureCD && _isCapture) {

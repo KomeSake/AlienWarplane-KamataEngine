@@ -111,6 +111,8 @@ public:
 	void UIOpen();
 	bool _isButton_Start = false, _isButton_Help = false;
 	bool _isCheck_AutoShoot = false, _isCheck_EasyMode = false;
+	//Help界面中，0是操作方法，1是UI介绍(因为我已经用一个bool来控制Help界面的开启了，所以这个作为一个附加值就好，懒得改代码了)
+	int _button_HelpPage = 0;
 };
 
 //游戏结束界面对象

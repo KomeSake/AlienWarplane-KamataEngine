@@ -24,6 +24,7 @@ public:
 	Enemy::EnemyType GetCaptureEnemyType();
 	void SetAutoShoot(bool taf);
 	void SetEasyMode(bool taf);
+	bool GetEasyMode();
 private:
 	int _attackTime = 0;//攻击频率
 	//触手的两点坐标是从中心开始！

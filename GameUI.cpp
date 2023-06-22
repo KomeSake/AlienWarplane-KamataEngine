@@ -137,46 +137,51 @@ void UI_HpVessel::UIOpen(Player obj)
 	int hpBoxW = 62, hpBoxH = 12;
 	int hpBoxTopLeftPosX = (int)_posX + 93, hpBoxTopLeftPosY = (int)_posY + 42;
 	int hpBoxGapY = hpBoxH + 3;
+	int hpMultiplier = 1;
+	if (obj.GetEasyMode()) {
+		hpMultiplier = 2;//打开了Easy模式就把这个倍率换成2，这样血量UI也会按照2倍去展示
+	}
 	unsigned int hpBoxColor_ON = 0xd01716FF, hpBoxColor_OFF = 0x661111FF;
-	unsigned int hpBoxColor1 = hpBoxColor_OFF;
-	unsigned int hpBoxColor2 = hpBoxColor_OFF;
-	unsigned int hpBoxColor3 = hpBoxColor_OFF;
-	unsigned int hpBoxColor4 = hpBoxColor_OFF;
-	unsigned int hpBoxColor5 = hpBoxColor_OFF;
-	unsigned int hpBoxColor6 = hpBoxColor_OFF;
-	if (obj.GetHp() >= 11) {
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		hpBoxColor4 = hpBoxColor_ON;
-		hpBoxColor5 = hpBoxColor_ON;
-		hpBoxColor6 = hpBoxColor_ON;
+	unsigned int hpBoxColor1 = hpBoxColor_ON;
+	unsigned int hpBoxColor2 = hpBoxColor_ON;
+	unsigned int hpBoxColor3 = hpBoxColor_ON;
+	unsigned int hpBoxColor4 = hpBoxColor_ON;
+	unsigned int hpBoxColor5 = hpBoxColor_ON;
+	unsigned int hpBoxColor6 = hpBoxColor_ON;
+	if (obj.GetHp() <= 0) {
+		hpBoxColor1 = hpBoxColor_OFF;
+		hpBoxColor2 = hpBoxColor_OFF;
+		hpBoxColor3 = hpBoxColor_OFF;
+		hpBoxColor4 = hpBoxColor_OFF;
+		hpBoxColor5 = hpBoxColor_OFF;
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
-	else if (obj.GetHp() >= 9) {
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		hpBoxColor4 = hpBoxColor_ON;
-		hpBoxColor5 = hpBoxColor_ON;
+	else if (obj.GetHp() <= 2 * hpMultiplier) {
+		hpBoxColor2 = hpBoxColor_OFF;
+		hpBoxColor3 = hpBoxColor_OFF;
+		hpBoxColor4 = hpBoxColor_OFF;
+		hpBoxColor5 = hpBoxColor_OFF;
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
-	else if (obj.GetHp() >= 7) {
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
-		hpBoxColor4 = hpBoxColor_ON;
+	else if (obj.GetHp() <= 4 * hpMultiplier) {
+		hpBoxColor3 = hpBoxColor_OFF;
+		hpBoxColor4 = hpBoxColor_OFF;
+		hpBoxColor5 = hpBoxColor_OFF;
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
-	else if (obj.GetHp() >= 5) {
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
-		hpBoxColor3 = hpBoxColor_ON;
+	else if (obj.GetHp() <= 6 * hpMultiplier) {
+		hpBoxColor4 = hpBoxColor_OFF;
+		hpBoxColor5 = hpBoxColor_OFF;
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
-	else if (obj.GetHp() >= 3) {
-		hpBoxColor1 = hpBoxColor_ON;
-		hpBoxColor2 = hpBoxColor_ON;
+	else if (obj.GetHp() <= 8 * hpMultiplier) {
+		hpBoxColor5 = hpBoxColor_OFF;
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
-	else if (obj.GetHp() >= 1) {
-		hpBoxColor1 = hpBoxColor_ON;
+	else if (obj.GetHp() <= 10 * hpMultiplier) {
+		hpBoxColor6 = hpBoxColor_OFF;
 	}
+
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 6, hpBoxW, hpBoxH, 0, hpBoxColor1, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 5, hpBoxW, hpBoxH, 0, hpBoxColor2, kFillModeSolid);
 	Novice::DrawBox(hpBoxTopLeftPosX, hpBoxTopLeftPosY + hpBoxGapY * 4, hpBoxW, hpBoxH, 0, hpBoxColor3, kFillModeSolid);
@@ -262,6 +267,7 @@ UI_StartScene::UI_StartScene()
 {
 	_isButton_Start = false, _isButton_Help = false;
 	_isCheck_AutoShoot = false, _isCheck_EasyMode = false;
+	_button_HelpPage = 0;
 	_posX = 0, _posY = 0;
 	_width = 450, _higth = 780;
 	_color = WHITE;
@@ -281,11 +287,11 @@ UI_StartScene::UI_StartScene()
 	_textX_Easy = 310, _textY_Easy = 711;
 	_checkBottomW = 29, _checkBottomH = 29;
 	//Help弹窗
-	_helpPosX = 450.f / 2 - 437.f / 2, _helpPosY = 5;
+	_helpPosX = 450.f / 2 - 437.f / 2, _helpPosY = 20;
 	_helpPosX_CheckAuto = 0, _helpPosY_CheckAuto = 0;
 	_helpPosX_checkEasy = 0, _helpPosY_CheckEasy = 0;
-	_helpPosX_BackButton = 450.f / 2 - 133 - 30, _helpPosY_BackButton = 720;
-	_helpPosX_NextButton = 450.f / 2 + 30, _helpPosY_NextButton = 720;
+	_helpPosX_BackButton = 450.f / 2 - 133 - 30, _helpPosY_BackButton = 670;
+	_helpPosX_NextButton = 450.f / 2 + 30, _helpPosY_NextButton = 670;
 }
 
 void UI_StartScene::UIOpen()
@@ -294,14 +300,10 @@ void UI_StartScene::UIOpen()
 	FrameTexture(_titlePosX, _titlePosY, LoadRes::_spUIStartScene, 1, WHITE);
 	FrameTexture(_buttonPosX_Start, _buttonPosY_Start, LoadRes::_spUIStartScene, 6, WHITE);
 	FrameTexture(_buttonPosX_Help, _buttonPosY_Help, LoadRes::_spUIStartScene, 2, WHITE);
-	FrameTexture(_checkBottomX_Auto, _checkBottomY_Auto, LoadRes::_spUIStartScene, 10, WHITE);
-	FrameTexture(_textX_Auto, _textY_Auto, LoadRes::_spUIStartScene, 8, WHITE);
-	FrameTexture(_checkBottomX_Easy, _checkBottomY_Easy, LoadRes::_spUIStartScene, 10, WHITE);
-	FrameTexture(_textX_Easy, _textY_Easy, LoadRes::_spUIStartScene, 7, WHITE);
 	int mouseX = 0, mouseY = 0;
 	Novice::GetMousePosition(&mouseX, &mouseY);
-	//Start界面
 	if (!_isButton_Help) {
+		//Start界面
 		if (mouseX >= _buttonPosX_Start && mouseX <= _buttonPosX_Start + _buttonW
 			&& mouseY >= _buttonPosY_Start && mouseY <= _buttonPosY_Start + _buttonH) {
 			FrameTexture(_buttonPosX_Start - 8, _buttonPosY_Start - 7, LoadRes::_spUIStartScene, 5, WHITE);
@@ -316,6 +318,7 @@ void UI_StartScene::UIOpen()
 			//点击Help按钮触发效果
 			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = true;
+				_button_HelpPage = 0;//每次打开都从Help的第一页开始
 			}
 		}
 		if (mouseX >= _checkBottomX_Auto && mouseX <= _checkBottomX_Auto + _checkBottomW
@@ -344,6 +347,14 @@ void UI_StartScene::UIOpen()
 		}
 		FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
 		FrameTexture(_buttonPosX_Help + +_buttonW / 2 - _buttonTextW_Help / 2, _buttonPosY_Help - 15, LoadRes::_spUIStartScene, 4, WHITE);
+		FrameTexture(_checkBottomX_Auto, _checkBottomY_Auto, LoadRes::_spUIStartScene, 10, WHITE);
+		FrameTexture(_textX_Auto, _textY_Auto, LoadRes::_spUIStartScene, 8, WHITE);
+		FrameTexture(_checkBottomX_Easy, _checkBottomY_Easy, LoadRes::_spUIStartScene, 10, WHITE);
+		FrameTexture(_textX_Easy, _textY_Easy, LoadRes::_spUIStartScene, 7, WHITE);
+		if (mouseX >= _checkBottomX_Easy && mouseX <= _textX_Easy + LoadRes::_spUIStartScene[7].w && mouseY >= _checkBottomY_Easy && mouseY <= _textY_Easy + LoadRes::_spUIStartScene[7].h) {
+			//展示Easy模式修改项信息
+			FrameTexture(_checkBottomX_Easy, _textY_Easy - 90, LoadRes::_spUIHelpMessage, WHITE);
+		}
 		if (_isCheck_AutoShoot) {
 			FrameTexture(_checkX_Auto, _checkY_Auto, LoadRes::_spUIStartScene, 9, WHITE);
 		}
@@ -351,55 +362,57 @@ void UI_StartScene::UIOpen()
 			FrameTexture(_checkX_Easy, _checkY_Easy, LoadRes::_spUIStartScene, 9, WHITE);
 		}
 	}
-	//Help弹窗
 	else {
-		FrameTexture(_helpPosX, _helpPosY, LoadRes::_spUIHelp, WHITE);
+		//Help弹窗
+		switch (_button_HelpPage) {
+		case 0:
+			FrameTexture(_helpPosX, _helpPosY, LoadRes::_spUIHelp, WHITE);
+			break;
+		case 1:
+			FrameTexture(_helpPosX, _helpPosY, LoadRes::_spUIHelp2, WHITE);
+			break;
+		}
 		FrameTexture(_helpPosX_BackButton, _helpPosY_BackButton, LoadRes::_spUIGameOverScene, 4, WHITE);
-		FrameTexture(_helpPosX_NextButton, _helpPosY_NextButton, LoadRes::_spUIGameOverScene, 3, WHITE);
 		FrameTexture(_helpPosX_BackButton + 133.f / 2 - 67.f / 2, _helpPosY_BackButton + 5, LoadRes::_spUIGameOverScene, 6, WHITE);
-		FrameTexture(_helpPosX_NextButton + 133.f / 2 - 67.f / 2, _helpPosY_NextButton + 5, LoadRes::_spUIHelpText1, WHITE);
-		if (mouseX >= _helpPosX + 50 && mouseX <= _helpPosX + 50 + 50 && mouseY >= (int)_helpPosY + 550 && mouseY <= (int)_helpPosY + 550 + 50) {
-			if (Novice::IsTriggerMouse(0)) {
-				//点击Help界面中的AutoShoot选项
-				if (!_isCheck_AutoShoot) {
-					_isCheck_AutoShoot = true;
-				}
-				else {
-					_isCheck_AutoShoot = false;
-				}
-			}
-		}
-		if (mouseX >= _helpPosX + 250 && mouseX <= _helpPosX + 250 + 50 && mouseY >= (int)_helpPosY + 550 && mouseY <= (int)_helpPosY + 550 + 50) {
-			if (Novice::IsTriggerMouse(0)) {
-				//点击Help界面中的EasyMode选项
-				if (!_isCheck_EasyMode) {
-					_isCheck_EasyMode = true;
-				}
-				else {
-					_isCheck_EasyMode = false;
-				}
-			}
-		}
-		if (mouseX >= _helpPosX + 153 && mouseX <= _helpPosX + 153 + 133
-			&& mouseY >= _helpPosY + 625 && mouseY <= _helpPosY + 625 + 55) {
-			FrameTexture(_helpPosX + 153 - 5, _helpPosY + 625 - 5, LoadRes::_spUIGameOverScene, 7, WHITE);
+		if (mouseX >= _helpPosX_BackButton && mouseX <= _helpPosX_BackButton + 133
+			&& mouseY >= _helpPosY_BackButton && mouseY <= _helpPosY_BackButton + 55) {
+			FrameTexture(_helpPosX_BackButton - 5, _helpPosY_BackButton - 5, LoadRes::_spUIGameOverScene, 7, WHITE);
 			//点击Help界面中Back按钮触发效果
 			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = false;
 			}
 		}
-		//两个选项操控按钮(占位)
-		if (!_isCheck_AutoShoot) {
-			Novice::DrawBox((int)_helpPosX + 50, (int)_helpPosY + 550, 50, 50, 0, WHITE, kFillModeSolid);
-		}
-		else {
-			Novice::DrawBox((int)_helpPosX + 50, (int)_helpPosY + 550, 50, 50, 0, RED, kFillModeSolid);
-		}
-		if (!_isCheck_EasyMode) {
-			Novice::DrawBox((int)_helpPosX + 250, (int)_helpPosY + 550, 50, 50, 0, WHITE, kFillModeSolid);
-		}
-		else {
-			Novice::DrawBox((int)_helpPosX + 250, (int)_helpPosY + 550, 50, 50, 0, RED, kFillModeSolid);
+		if (_isButton_Help) {
+			switch (_button_HelpPage) {
+			case 0: {
+				//Help界面在第一页
+				FrameTexture(_helpPosX_NextButton, _helpPosY_NextButton, LoadRes::_spUIGameOverScene, 3, WHITE);
+				FrameTexture(_helpPosX_NextButton + 133.f / 2 - 91.f / 2, _helpPosY_NextButton + 2, LoadRes::_spUIHelpText1, WHITE);
+				if (mouseX >= _helpPosX_NextButton && mouseX <= _helpPosX_NextButton + 133
+					&& mouseY >= _helpPosY_NextButton && mouseY <= _helpPosY_NextButton + 55) {
+					FrameTexture(_helpPosX_NextButton - 5, _helpPosY_NextButton - 5, LoadRes::_spUIGameOverScene, 7, WHITE);
+					//点击Help界面中Next按钮触发效果
+					if (Novice::IsTriggerMouse(0)) {
+						_button_HelpPage = 1;
+					}
+				}
+				break;
+			}
+			case 1: {
+				//Help界面在第二页
+				FrameTexture(_helpPosX_NextButton, _helpPosY_NextButton, LoadRes::_spUIGameOverScene, 3, WHITE);
+				FrameTexture(_helpPosX_NextButton + 133.f / 2 - 91.f / 2, _helpPosY_NextButton + 2, LoadRes::_spUIHelpText2, WHITE);
+				if (mouseX >= _helpPosX_NextButton && mouseX <= _helpPosX_NextButton + 133
+					&& mouseY >= _helpPosY_NextButton && mouseY <= _helpPosY_NextButton + 55) {
+					FrameTexture(_helpPosX_NextButton - 5, _helpPosY_NextButton - 5, LoadRes::_spUIGameOverScene, 7, WHITE);
+					//点击Help界面中Previous按钮触发效果
+					if (Novice::IsTriggerMouse(0)) {
+						_button_HelpPage = 0;
+					}
+				}
+				break;
+			}
+			}
 		}
 	}
 }

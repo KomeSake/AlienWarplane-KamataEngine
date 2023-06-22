@@ -88,8 +88,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//结束界面
 			SceneObj.ScreenGameDown();
 			PlayerObj->DamageCheck();
-			char temp = 0;//为了剥夺玩家的控制，随便创建一个空的输入key
-			PlayerObj->Move(&temp);
+			char tempKeys = 0;//为了剥夺玩家的飞机控制，随便创建一个空的输入key
+			PlayerObj->Move(&tempKeys);
 			PlayerObj->CaptureEnemy();
 			BulletManager::BulletUpdata();
 			EnemyManager::EnemyUpdata();
@@ -106,6 +106,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↑描画処理ここまで
 		///
+
+		int mouseX = 0, mouseY = 0;
+		Novice::GetMousePosition(&mouseX, &mouseY);
+		Novice::ScreenPrintf(0, 0, "mouseX:%d,mouseY:%d", mouseX, mouseY);
 
 		// フレームの終了
 		Novice::EndFrame();

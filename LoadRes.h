@@ -29,6 +29,7 @@ public:
 	static std::map<int, SpriteList> _spAniEnemyFire;
 	static std::map<int, SpriteList> _spAniPlayerHpPlus;
 	static std::map<int, SpriteList> _spAniPlayerHpPlus2;
+	static std::map<int, SpriteList> _spAniMouse;;
 
 
 	//UI
@@ -41,8 +42,10 @@ public:
 	static std::map<int, SpriteList> _spUIGameOverScene;
 	static std::map<int, SpriteList> _spUINumber;
 	static int _spUIHelp;
+	static int _spUIHelp2;
 	static int _spUIHelpText1;
 	static int _spUIHelpText2;
+	static int _spUIHelpMessage;
 	static std::map<int, SpriteList> _spUIDanger;
 
 	//在主方法中调用(进行实现的材质载入)
