@@ -21,7 +21,6 @@ protected:
 	void FrameAnimation(float x, float y, std::map<int, LoadRes::SpriteList> sprite, float angle, int frameTime, int index);
 	//10~20留给帧动画用
 	bool Timers(int milli, int index);
-private:
 	//从Plane类偷来的计时器
 	clock_t _timeStart[21] = { 0 };
 	clock_t _timeEnd[21] = { 0 };
@@ -114,7 +113,8 @@ private:
 	float _helpPosX_BackButton = 0, _helpPosY_BackButton = 0;
 	float _helpPosX_NextButton = 0, _helpPosY_NextButton = 0;
 
-	float _messageX_mouse = 0, _messageY_mouse = 0;
+	float _messageX_mouseStart = 0, _messageY_mouseStart = 0;//鼠标提示最开始出现的位置
+	float _messageX_mouse = 0, _messageY_mouse = 0;//鼠标提示实际位置
 	float _messageSpeed_mouse = 0;
 public:
 	UI_StartScene();
@@ -124,6 +124,8 @@ public:
 	//Help界面中，0是操作方法，1是UI介绍(因为我已经用一个bool来控制Help界面的开启了，所以这个作为一个附加值就好，懒得改代码了)
 	int _button_HelpPage = 0;
 	bool _isMessage_Mouse = false;
+	int _mousePosX_Back = 0, _mousePosY_Back = 0;//用来记录前一个时间的鼠标坐标
+	bool _isMessage_MouseStart = false;//用来判断是否已经换到了Start界面(这样才开始计时)
 };
 
 //游戏结束界面对象

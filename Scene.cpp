@@ -61,6 +61,7 @@ void Scene::GameOverStart(Player obj)
 		_sceneIndex = Start;
 		GameOver_Obj->_isButton_Back = false;
 	}
+	Start_Obj->_isMessage_MouseStart = false;
 }
 
 bool Scene::GetIsCheckAuto()

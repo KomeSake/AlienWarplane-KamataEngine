@@ -11,7 +11,7 @@
 #include "Scene.h"
 #include "DataMessage.h"
 
-const char kWindowTitle[] = "LC1C_15_ソウ_チョウキ_v20230413";
+const char kWindowTitle[] = "AlienWarplane（異次元戦機）";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -109,7 +109,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		int mouseX = 0, mouseY = 0;
 		Novice::GetMousePosition(&mouseX, &mouseY);
-		Novice::ScreenPrintf(0, 0, "mouseX:%d,mouseY:%d", mouseX, mouseY);
 
 		// フレームの終了
 		Novice::EndFrame();

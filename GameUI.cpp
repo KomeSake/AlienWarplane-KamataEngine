@@ -310,8 +310,10 @@ UI_StartScene::UI_StartScene()
 	_helpPosX_BackButton = 450.f / 2 - 133 - 30, _helpPosY_BackButton = 670;
 	_helpPosX_NextButton = 450.f / 2 + 30, _helpPosY_NextButton = 670;
 	//鼠标提示信息
-	_messageX_mouse = _buttonPosX_Start + _buttonW - 50, _messageY_mouse = _buttonPosY_Start + _buttonW - 50;//下面还有一个地方会修改，要保持两个地方都相同，因为是让提示返回远处的代码
+	_messageX_mouseStart = _buttonPosX_Start + _buttonW - 50, _messageY_mouseStart = _buttonPosY_Start + _buttonW - 50;
+	_messageX_mouse = _messageX_mouseStart, _messageY_mouse = _messageX_mouseStart;
 	_messageSpeed_mouse = 2;
+	_isMessage_MouseStart = false;
 }
 
 void UI_StartScene::UIOpen()
@@ -365,16 +367,35 @@ void UI_StartScene::UIOpen()
 				}
 			}
 		}
-		//鼠标使用提示
-		if (_messageY_mouse < _buttonPosY_Start + 50) {
-			if (Timers(500, 3)) {
-				_messageX_mouse = _buttonPosX_Start + _buttonW - 50;
-				_messageY_mouse = _buttonPosY_Start + _buttonW - 50;
-			}
+		//鼠标提示判断(时间内不移动鼠标就会出现提示)
+		if (!_isMessage_MouseStart) {
+			_isMessage_MouseStart = true;
+			_timeStart[4] = clock();//重置一下计时
+		}
+		if (Timers(6000, 4) && !_isMessage_Mouse && _isMessage_MouseStart) {
+			_mousePosX_Back = mouseX;
+			_mousePosY_Back = mouseY;
+			_messageX_mouse = _messageX_mouseStart;
+			_messageY_mouse = _messageY_mouseStart;
+		}
+		if (_mousePosX_Back == mouseX && _mousePosY_Back == mouseY) {
+			_isMessage_Mouse = true;
 		}
 		else {
-			_messageX_mouse -= _messageSpeed_mouse / 2;
-			_messageY_mouse -= _messageSpeed_mouse;
+			_isMessage_Mouse = false;
+		}
+		//鼠标使用提示
+		if (_isMessage_Mouse) {
+			if (_messageY_mouse < _buttonPosY_Start + 50) {
+				if (Timers(500, 3)) {
+					_messageX_mouse = _messageX_mouseStart;
+					_messageY_mouse = _messageY_mouseStart;
+				}
+			}
+			else {
+				_messageX_mouse -= _messageSpeed_mouse / 2;
+				_messageY_mouse -= _messageSpeed_mouse;
+			}
 		}
 
 		FrameTexture(_buttonPosX_Start + _buttonW / 2 - _buttonTextW_Start / 2, _buttonPosY_Start - 15, LoadRes::_spUIStartScene, 3, WHITE);
@@ -393,7 +414,9 @@ void UI_StartScene::UIOpen()
 		if (_isCheck_EasyMode) {
 			FrameTexture(_checkX_Easy, _checkY_Easy, LoadRes::_spUIStartScene, 9, WHITE);
 		}
-		FrameAnimation(_messageX_mouse, _messageY_mouse, LoadRes::_spAniMouse, 3.14159f / 180 * -30, 100, 0);
+		if (_isMessage_Mouse) {
+			FrameAnimation(_messageX_mouse, _messageY_mouse, LoadRes::_spAniMouse, 3.14159f / 180 * -30, 100, 0);
+		}
 	}
 	else {
 		//Help弹窗
