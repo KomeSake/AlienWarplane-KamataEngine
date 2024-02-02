@@ -527,7 +527,6 @@ void UI_GameOverScene::UIOpen(Player obj)
 			_isButton_Restart = true;
 			_isScoreAniStart = false;
 			Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
-			Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 		}
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
@@ -538,7 +537,6 @@ void UI_GameOverScene::UIOpen(Player obj)
 			_isButton_Back = true;
 			_isScoreAniStart = false;
 			Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
-			Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 		}
 	}
 	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene, 5, WHITE);
@@ -581,12 +579,11 @@ void UI_GameOverScene::UIOpen(Player obj)
 			color = WHITE;
 		}
 		if (!Novice::IsPlayingAudio(_scoreUpLoopHandle) || _scoreUpLoopHandle == -1) {
-			_scoreUpLoopHandle = Novice::PlayAudio(LoadRes::_adScoreUp, 0, 1);
+			_scoreUpLoopHandle = Novice::PlayAudio(LoadRes::_adScoreUp, 0, 0.7f);
 		}
 	}
 	else {
 		_scoreAnimation = score;
-		Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 	}
 	int num1 = _scoreAnimation % 10;
 	int num2 = (_scoreAnimation / 10) % 10;
