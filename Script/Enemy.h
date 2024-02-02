@@ -23,6 +23,7 @@ public:
 	void DamageCheck();
 	//绘画的x，y坐标
 	void CaptureFire(float x, float y);
+
 	int GetType();
 	bool GetIsLive();
 	void SetIsLive(bool live);

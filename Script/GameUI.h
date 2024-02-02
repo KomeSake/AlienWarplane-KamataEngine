@@ -151,4 +151,5 @@ public:
 	bool _isButton_Restart = false;
 	bool _isButton_Back = false;
 	bool _isMouseCheckStart = false;//用来延迟获取鼠标坐标(不然玩家可能一下子就点到了重新开始按钮)
+	int _scoreUpLoopHandle = -1;
 };

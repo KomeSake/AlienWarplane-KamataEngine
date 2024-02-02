@@ -35,31 +35,31 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
+    <ClCompile Include="Script\Bullet.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="LoadRes.cpp">
+    <ClCompile Include="Script\DataMessage.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Script\Enemy.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="Script\GameUI.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="Script\Level.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
+    <ClCompile Include="Script\LoadRes.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="Script\Plane.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="GameUI.cpp">
+    <ClCompile Include="Script\Player.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="DataMessage.cpp">
+    <ClCompile Include="Script\Scene.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,14 +132,14 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="LoadRes.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="GameUI.h" />
-    <ClInclude Include="DataMessage.h" />
+    <ClInclude Include="Script\Bullet.h" />
+    <ClInclude Include="Script\DataMessage.h" />
+    <ClInclude Include="Script\Enemy.h" />
+    <ClInclude Include="Script\GameUI.h" />
+    <ClInclude Include="Script\Level.h" />
+    <ClInclude Include="Script\LoadRes.h" />
+    <ClInclude Include="Script\Plane.h" />
+    <ClInclude Include="Script\Player.h" />
+    <ClInclude Include="Script\Scene.h" />
   </ItemGroup>
 </Project>

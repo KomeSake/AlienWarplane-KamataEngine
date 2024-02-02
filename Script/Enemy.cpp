@@ -152,12 +152,15 @@ void Enemy::Attack(float x, float y, bool isCapture)
 						switch (_type) {
 						case normal:
 							bullet1 = BulletManager::AcquireBullet(Bullet::enemy);
+							Novice::PlayAudio(LoadRes::_adEnemyShout, 0, 0.5f);
 							break;
 						case laser:
 							bullet1 = BulletManager::AcquireBullet(Bullet::laser);
+							Novice::PlayAudio(LoadRes::_adShoutLaser, 0, 0.05f);
 							break;
 						case ufo:
 							bullet1 = BulletManager::AcquireBullet(Bullet::ufo);
+							Novice::PlayAudio(LoadRes::_adShoutUfo, 0, 0.2f);
 							break;
 						case bigGun:
 							bullet1 = BulletManager::AcquireBullet(Bullet::bigGun);
@@ -171,6 +174,7 @@ void Enemy::Attack(float x, float y, bool isCapture)
 							bullet5 = BulletManager::AcquireBullet(Bullet::bigGun);
 							bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1));
 							bullet5->SetSpeed(0, 1, 0);
+							Novice::PlayAudio(LoadRes::_adShoutBigGun, 0, 0.2f);
 							break;
 						}
 					}
@@ -179,12 +183,15 @@ void Enemy::Attack(float x, float y, bool isCapture)
 						switch (_type) {
 						case normal:
 							bullet1 = BulletManager::AcquireBullet(Bullet::enemyCapture);
+							Novice::PlayAudio(LoadRes::_adEnemyShout, 0, 0.5f);
 							break;
 						case laser:
 							bullet1 = BulletManager::AcquireBullet(Bullet::laserCapture);
+							Novice::PlayAudio(LoadRes::_adShoutLaser, 0, 0.05f);
 							break;
 						case ufo:
 							bullet1 = BulletManager::AcquireBullet(Bullet::ufoCapture);
+							Novice::PlayAudio(LoadRes::_adShoutUfo, 0, 0.2f);
 							break;
 						case bigGun:
 							bullet1 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
@@ -198,6 +205,7 @@ void Enemy::Attack(float x, float y, bool isCapture)
 							bullet5 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
 							bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1));
 							bullet5->SetSpeed(0, 1, 0);
+							Novice::PlayAudio(LoadRes::_adShoutBigGun, 0, 0.2f);
 							break;
 						}
 					}
@@ -236,8 +244,10 @@ void Enemy::DamageCheck()
 				BulletManager::ReleaseBullet(element);
 				_hp = _hp - element->GetDamage();
 				_aniMode_getHurt = 1;
+				Novice::PlayAudio(LoadRes::_adHitEnemy, 0, 0.2f);
 				if (_hp <= 0) {
 					_isLive = false;
+					Novice::PlayAudio(LoadRes::_adEnemyDead, 0, 0.2f);
 				}
 			}
 		}

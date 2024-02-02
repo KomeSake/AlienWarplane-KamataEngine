@@ -1,47 +1,5 @@
 ﻿#include "LoadRes.h"
 
-LoadRes::SpriteList LoadRes::_spriteList;
-
-int LoadRes::_spPlayer = 0;
-int LoadRes::_spPlayer2 = 0;
-int LoadRes::_spPlayerTentacles = 0;
-int LoadRes::_spEnemy = 0;
-int LoadRes::_spEnemy2 = 0;
-int LoadRes::_spEnemy3 = 0;
-int LoadRes::_spEnemy4 = 0;
-int LoadRes::_spBullet_player = 0;
-int LoadRes::_spBullet_enemy = 0;
-int LoadRes::_spBullet_enemy2 = 0;
-int LoadRes::_spBullet_enemy3 = 0;
-int LoadRes::_spBullet_enemy4 = 0;
-int LoadRes::_spBullet_enemyCapture = 0;
-int LoadRes::_spBullet_enemy2Capture = 0;
-int LoadRes::_spBullet_enemy3Capture = 0;
-int LoadRes::_spBullet_enemy4Capture = 0;
-
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniExplode;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerTentacles;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerFire;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniEnemyFire;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniPlayerHpPlus2;
-std::map<int, LoadRes::SpriteList> LoadRes::_spAniMouse;
-
-int LoadRes::_spUIBg = 0;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUICaptureVessel;
-int LoadRes::_spUICaptureVessel_05 = 0;
-std::map<int, int> LoadRes::_spUIHpVessel;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUISignalVessel;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUIStartScene;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUIGameOverScene;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUINumber;
-int LoadRes::_spUIHelp = 0;
-int LoadRes::_spUIHelp2 = 0;
-int LoadRes::_spUIHelpText1 = 0;
-int LoadRes::_spUIHelpText2 = 0;
-int LoadRes::_spUIHelpMessage = 0;
-std::map<int, LoadRes::SpriteList> LoadRes::_spUIDanger;
-
 void LoadRes::LoadResNovice()
 {
 	int sprite = 0;
@@ -67,6 +25,8 @@ void LoadRes::LoadResNovice()
 	_spBullet_enemy3Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy3(Captured).png");
 	_spBullet_enemy4 = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy4.png");
 	_spBullet_enemy4Capture = Novice::LoadTexture("./Resources/Textures/Bullet_Enemy4(Captured).png");
+
+	_spArrow = Novice::LoadTexture("./Resources/Textures/arrow_mouse.png");
 
 	//动画
 	for (int i = 0; i < 10; i++) {
@@ -230,4 +190,23 @@ void LoadRes::LoadResNovice()
 	_spUIDanger[5] = { sprite,x,y,w,h,listW,listH };
 	w = 23, h = 28, x = 244 + 69 + 23, y = 28;
 	_spUIDanger[6] = { sprite,x,y,w,h,listW,listH };
+
+	//Audio
+	_adBgm = Novice::LoadAudio("./Resources/Audio/BGM.mp3");
+	_adHitEnemy = Novice::LoadAudio("./Resources/Audio/HitEnemy.mp3");
+	_adMyEnemyDead = Novice::LoadAudio("./Resources/Audio/MyEnemyDead.mp3");
+	_adScoreUp = Novice::LoadAudio("./Resources/Audio/ScoreUp.mp3");
+	_adSelectClick = Novice::LoadAudio("./Resources/Audio/SelectClick.mp3");
+	_adHitPlayer = Novice::LoadAudio("./Resources/Audio/HitPlayer.mp3");
+	_adShout = Novice::LoadAudio("./Resources/Audio/Shout.mp3");
+	_adPlayerDead = Novice::LoadAudio("./Resources/Audio/PlayerDead.mp3");
+	_adEnemyDead = Novice::LoadAudio("./Resources/Audio/EnemyDead.mp3");
+	_adEnemyShout = Novice::LoadAudio("./Resources/Audio/EnemyShout.mp3");
+	_adShoutUfo = Novice::LoadAudio("./Resources/Audio/ShoutUfo.mp3");
+	_adShoutLaser = Novice::LoadAudio("./Resources/Audio/ShoutLaser.mp3");
+	_adShoutBigGun = Novice::LoadAudio("./Resources/Audio/ShoutBigGun.mp3");
+	_adCapture = Novice::LoadAudio("./Resources/Audio/Capture.mp3");
+	_adCaptureCD = Novice::LoadAudio("./Resources/Audio/CaptureCD.mp3");
+	_adCaptureEat = Novice::LoadAudio("./Resources/Audio/CaptureEat.mp3");
+	_adCaptureOut = Novice::LoadAudio("./Resources/Audio/CaptureOut.mp3");
 }

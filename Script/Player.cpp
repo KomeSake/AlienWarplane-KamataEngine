@@ -38,6 +38,11 @@ Player::Player()
 
 	_scoreSum = 0;
 	_isAutoShoot = false, _isEasyMode = false;
+	_audio_myEnemyDead = false;
+	_audio_playerDead = false;
+	_audio_captureDead = false;
+	_audio_capture = false;
+	_audio_captureCD = false;
 }
 
 void Player::Move(char keys[])
@@ -138,11 +143,13 @@ void Player::Attack(char keys[])
 						bullet2 = BulletManager::AcquireBullet(Bullet::enemyCapture);
 						bullet2X = 31;
 						_attackTime = 150;
+						Novice::PlayAudio(LoadRes::_adEnemyShout, 0, 0.5f);
 						break;
 					case Enemy::laser:
 						bullet1 = BulletManager::AcquireBullet(Bullet::laserCapture);
 						bullet1->SetSpeed(1, 1, 3);
 						_attackTime = 50;
+						Novice::PlayAudio(LoadRes::_adShoutLaser, 0, 0.05f);
 						break;
 					case Enemy::ufo:
 						bullet1 = BulletManager::AcquireBullet(Bullet::ufoCapture);
@@ -157,6 +164,7 @@ void Player::Attack(char keys[])
 						bullet3->SetSpeed(0, 0, 5);
 						bullet3->SetDamage(2);
 						_attackTime = 600;
+						Novice::PlayAudio(LoadRes::_adShoutUfo, 0, 0.2f);
 						break;
 					case Enemy::bigGun:
 						bullet1 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
@@ -169,6 +177,7 @@ void Player::Attack(char keys[])
 						bullet5 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
 						bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1) / 3);
 						_attackTime = 700;
+						Novice::PlayAudio(LoadRes::_adShoutBigGun, 0, 0.2f);
 						break;
 					}
 				}
@@ -178,10 +187,12 @@ void Player::Attack(char keys[])
 					case Enemy::normal:
 						bullet1 = BulletManager::AcquireBullet(Bullet::enemyCapture);
 						_attackTime = 300;
+						Novice::PlayAudio(LoadRes::_adEnemyShout, 0, 0.5f);
 						break;
 					case Enemy::laser:
 						bullet1 = BulletManager::AcquireBullet(Bullet::laserCapture);
 						_attackTime = 300;
+						Novice::PlayAudio(LoadRes::_adShoutLaser, 0, 0.05f);
 						break;
 					case Enemy::ufo:
 						bullet1 = BulletManager::AcquireBullet(Bullet::ufoCapture);
@@ -190,6 +201,7 @@ void Player::Attack(char keys[])
 						_attackTime = 600;
 						bulletX -= 15;
 						bulletY -= 20;
+						Novice::PlayAudio(LoadRes::_adShoutUfo, 0, 0.2f);
 						break;
 					case Enemy::bigGun:
 						bullet1 = BulletManager::AcquireBullet(Bullet::bigGunCapture);
@@ -204,6 +216,7 @@ void Player::Attack(char keys[])
 						bullet5->SetSpeed(0, 0, bullet5->GetSpeed(1));
 						bullet5->SetSpeed(0, 1, 0);
 						_attackTime = 1500;
+						Novice::PlayAudio(LoadRes::_adShoutBigGun, 0, 0.2f);
 						break;
 					}
 				}
@@ -212,6 +225,7 @@ void Player::Attack(char keys[])
 			else {
 				bullet1 = BulletManager::AcquireBullet(Bullet::player);
 				_attackTime = 300;
+				Novice::PlayAudio(LoadRes::_adShout, 0, 0.15f);
 			}
 
 			if (bullet1 != nullptr) {
@@ -274,6 +288,7 @@ void Player::CaptureEnemy()
 	//触手可以抓人阶段
 	if (Novice::IsPressMouse(1) && !_isCapture && !_isCaptureCD) {
 		_captureDamageCount = 0;//将夹爆被抓敌人计数归零
+		_audio_myEnemyDead = false;
 		//碰撞判断
 		float tentacleW = 64, tentacleH = 64;
 		float enemyW = 64, enemyH = 64;
@@ -309,6 +324,15 @@ void Player::CaptureEnemy()
 		}
 		//触手夹子的帧动画
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniPlayerTentacles, 100, 1);
+		if (_audio_capture) {
+			if (Timers(int(LoadRes::_spAniPlayerTentacles.size()) * 100, 17)) {
+				_audio_capture = false;
+			}
+		}
+		else {
+			_audio_capture = true;
+			Novice::PlayAudio(LoadRes::_adCapture, 0, 0.2f);
+		}
 	}
 	//触手已经夹住敌人阶段
 	else if (_isCapture && !_isCaptureCD) {
@@ -325,12 +349,17 @@ void Player::CaptureEnemy()
 				_captureSpeed = 10;
 				delete(_enemyCaptured);
 			}
+			if (!_audio_myEnemyDead) {
+				_audio_myEnemyDead = true;
+				Novice::PlayAudio(LoadRes::_adMyEnemyDead, 0, 0.2f);
+			}
 		}
 		//按住右键捏爆抓住的敌人(需要持续按住，一共1500毫秒)
 		if (Novice::IsPressMouse(1)) {
 			if (Timers(500, 15)) {
 				_captureDamageCount++;
 				_enemyCaptured->SetAniMode(1, 0);
+				Novice::PlayAudio(LoadRes::_adCapture, 0, 0.2f);
 				if (_captureDamageCount >= 3) {
 					_iscaptureDamage = true;
 					_captureEnemyType = (Enemy::EnemyType)(_enemyCaptured->GetType());
@@ -339,6 +368,7 @@ void Player::CaptureEnemy()
 					_isCaptureCD = true;
 					_captureSpeed = 10;
 					delete(_enemyCaptured);
+					Novice::PlayAudio(LoadRes::_adCaptureEat, 0, 0.2f);
 				}
 			}
 		}
@@ -349,10 +379,17 @@ void Player::CaptureEnemy()
 	//触手爆炸，CD阶段
 	else if (_isCaptureCD) {
 		if (_capturedValue >= 4) {
+			if (!_audio_captureCD) {
+				_audio_captureCD = true;
+				Novice::PlayAudio(LoadRes::_adCaptureCD, 0, 0.5f);
+			}
 			if (Timers(_captureCDTime, 13)) {
 				_isCaptureCD = false;
 				_isCapture = false;
 				_capturedValue = 0;
+				_audio_captureDead = false;
+				_audio_captureCD = false;
+				Novice::PlayAudio(LoadRes::_adCaptureOut, 0, 0.2f);
 			}
 		}
 		Novice::DrawSprite((int)_tentaclePosX - 32, (int)_tentaclePosY - 32, LoadRes::_spPlayerTentacles, 1, 1, 0, 0x464646FF);
@@ -377,6 +414,7 @@ void Player::DamageCheck()
 				_captureEnemyType = Enemy::null;
 			}
 			_hp -= element->GetDamage();
+			Novice::PlayAudio(LoadRes::_adHitPlayer, 0, 0.2f);
 		}
 	}
 }
@@ -400,6 +438,10 @@ void Player::AniPlayerUP()
 	if (_hp <= 0) {
 		FrameAnimation(_posX, _posY, LoadRes::_spAniExplode, 50, 5);
 		FrameAnimation(_tentaclePosX - 32, _tentaclePosY - 32, LoadRes::_spAniExplode, 50, 5);
+		if (!_audio_playerDead) {
+			_audio_playerDead = true;
+			Novice::PlayAudio(LoadRes::_adPlayerDead, 0, 0.2f);
+		}
 	}
 	//触手抓爆敌人，吸收特效
 	if (_isCaptureBoomAni) {

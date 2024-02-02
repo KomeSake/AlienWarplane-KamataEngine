@@ -12,6 +12,7 @@ public:
 	void DamageCheck();
 	void AniPlayerUP();			//这个方法放一些要显示在玩家图像上面的特效
 	void EasyModeValue();		//这个方法放一些简单模式下需要修改的值;
+
 	int GetSprite();
 	int GetHp();
 	int GetCapturedValue();
@@ -45,4 +46,10 @@ private:
 	//界面逻辑相关
 	int _scoreSum = 0;//分数就写这里吧，这里方便读取
 	bool _isAutoShoot = false, _isEasyMode = false;
+
+	bool _audio_myEnemyDead;//给音效使用的，捕获的敌人死亡时候使用
+	bool _audio_playerDead;
+	bool _audio_captureDead;
+	bool _audio_capture;
+	bool _audio_captureCD;
 };

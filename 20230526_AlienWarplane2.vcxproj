@@ -100,25 +100,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\scene\GameScene.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\TextureManager.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
-    <ClCompile Include="DataMessage.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="GameUI.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LoadRes.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Script\Bullet.cpp" />
+    <ClCompile Include="Script\DataMessage.cpp" />
+    <ClCompile Include="Script\Enemy.cpp" />
+    <ClCompile Include="Script\GameUI.cpp" />
+    <ClCompile Include="Script\Level.cpp" />
+    <ClCompile Include="Script\LoadRes.cpp" />
+    <ClCompile Include="Script\Plane.cpp" />
+    <ClCompile Include="Script\Player.cpp" />
+    <ClCompile Include="Script\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h" />
@@ -145,14 +144,15 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
-    <ClInclude Include="DataMessage.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="GameUI.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="LoadRes.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Script\Bullet.h" />
+    <ClInclude Include="Script\DataMessage.h" />
+    <ClInclude Include="Script\Enemy.h" />
+    <ClInclude Include="Script\GameUI.h" />
+    <ClInclude Include="Script\Level.h" />
+    <ClInclude Include="Script\LoadRes.h" />
+    <ClInclude Include="Script\Plane.h" />
+    <ClInclude Include="Script\Player.h" />
+    <ClInclude Include="Script\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,13 +3,13 @@
 //子弹会突然加速
 //因为敌人死亡后不是立马回收，而是会在它基础上播放一个爆炸动画，所以如果吸收敌人的时候，鼠标也在自己身上，就会短暂的触发合体状态(以后爆炸特效什么的还是应该另外触发)
 #include <Novice.h>
-#include "LoadRes.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Bullet.h"
-#include "Level.h"
-#include "Scene.h"
-#include "DataMessage.h"
+#include "Script/LoadRes.h"
+#include "Script/Player.h"
+#include "Script/Enemy.h"
+#include "Script/Bullet.h"
+#include "Script/Level.h"
+#include "Script/Scene.h"
+#include "Script/DataMessage.h"
 
 const char kWindowTitle[] = "AlienWarplane（異次元戦機）";
 
@@ -30,6 +30,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Scene SceneObj;
 	DataMessage DataMessageObj;
+
+	int bgmLoopHandle = 0;//为了循环的Bgm弄的
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -78,11 +80,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			PlayerObj->FrameTexture(PlayerObj->GetPosX(), PlayerObj->GetPosY(), PlayerObj->GetSprite(), PlayerObj->GetColor());
 			PlayerObj->AniPlayerUP();
 			SceneObj.ScreenGameUp(*PlayerObj, *LevelObj);
+
+			if (!Novice::IsPlayingAudio(bgmLoopHandle) || bgmLoopHandle == -1) {
+				bgmLoopHandle = Novice::PlayAudio(LoadRes::_adBgm, 0, 0.05f);
+			}
 			break;
 		case Scene::Start:
 			//开始界面
 			SceneObj.ScreenGameDown();
 			SceneObj.SceneStart();
+
+			Novice::StopAudio(bgmLoopHandle);
 			break;
 		case Scene::GameOver:
 			//结束界面
@@ -103,12 +111,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+		//鼠标样式
+		Novice::SetMouseCursorVisibility(0);
+		int mouseX = 0, mouseY = 0;
+		Novice::GetMousePosition(&mouseX, &mouseY);
+		Novice::DrawSprite(mouseX - 42 / 2, mouseY - 42 / 2, LoadRes::_spArrow, 1, 1, 0, WHITE);
+
 		///
 		/// ↑描画処理ここまで
 		///
 
-		int mouseX = 0, mouseY = 0;
-		Novice::GetMousePosition(&mouseX, &mouseY);
+
 
 		// フレームの終了
 		Novice::EndFrame();

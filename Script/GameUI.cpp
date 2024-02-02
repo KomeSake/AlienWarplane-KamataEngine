@@ -332,6 +332,7 @@ void UI_StartScene::UIOpen()
 			//点击Start按钮触发效果
 			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Start = true;
+				Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 			}
 		}
 		if (mouseX >= _buttonPosX_Help && mouseX <= _buttonPosX_Help + _buttonW
@@ -341,12 +342,14 @@ void UI_StartScene::UIOpen()
 			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = true;
 				_button_HelpPage = 0;//每次打开都从Help的第一页开始
+				Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 			}
 		}
 		if (mouseX >= _checkBottomX_Auto && mouseX <= _checkBottomX_Auto + _checkBottomW
 			&& mouseY >= _checkBottomY_Auto && mouseY <= _checkBottomY_Auto + _checkBottomH) {
 			//点击AutoShooting选项
 			if (Novice::IsTriggerMouse(0)) {
+				Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 				if (!_isCheck_AutoShoot) {
 					_isCheck_AutoShoot = true;
 				}
@@ -359,6 +362,7 @@ void UI_StartScene::UIOpen()
 			&& mouseY >= _checkBottomY_Easy && mouseY <= _checkBottomY_Easy + _checkBottomH) {
 			//点击EasyMode选项
 			if (Novice::IsTriggerMouse(0)) {
+				Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 				if (!_isCheck_EasyMode) {
 					_isCheck_EasyMode = true;
 				}
@@ -436,6 +440,7 @@ void UI_StartScene::UIOpen()
 			//点击Help界面中Back按钮触发效果
 			if (Novice::IsTriggerMouse(0)) {
 				_isButton_Help = false;
+				Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 			}
 		}
 		if (_isButton_Help) {
@@ -450,6 +455,7 @@ void UI_StartScene::UIOpen()
 					//点击Help界面中Next按钮触发效果
 					if (Novice::IsTriggerMouse(0)) {
 						_button_HelpPage = 1;
+						Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 					}
 				}
 				break;
@@ -464,6 +470,7 @@ void UI_StartScene::UIOpen()
 					//点击Help界面中Previous按钮触发效果
 					if (Novice::IsTriggerMouse(0)) {
 						_button_HelpPage = 0;
+						Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
 					}
 				}
 				break;
@@ -493,6 +500,8 @@ UI_GameOverScene::UI_GameOverScene()
 	_buttonTextW_Restart = 105;
 	_buttonTextW_Back = 67;
 	_isMouseCheckStart = false;
+
+	_scoreUpLoopHandle = -1;
 }
 
 void UI_GameOverScene::UIOpen(Player obj)
@@ -517,6 +526,8 @@ void UI_GameOverScene::UIOpen(Player obj)
 		if (Novice::IsTriggerMouse(0)) {
 			_isButton_Restart = true;
 			_isScoreAniStart = false;
+			Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
+			Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 		}
 	}
 	if (mouseX >= _buttonPosX_Back && mouseX <= _buttonPosX_Back + _buttonW
@@ -526,6 +537,8 @@ void UI_GameOverScene::UIOpen(Player obj)
 		if (Novice::IsTriggerMouse(0)) {
 			_isButton_Back = true;
 			_isScoreAniStart = false;
+			Novice::PlayAudio(LoadRes::_adSelectClick, 0, 0.3f);
+			Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 		}
 	}
 	FrameTexture(_buttonPosX_Restart + _buttonW / 2 - _buttonTextW_Restart / 2, _buttonPosY_Restart + 4, LoadRes::_spUIGameOverScene, 5, WHITE);
@@ -567,9 +580,13 @@ void UI_GameOverScene::UIOpen(Player obj)
 			_scoreAnimation += 1;
 			color = WHITE;
 		}
+		if (!Novice::IsPlayingAudio(_scoreUpLoopHandle) || _scoreUpLoopHandle == -1) {
+			_scoreUpLoopHandle = Novice::PlayAudio(LoadRes::_adScoreUp, 0, 1);
+		}
 	}
 	else {
 		_scoreAnimation = score;
+		Novice::SetAudioVolume(_scoreUpLoopHandle, 0);
 	}
 	int num1 = _scoreAnimation % 10;
 	int num2 = (_scoreAnimation / 10) % 10;
